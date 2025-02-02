@@ -1,9 +1,9 @@
 import {React, useState} from 'react';
-import CodeEditor from '../components/CodeEditor.jsx';
-import CodeDescriptionPane from '../components/CodeDescriptionPane.jsx';
-import TestCase from '../components/TestCase.jsx';
-import TestCaseTaskBar from '../components/TestCaseTaskBar.jsx';
-import Output from '../components/Output.jsx';
+import CodeEditor from '../components/codeEditorComponents/CodeEditor.jsx';
+import CodeDescriptionPane from '../components/codeEditorComponents/CodeDescriptionPane.jsx';
+import TestCase from '../components/codeEditorComponents/TestCase.jsx';
+import TestCaseTaskBar from '../components/codeEditorComponents/TestCaseTaskBar.jsx';
+import Output from '../components/codeEditorComponents/Output.jsx';
 
 const EditorPage = () => {
     const testCaseInput = ['hi', 'hello', 'bye'];

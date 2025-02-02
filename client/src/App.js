@@ -2,6 +2,7 @@ import React from 'react';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import HomePage from './pages/HomePage.jsx';
 import EditorPage from './pages/EditorPage.jsx';
+import Temp from './pages/Temp.jsx';
 
 function App() {
   return (
@@ -9,6 +10,7 @@ function App() {
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path='/editor' element={<EditorPage />} />
+      <Route path='/temp' element={<Temp />} />
     </Routes> 
     </BrowserRouter>
   );
