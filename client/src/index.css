@@ -1,23 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
 body {
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Press Start 2P', cursive;
+  background-color: #0f1525;
+  color: #FFD400; /* Yellow */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: 'Courier New', Courier, monospace;
 }
 
 /* Editor Page Styles */
 #editor-page-container {
   height: 100vh;
   width: 100%;
-  background-color: yellowgreen;
+  background-color: #0f1525; /* Dark blue */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -27,11 +28,13 @@ code {
   width: 50%;
   height: 80%;
   padding: 20px;
-  background-color: aqua;
+  background-color: #0f1525; /* Dark purple */
+  border: 2px solid #3c3d51;
 }
 
 #code-description {
   height: 40%;
+  color: #f4f4f4;
 }
 
 #test-case-choose {
@@ -44,27 +47,39 @@ code {
 .test-case-button {
   margin: 1px 15px;
   padding: 4px;
-  background-color: azure;
+  background-color: #3c3d51;
   border-radius: 5px;
+  color: #f4f4f4; /* Dark blue */
+  font-family: 'Press Start 2P', cursive;
+  border: none;
+  cursor: pointer;
+}
+
+.test-case-button:hover {
+  color: #030617;
+  background-color: #f4f4f4 ;
 }
 
 #test-case {
   height: 30%;
-  background-color: blueviolet;
+  background-color: #0f1525;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+  border: 2px solid #3c3d51;
+  padding: 10px;
 }
 
 #test-case-input-description, #test-case-output-description, #test-case-stdout {
   margin: 15px 0px;
   padding: 5px 10px;
   border-radius: 5px;
-  color: white;
-  font-family: monospace;
-  background-color: grey;
+  color: #FFD400; /* Yellow */
+  font-family: 'Courier New', Courier, monospace;
+  background-color: #0f1525; /* Dark blue */
   width: 600px;
+  border: 1px solid #3c3d51;
 }
 
 #editor-container {
@@ -81,7 +96,7 @@ code {
   justify-content: start;
   align-items: center;
   padding: 10px;
-  background-color: yellow;
+  background-color: #030617;
 }
 
 .output-status {
@@ -97,4 +112,3 @@ h3 {
   padding: 0;
   display: inline;
 }
-
