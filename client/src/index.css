@@ -98,3 +98,55 @@ h3 {
   display: inline;
 }
 
+
+/* power ups */
+.flip {
+  transform:rotate(180deg);
+  -ms-transform:rotate(180deg);
+  -webkit-transform:rotate(180deg);
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(255, 255, 255, 0.5); /* Semi-transparent */
+  z-index: 9999;
+}
+
+.popup{
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top:0;
+  left:0;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.popup-box{
+  position: relative;
+  height: 400px;
+  width: 600px;
+  background-color: white;
+  color:red;
+}
+
+.popup-box button{
+  position: absolute;
+  top:4px;
+  right: 4px;
+}
+
+.foggy {
+  position: relative;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(10px);
+  filter: blur(2px);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+}
