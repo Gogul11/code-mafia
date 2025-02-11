@@ -29,7 +29,6 @@ code {
   height: 80%;
   padding: 20px;
   background-color: #0f1525; /* Dark purple */
-  border: 2px solid #3c3d51;
 }
 
 #code-description {
@@ -57,12 +56,12 @@ code {
 
 .test-case-button:hover {
   color: #030617;
-  background-color: #f4f4f4 ;
+  background-color: #FFD400 ;
 }
 
 #test-case {
   height: 30%;
-  background-color: #0f1525;
+  background-color: #0b0f1a;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -76,10 +75,9 @@ code {
   padding: 5px 10px;
   border-radius: 5px;
   color: #FFD400; /* Yellow */
-  font-family: 'Courier New', Courier, monospace;
-  background-color: #0f1525; /* Dark blue */
+  font-family: 'Press Start 2P', cursive;
+  font-size:x-small;
   width: 600px;
-  border: 1px solid #3c3d51;
 }
 
 #editor-container {
