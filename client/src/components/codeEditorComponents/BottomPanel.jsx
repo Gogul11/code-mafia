@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
 import '../../styles/BottomPanel.css'; // Import the CSS for styling
 
-const BottomPanel = ({ currentQuestion, totalQuestions, xp, players }) => {
+const BottomPanel = ({ currentQuestion, totalQuestions, xp, players, setCurrentQuestion, gotoNextQuestion, gotoPrevQuestion }) => {
   const [isPlaylistExpanded, setPlaylistExpanded] = useState(false);
 
   const togglePlaylist = () => {
     setPlaylistExpanded(!isPlaylistExpanded);
+  };
+
+  const handleProblemClick = (index) => {
+    setCurrentQuestion(index); // Set the current question based on the clicked index
+    setPlaylistExpanded(false); // Collapse the playlist after a question is selected
   };
 
   return (
@@ -15,13 +20,18 @@ const BottomPanel = ({ currentQuestion, totalQuestions, xp, players }) => {
         {/* Playlist Icon and Expanded Problems */}
         <div className="playlist-section">
           <div className="playlist-icon" onClick={togglePlaylist}>
-            <span>≡</span> {/* Replace with an actual icon */}
+            <span>≡</span>
           </div>
           {isPlaylistExpanded && (
             <div className="playlist-problems">
               <ul>
                 {Array.from({ length: totalQuestions }, (_, i) => (
-                  <li key={i}>Problem {i + 1}</li>
+                  <li
+                    key={i}
+                    onClick={() => handleProblemClick(i + 1)}
+                  >
+                    Problem {i + 1}
+                  </li>
                 ))}
               </ul>
             </div>
@@ -40,9 +50,9 @@ const BottomPanel = ({ currentQuestion, totalQuestions, xp, players }) => {
 
       {/* Navigation Buttons */}
       <div className="navigation-buttons">
-        <button className="nav-button prev-button">Prev</button>
+        <button className="nav-button prev-button" onClick={gotoPrevQuestion}>Prev</button>
         <button className="nav-button complete-button">Complete</button>
-        <button className="nav-button next-button">Next</button>
+        <button className="nav-button next-button" onClick={gotoNextQuestion}>Next</button>
       </div>
 
       {/* Active Player Icons */}
