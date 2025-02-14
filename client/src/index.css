@@ -59,6 +59,13 @@ code {
   background-color: #FFD400 ;
 }
 
+.test-case-button.selected {
+  /* Styles applied when the button is selected */
+  background-color: #030617;
+  color: #FFD400;
+  border-color: #FFD400;
+}
+
 #test-case {
   height: 30%;
   background-color: #0b0f1a;
@@ -78,6 +85,13 @@ code {
   font-family: 'Press Start 2P', cursive;
   font-size:x-small;
   width: 600px;
+}
+
+.terminal-text {
+  color: #FF6B6B;
+  font-family: 'Press Start 2P', cursive;
+  font-size:x-small;
+  width: auto;
 }
 
 #editor-container {

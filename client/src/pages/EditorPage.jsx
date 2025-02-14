@@ -11,11 +11,13 @@ const EditorPage = () => {
     const testCaseInput = ['hi', 'hello', 'bye'];
     const expectedOutput = ['hi', 'hello', 'bye'];
 
-    const [testCaseValue, setTestCase] = useState({
-        test_case_input: "hi",
-        test_case_output: "hello",
-        stdout: "Run first!",
+    const [testCaseActive, setTestCaseActive] = useState({
+        test_case_input: "",
+        test_case_output: "",
+        stdout: "",
     });
+    const [testCaseList, setTestCaseList] = useState([]);
+    const [testCaseIndex, setTestCaseIndex] = useState(1);
     const [tcStatusCode, setTcStatusCode] = useState(["", "", ""]);
     const [message, setMessage] = useState(["Run first!", "Run first!", "Run first!"]);
     const [click, setClick] = useState(null);
@@ -38,13 +40,26 @@ const EditorPage = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const loadQuestion = () => {
+    const loadQuestion = async() => {
         const question = questionSet[currentQuestion - 1];
         if (!question) {
             return;
         }
         setProblemTitle(currentQuestion + ". " + question.title);
         setProblemDescription(question.description);
+        setTestCaseList(parseTestCaseList(Object.values(question.test_cases)));
+        setTestCaseIndex(1);
+    };
+
+    const parseTestCaseList = (testCases) => {
+        const testCaseList = Object.values(testCases).map(testCase => {
+            return {
+                input: JSON.stringify(testCase.input), // Convert input to string
+                expected_output: JSON.stringify(testCase.expected_output) // Convert expected_output to string
+            };
+        });
+    
+        return testCaseList;
     };
 
     useEffect(() => {
@@ -99,10 +114,15 @@ const EditorPage = () => {
                     <CodeDescriptionPane problemTitle={problemTitle} problemDescription={problemDescription} />
                 </div>
                 <div id='test-case-choose'>
-                    <TestCaseTaskBar tcSetter={setTestCase} testCaseInput={testCaseInput} expectedOutput={expectedOutput} message={message} clickSetter={setClick} />
+                <TestCaseTaskBar
+                    tcSetter={setTestCaseActive}
+                    testCaseList={testCaseList} // Pass the testCaseList here
+                    message={message}
+                    clickSetter={setClick}
+                />
                 </div>
                 <div id='test-case'>
-                    <TestCase value={testCaseValue} statusCode={tcStatusCode} message={message} />
+                    <TestCase value={testCaseActive} statusCode={tcStatusCode} message={message} />
                 </div>
                 <div id='output-display'>
                     <Output tcStatus={tcStatusCode} />
