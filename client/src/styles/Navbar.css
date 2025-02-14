@@ -1,0 +1,28 @@
+/* Navbar Styles */
+.navbar {
+  display: flex;
+  align-items: center;
+  background-color: #0b0f1a; /* Dark blue */
+  border-bottom: 2px solid #FFD400; /* Yellow */
+  padding: 10px 20px;
+  font-family: 'Press Start 2P', cursive; /* 8-bit font */
+  color: #FFD400; /* Yellow */
+  width: 100%; /* Ensure it spans the full width */
+  position: fixed; /* Fix it to the top */
+  top: 0; /* Position at the top */
+  left: 0; /* Align to the left edge */
+  z-index: 1000; /* Ensure it stays above other content */
+}
+
+/* Logo Styles */
+.navbar-logo img {
+  height: 40px; /* Adjust the size of the logo */
+  width: auto;
+  margin-right: 15px; /* Space between logo and title */
+}
+
+/* Title Styles */
+.navbar-title {
+  font-size: 24px; /* Adjust the size of the title */
+  font-weight: bold;
+}
