@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import Editor from "@monaco-editor/react";
 
@@ -40,25 +40,104 @@ const CodeEditor = (props) => {
         }
     };
 
+    const[copied, setCopied] = useState(false)
+    const[lang, setLang] = useState('python')
+    const[theme, setTheme] = useState('light')
+
+    const handleCopy = () => {
+        navigator.clipboard.writeText(code)
+        .then(() => setCopied(true))
+
+        setTimeout(() => setCopied(false), 2000)
+
+    }
+
+    const handleReset = () => {
+        setCode("print('Hello, world!')")
+    }
+
+    useEffect(() => {
+        const savedCode = localStorage.getItem('userCode')
+        setCode(savedCode)
+    }, [])
+
+    const handleCodeChange = (val) => {
+        setCode(val)
+        localStorage.setItem('userCode', val)
+    }
+
     return (
         <div>
-            <Editor
-                height="400px"
-                width="600px"                
-                defaultLanguage="python" // or any language you want
-                defaultValue={code}
-                onChange={(value) => setCode(value)} // Update state on change
-                options={{
-                    minimap: {
-                        enabled: false,
-                    },
-                }}
-            />
-            <button onClick={() => handleRunCode(code)}>Run Code</button>
+            <div id='top-div'>
+
+                    <select id="lang" value={lang} onChange={(e) => setLang(e.target.value)}>
+                        <option value=''>Select Language</option>
+                        <option value='python'>Python</option>
+                        <option value='cpp'>C++</option>
+                        <option value='c'>C</option>
+                        <option value='java'>Java</option>
+                        <option value='javascript'>Java script</option>
+                    </select>
+
+                    <select id='lang' value={theme} onChange={(e) => setTheme(e.target.value)}>
+                        <option value=''>Select Theme</option>
+                        <option value='light'>Light Theme</option>
+                        <option value='vs-dark'>VS code Dark Theme</option>
+                        <option value='hc-black'>Dark Theme</option>
+                    </select>
+
+                    <button
+                        id='copy-button'
+                        onClick={handleCopy}
+                    >copy</button>
+
+                    <button 
+                        id='reset-button'
+                        onClick={handleReset}
+                    >Reset</button>
+
+            </div>
+                    {copied && <p id='success'>Code Copied to Clipboard</p>}
+
+            <div id='editor'>
+
+                <Editor
+                    height="500px"
+                    width="800px"                
+                    defaultLanguage={lang} // or any language you want
+                    defaultValue={code}
+                    value={code}
+                    onChange={handleCodeChange} // Update state on change
+                    options={{
+                        minimap: {
+                            enabled: false,
+                        },
+                        fontSize: 18,
+                        padding: { top: 10, bottom: 10 },
+                        lineNumbers: "on",
+                        wordWrap: "on",
+                        scrollBeyondLastLine: false,
+                    }}
+                    
+                    theme={theme}
+                />
+            </div>
+
+            <div>
+                <button onClick={() => handleRunCode(code)} 
+                    id='run-button'
+                >Run Code</button>
+            </div>
         </div>
     );
 };
 
 
 
+
 export default CodeEditor;
+
+//1B262C dark1
+//0F4C75 dark2
+//3282B8 dark3
+//BBE1FA dark4
