@@ -124,3 +124,85 @@ h3 {
   padding: 0;
   display: inline;
 }
+
+#editor{
+  height: 550px;
+  width: 850px;
+  background-color: #0F4C75 ;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  opacity: 0.8;
+}
+
+#lang{
+  height: 40px;
+  width: 150px;
+  border-radius : 20px;
+  background-color: gray;
+  opacity: 0.8;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 2px;
+  color: white;
+}
+
+#lang option{
+  background-color: white;
+  color:  black;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+#run-button{
+  background-color: green;
+  opacity: 0.8;
+  color: white;
+  border: none;
+  height: 40px;
+  width: 150px;
+  cursor: pointer;
+  border-radius: 2px;
+  font-size: 18px;
+  margin: 30px 30px 0px 0px;
+  float: right;
+}
+#run-button:hover, #copy-button:hover, #reset-button:hover{
+  opacity: 1;
+}
+
+#copy-button, #reset-button{
+  background-color: gray;
+  opacity: 0.8;
+  color: white;
+  border: none;
+  height: 40px;
+  width: 80px;
+  font-size: 20px;
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+#top-div{
+  display: flex;
+  gap: 30px;
+  margin: 0px 0px 20px 20px;
+  justify-content:end;
+}
+
+#success{
+  position: absolute;
+  color: white;
+  top: 50px;
+  right: 20px;
+  background-color: green;
+  height: 40px;
+  width: 250px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  border-radius: 10px;
+}
