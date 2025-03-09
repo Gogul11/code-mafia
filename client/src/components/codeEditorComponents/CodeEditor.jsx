@@ -43,6 +43,7 @@ const CodeEditor = (props) => {
     const[copied, setCopied] = useState(false)
     const[lang, setLang] = useState('python')
     const[theme, setTheme] = useState('light')
+    const[reset, setReset] = useState(false)
 
     const handleCopy = () => {
         navigator.clipboard.writeText(code)
@@ -53,8 +54,14 @@ const CodeEditor = (props) => {
     }
 
     const handleReset = () => {
-        setCode("print('Hello, world!')")
+        const response = window.confirm("This will erase the code you typed. Do you want to proceed?");
+        if (response) {
+            setReset(true)
+            setCode("print('Hello, world!')");
+            setTimeout(() => setReset(false), 2000)
+        }
     }
+    
 
     useEffect(() => {
         const savedCode = localStorage.getItem('userCode')
@@ -71,19 +78,19 @@ const CodeEditor = (props) => {
             <div id='top-div'>
 
                     <select id="lang" value={lang} onChange={(e) => setLang(e.target.value)}>
-                        <option value=''>Select Language</option>
-                        <option value='python'>Python</option>
-                        <option value='cpp'>C++</option>
-                        <option value='c'>C</option>
-                        <option value='java'>Java</option>
-                        <option value='javascript'>Java script</option>
+                        <option id="lang-option" value=''>Select Language</option>
+                        <option id="lang-option" value='python'>Python</option>
+                        <option id="lang-option" value='cpp'>C++</option>
+                        <option id="lang-option" value='c'>C</option>
+                        <option id="lang-option" value='java'>Java</option>
+                        <option id="lang-option" value='javascript'>Java script</option>
                     </select>
 
                     <select id='lang' value={theme} onChange={(e) => setTheme(e.target.value)}>
-                        <option value=''>Select Theme</option>
-                        <option value='light'>Light Theme</option>
-                        <option value='vs-dark'>VS code Dark Theme</option>
-                        <option value='hc-black'>Dark Theme</option>
+                        <option id="lang-option" value=''>Select Theme</option>
+                        <option id="lang-option" value='light'>Light Theme</option>
+                        <option id="lang-option" value='vs-dark'>VS code Dark Theme</option>
+                        <option id="lang-option" value='hc-black'>Dark Theme</option>
                     </select>
 
                     <button
@@ -98,6 +105,7 @@ const CodeEditor = (props) => {
 
             </div>
                     {copied && <p id='success'>Code Copied to Clipboard</p>}
+                    {reset && <p id='reset'>Code resetted</p>}
 
             <div id='editor'>
 

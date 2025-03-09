@@ -64,26 +64,26 @@ const EditorPage = () => {
 
     useEffect(() => {
         const fetchQuestions = async () => {
-            try {
-                setLoading(true);
-                const response = await fetch(`${process.env.REACT_APP_SERVER_BASEAPI}/problem`);
-                if (!response.ok) {
-                    throw new Error("Failed to fetch questions");
-                }
-                const data = await response.json();
+            // try {
+            //     setLoading(true);
+            //     const response = await fetch(`${process.env.REACT_APP_SERVER_BASEAPI}/problem`);
+            //     if (!response.ok) {
+            //         throw new Error("Failed to fetch questions");
+            //     }
+            //     const data = await response.json();
 
-                if (!data.qs || !Array.isArray(data.qs) || data.qs.length === 0) {
-                    throw new Error("No questions available.");
-                }
-                //setting states
-                setQuestionSet(data.qs);
-                setTotalQuestions(data.qs.length);
-                setCurrentQuestion(1);
-            } catch (err) {
-                setError(err.message);
-            } finally {
-                setLoading(false);
-            }
+            //     if (!data.qs || !Array.isArray(data.qs) || data.qs.length === 0) {
+            //         throw new Error("No questions available.");
+            //     }
+            //     //setting states
+            //     setQuestionSet(data.qs);
+            //     setTotalQuestions(data.qs.length);
+            //     setCurrentQuestion(1);
+            // } catch (err) {
+            //     setError(err.message);
+            // } finally {
+            //     setLoading(false);
+            // }
         }
         fetchQuestions();
     }, []);
@@ -94,9 +94,9 @@ const EditorPage = () => {
         }
     }, [currentQuestion, questionSet]);
 
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>Error: {error}</p>;
-    if (!questionSet) return <p>No questions available.</p>;
+    // if (loading) return <p>Loading...</p>;
+    // if (error) return <p>Error: {error}</p>;
+    // if (!questionSet) return <p>No questions available.</p>;
 
     const gotoNextQuestion = () => {
         setCurrentQuestion(prev => Math.min(prev + 1, totalQuestions));
