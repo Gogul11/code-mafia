@@ -6,6 +6,9 @@ import TestCaseTaskBar from '../components/codeEditorComponents/TestCaseTaskBar.
 import Output from '../components/codeEditorComponents/Output.jsx';
 import BottomPanel from '../components/codeEditorComponents/BottomPanel.jsx';
 import Navbar from '../components/Navbar.jsx';
+import '../styles/editorPage.css'
+import { BsArrowBarUp } from "react-icons/bs";
+import { BsArrowBarDown } from "react-icons/bs";
 
 const EditorPage = () => {
     const testCaseInput = ['hi', 'hello', 'bye'];
@@ -106,21 +109,88 @@ const EditorPage = () => {
         setCurrentQuestion(prev => Math.max(prev - 1, 1));
     };
 
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+    useEffect(() => {
+        const handleResize = () => setWindowWidth(window.innerWidth);
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
+    const[open, setOpen] = useState(false)
+
     return (
-        <div id='editor-page-container'>
-            <Navbar />
-            <div id='description-pane'>
-                <div id='code-description'>
-                    <CodeDescriptionPane problemTitle={problemTitle} problemDescription={problemDescription} />
-                </div>
-                <div id='test-case-choose'>
-                <TestCaseTaskBar
-                    tcSetter={setTestCaseActive}
-                    testCaseList={testCaseList} // Pass the testCaseList here
-                    message={message}
-                    clickSetter={setClick}
-                />
-                </div>
+        // <div id='editor-page-container'>
+        //     <Navbar />
+        //     <div className='editor-style'>
+        //         <div id='description-pane'>
+        //             <div id='code-description'>
+        //                 {/* <CodeDescriptionPane problemTitle={problemTitle} problemDescription={problemDescription} /> */}
+        //                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto sed illo quas omnis voluptatibus est. Debitis quae placeat aspernatur sed itaque impedit distinctio velit, amet voluptate, pariatur sequi optio neque!</p>
+        //                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto sed illo quas omnis voluptatibus est. Debitis quae placeat aspernatur sed itaque impedit distinctio velit, amet voluptate, pariatur sequi optio neque!</p>
+        //                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto sed illo quas omnis voluptatibus est. Debitis quae placeat aspernatur sed itaque impedit distinctio velit, amet voluptate, pariatur sequi optio neque!</p>
+        //                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto sed illo quas omnis voluptatibus est. Debitis quae placeat aspernatur sed itaque impedit distinctio velit, amet voluptate, pariatur sequi optio neque!</p>
+
+        //             </div>
+        //             <div id='test-case-choose'>
+        //             <TestCaseTaskBar
+        //                 tcSetter={setTestCaseActive}
+        //                 testCaseList={testCaseList} // Pass the testCaseList here
+        //                 message={message}
+        //                 clickSetter={setClick}
+        //             />
+        //             </div>
+        //             <div id='test-case'>
+        //                 <TestCase value={testCaseActive} statusCode={tcStatusCode} message={message} />
+        //             </div>
+        //             <div id='output-display'>
+        //                 <Output tcStatus={tcStatusCode} />
+        //             </div>
+        //         </div>
+        //         <div id='editor-container'>
+        //             <CodeEditor testCaseInput={testCaseInput} expectedOutput={expectedOutput} statusSetter={setTcStatusCode} messageSetter={setMessage} click={click} />
+        //         </div>
+        //     </div>
+
+        //     {/* Add the BottomPanel */}
+        //     {/* <BottomPanel
+        //         currentQuestion={currentQuestion}
+        //         totalQuestions={totalQuestions}
+        //         xp={xp}
+        //         players={players}
+        //         setCurrentQuestion={setCurrentQuestion}
+        //         gotoNextQuestion={gotoNextQuestion}
+        //         gotoPrevQuestion={gotoPrevQuestion}
+        //     /> */}
+        // </div>
+
+        <div className='main'>
+            {/* <p className='p'>text</p> */}
+
+            <div>
+                <Navbar/>
+            </div>
+
+            <div className='desc'>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab dolores aut at similique porro aperiam velit explicabo, eos quisquam quas quis exercitationem earum molestias non voluptas quidem dolor amet quaerat.</p>
+                    {/* <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim cum, ut repellendus eaque hic consequuntur reprehenderit esse sapiente natus veritatis accusantium iusto suscipit velit delectus odio dolore illum, debitis officiis.</p> */}
+                    {/* <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Unde accusamus fugit minus vero sit ab assumenda dolor quas. Qui quia consequuntur esse porro similique voluptatum nisi quas harum, dignissimos animi!</p> */}
+            </div>
+
+            <div id='test-case-choose'>
+                    <TestCaseTaskBar
+                         tcSetter={setTestCaseActive}
+                         testCaseList={testCaseList} // Pass the testCaseList here
+                         message={message}
+                         clickSetter={setClick}
+                     />
+            </div>
+
+
+            <div className='editor'>
+                     <CodeEditor testCaseInput={testCaseInput} expectedOutput={expectedOutput} statusSetter={setTcStatusCode} messageSetter={setMessage} click={click} />
+            </div>
+            <div className='t-c'>
                 <div id='test-case'>
                     <TestCase value={testCaseActive} statusCode={tcStatusCode} message={message} />
                 </div>
@@ -128,12 +198,19 @@ const EditorPage = () => {
                     <Output tcStatus={tcStatusCode} />
                 </div>
             </div>
-            <div id='editor-container'>
-                <CodeEditor testCaseInput={testCaseInput} expectedOutput={expectedOutput} statusSetter={setTcStatusCode} messageSetter={setMessage} click={click} />
-            </div>
 
-            {/* Add the BottomPanel */}
-            <BottomPanel
+            {windowWidth < 770 ? (
+                    <div style={{ position: open ? "fixed": "relative", bottom: open ? "250px" : "5px", left: open ? "10%": "50%", transform: "translateX(-50%)", zIndex: 1000 }}>
+                    {open ? (
+                        <BsArrowBarDown size={30} onClick={() => setOpen(false)} style={{ cursor: "pointer" }} />
+                    ) : (
+                        <BsArrowBarUp size={30} onClick={() => setOpen(true)} style={{ cursor: "pointer" }} />
+                    )}
+                    </div>
+                ) : null}
+
+            {windowWidth >= 770 || open ? (
+                <BottomPanel
                 currentQuestion={currentQuestion}
                 totalQuestions={totalQuestions}
                 xp={xp}
@@ -141,9 +218,11 @@ const EditorPage = () => {
                 setCurrentQuestion={setCurrentQuestion}
                 gotoNextQuestion={gotoNextQuestion}
                 gotoPrevQuestion={gotoPrevQuestion}
-            />
+                />
+            ) : null}
+
         </div>
     );
 }
 
-export default EditorPage;
+export default EditorPage; 

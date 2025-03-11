@@ -8,10 +8,10 @@
   font-family: 'Press Start 2P', cursive; /* 8-bit font */
   color: #FFD400; /* Yellow */
   width: 100%; /* Ensure it spans the full width */
-  position: fixed; /* Fix it to the top */
-  top: 0; /* Position at the top */
-  left: 0; /* Align to the left edge */
-  z-index: 1000; /* Ensure it stays above other content */
+  position: fixed; 
+  top: 0;  
+  left: 0; 
+   z-index: 1000; 
 }
 
 /* Logo Styles */

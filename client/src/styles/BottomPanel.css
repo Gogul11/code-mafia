@@ -1,25 +1,56 @@
 .bottom-panel {
-  position:fixed;
+  position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
-  background-color: #0f1525; /* Dark blue */
-  border-top: 2px solid #FFD400; /* Yellow */
+  background-color: #0f1525;
+  border-top: 2px solid #FFD400;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-around;
   align-items: center;
-  padding: 10px 0px;
-  font-family: 'Press Start 2P', cursive; /* 8-bit font */
-  color: #FFD400; /* Yellow */
-  margin-right: 100px;
+  padding: 10px;
+  color: #FFD400;
 }
 
-/* Combined Playlist and Question Info */
+/* Make the bottom panel stack vertically on smaller screens */
+@media (max-width: 768px) {
+  .bottom-panel {
+    flex-direction: column;
+    padding: 10px;
+    gap: 20px;
+  }
+
+  .playlist-and-question {
+    flex-direction: column;
+    align-items: center;
+    margin-right: 0;
+    text-align: center;
+  }
+
+  .navigation-buttons {
+    flex-direction: column;
+    gap: 5px;
+    width: 100%;
+    align-items: center;
+  }
+  
+  .nav-button {
+    text-align: center;
+    width: 50%;
+  }
+
+  .active-players {
+    justify-content: center;
+    margin-left: 0;
+    gap: 5px;
+  }
+}
+
+/* Playlist and Question Info */
 .playlist-and-question {
   display: flex;
   align-items: center;
-  gap: 20px; /* Space between playlist icon and question info */
-  margin-right: 10%;
+  gap: 20px;
 }
 
 .playlist-icon {
@@ -31,30 +62,25 @@
   position: absolute;
   bottom: 40px;
   left: 0;
-  background-color: #0f1525; /* Dark purple */
-  border: 2px solid #FFD400; /* Yellow */
+  background-color: #0f1525;
+  border: 2px solid #FFD400;
   padding: 10px;
   max-height: 200px;
   overflow-y: auto;
+  width: 200px;
 }
 
-.playlist-problems ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.playlist-problems li {
-  padding: 5px 10px;
-  cursor: pointer;
-}
-
-.playlist-problems li:hover {
-  background-color: #0f1525; /* Dark blue */
+/* Adjust playlist width for smaller screens */
+@media (max-width: 480px) {
+  .playlist-problems {
+    width: 90%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 }
 
 .question-info {
-  text-align: left; /* Align text to the left */
+  text-align: left;
 }
 
 .question-number {
@@ -68,51 +94,61 @@
 
 .xp {
   font-size: 12px;
-  color: #FF6B6B; /* Coral */
+  color: #FF6B6B;
 }
 
+/* Navigation Buttons */
 .navigation-buttons {
   display: flex;
   gap: 10px;
 }
 
 .nav-button {
-  background-color: #FF6B6B; /* Coral */
-  color: #0f1525; /* Dark blue */
+  background-color: #FF6B6B;
+  color: #0f1525;
   border: none;
   padding: 8px 16px;
-  font-family: 'Press Start 2P', cursive; /* 8-bit font */
+  font-family: 'Press Start 2P', cursive;
   cursor: pointer;
   border-radius: 5px;
 }
 
 .nav-button.complete-button {
-  background-color: #FFD400; /* Yellow */
-  color: #0f1525; /* Dark blue */
+  background-color: #FFD400;
+  color: #0f1525;
   display: flex;
   align-items: center;
   gap: 5px;
+  text-align: center;
 }
 
 .nav-button.complete-button::after {
-  content: '▶'; /* Play icon */
+  content: '▶';
   font-size: 14px;
 }
 
 .nav-button:hover {
-  background-color: #FF8B8B; /* Lighter coral */
+  background-color: #FF8B8B;
 }
 
+/* Active Players */
 .active-players {
   display: flex;
   gap: 10px;
   margin-left: 25%;
 }
 
+@media (max-width: 768px) {
+  .active-players {
+    margin-left: 0;
+    justify-content: center;
+  }
+}
+
 .player-icon {
   width: 30px;
   height: 30px;
-  background-color: #FFD400; /* Yellow */
+  background-color: #FFD400;
   border-radius: 50%;
   display: flex;
   justify-content: center;

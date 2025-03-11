@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import Editor from "@monaco-editor/react";
+import '../../styles/editor.css'
+import { BsClipboard2Fill } from "react-icons/bs";
+import { BsClipboard2CheckFill } from "react-icons/bs";
+import { BsArrowClockwise } from "react-icons/bs";
 
 const CodeEditor = (props) => {
     const [code, setCode] = useState("print('Hello, world!')");
@@ -93,45 +97,35 @@ const CodeEditor = (props) => {
                         <option id="lang-option" value='hc-black'>Dark Theme</option>
                     </select>
 
-                    <button
-                        id='copy-button'
-                        onClick={handleCopy}
-                    >copy</button>
-
-                    <button 
-                        id='reset-button'
-                        onClick={handleReset}
-                    >Reset</button>
+                    <div className="but">
+                        {copied ? <BsClipboard2CheckFill className="copy" size={30} color="green"/> : <BsClipboard2Fill className="copy" onClick={handleCopy} size={30} /> }
+                        
+                        <BsArrowClockwise className='reset'size={30} onClick={handleReset}/>
+                    </div>
 
             </div>
                     {copied && <p id='success'>Code Copied to Clipboard</p>}
-                    {reset && <p id='reset'>Code resetted</p>}
 
             <div id='editor'>
 
                 <Editor
-                    height="500px"
-                    width="800px"                
-                    defaultLanguage={lang} // or any language you want
-                    defaultValue={code}
-                    value={code}
-                    onChange={handleCodeChange} // Update state on change
+                    className="editor-container"
+                    height="95%"
+                    width="95%"
                     options={{
-                        minimap: {
-                            enabled: false,
-                        },
-                        fontSize: 18,
+                        minimap: { enabled: false },
+                        fontSize: 16,
                         padding: { top: 10, bottom: 10 },
                         lineNumbers: "on",
                         wordWrap: "on",
                         scrollBeyondLastLine: false,
                     }}
-                    
                     theme={theme}
                 />
+
             </div>
 
-            <div>
+            <div className="run">
                 <button onClick={() => handleRunCode(code)} 
                     id='run-button'
                 >Run Code</button>
