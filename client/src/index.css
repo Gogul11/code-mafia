@@ -1,101 +1,72 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Inline:opsz,wght@10..72,100..900&display=swap');
 body {
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  /* font-family: 'Press Start 2P', cursive; */
+  font-family: "Big Shoulders Inline", sans-serif;
+  background-color: #0f1525;
+  color: #FFD400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: 'Courier New', Courier, monospace;
 }
 
 /* Editor Page Styles */
-#editor-page-container {
+
+/* power ups */
+.flip {
+  transform:rotate(180deg);
+  -ms-transform:rotate(180deg);
+  -webkit-transform:rotate(180deg);
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
   height: 100vh;
-  width: 100%;
-  background-color: yellowgreen;
+  background: rgba(255, 255, 255, 0.5); /* Semi-transparent */
+  z-index: 9999;
+}
+
+.popup{
+  z-index: 10;
   display: flex;
+  align-items: center;
   justify-content: center;
-  align-items: center;
+  position: fixed;
+  top:0;
+  left:0;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
-#description-pane {
-  width: 50%;
-  height: 80%;
-  padding: 20px;
-  background-color: aqua;
-}
-
-#code-description {
-  height: 40%;
-}
-
-#test-case-choose {
-  height: 10%;
-  display: flex;
-  justify-content: start;
-  align-items: center;
-}
-
-.test-case-button {
-  margin: 1px 15px;
-  padding: 4px;
-  background-color: azure;
-  border-radius: 5px;
-}
-
-#test-case {
-  height: 30%;
-  background-color: blueviolet;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-}
-
-#test-case-input-description, #test-case-output-description, #test-case-stdout {
-  margin: 15px 0px;
-  padding: 5px 10px;
-  border-radius: 5px;
-  color: white;
-  font-family: monospace;
-  background-color: grey;
+.popup-box{
+  position: relative;
+  height: 400px;
   width: 600px;
+  background-color: white;
+  color:red;
 }
 
-#editor-container {
-  width: 50%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: aquamarine;
+.popup-box button{
+  position: absolute;
+  top:4px;
+  right: 4px;
 }
 
-#output-container {
-  display: flex;
-  justify-content: start;
-  align-items: center;
-  padding: 10px;
-  background-color: yellow;
-}
-
-.output-status {
-  padding: 8px 20px;
-  margin: 5px 10px;
-  background-color: aquamarine;
-  border-radius: 5px;
-}
-
-/* temp */
-h3 {
-  margin: 0;
-  padding: 0;
-  display: inline;
+.foggy {
+  position: relative;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(10px);
+  filter: blur(2px);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
 }
 
 

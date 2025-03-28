@@ -9,13 +9,13 @@ function TestCase(props) {
 
     return (<div>
         <div id="test-case-input-description">
-            input = {props.value.test_case_input}
+            <span className='terminal-text'>$input :</span> {props.value.test_case_input}
         </div>
         <div id='test-case-output-description'>
-            Expected output = {props.value.test_case_output}
+            <span className='terminal-text'>$Expected output :</span> {props.value.test_case_output}
         </div>
-        <div id='test-case-stdout'> 
-            Output: {message}
+        <div id='test-case-stdout'>
+            <span className='terminal-text'>$Output:</span> {message}
         </div>
     </div>);
 }
