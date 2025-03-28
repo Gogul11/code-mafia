@@ -2,6 +2,7 @@ import React, { useState, useEffect  } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaHome, FaCode, FaTrophy, FaFolderOpen } from "react-icons/fa";
 import "../styles/HomePage.css";
+import LeaderBoard from "../components/LeaderBoard";
 
 const HomePage = ({ isLoggedIn }) => {
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -78,9 +79,9 @@ const HomePage = ({ isLoggedIn }) => {
             onClick={toggleNav}
           >
             <div className="hamburger-menu">
-              <div className="bar"></div>
-              <div className="bar"></div>
-              <div className="bar"></div>
+              <div className={`bar ${isNavOpen ? "rotate-bar1" : ""}`}></div>
+              <div className={`bar ${isNavOpen ? "hide-bar" : ""}`}></div>
+              <div className={`bar ${isNavOpen ? "rotate-bar2" : ""}`}></div>
             </div>
             <div className="nav-links-div">
               <ul className="nav-links">
@@ -108,8 +109,7 @@ const HomePage = ({ isLoggedIn }) => {
             )}
             {currentPage === "leaderboard" && (
               <>
-                <h1>Leaderboard</h1>
-                <p>Check out the top coders.</p>
+                <LeaderBoard />
               </>
             )}
           </div>

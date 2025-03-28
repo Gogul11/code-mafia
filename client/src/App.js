@@ -8,7 +8,7 @@ function App() {
   return (
     <BrowserRouter>
     <Routes>
-      <Route path="/" element={<HomePage isLoggedIn={false} />} />
+      <Route path="/" element={<HomePage isLoggedIn={true} />} />
       <Route path='/editor' element={<EditorPage />} />
       <Route path='/temp' element={<Temp />} />
     </Routes> 
