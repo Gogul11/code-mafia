@@ -11,6 +11,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+body::-webkit-scrollbar {
+  display: none; /*disable scrollbar*/
+}
+
 code {
   font-family: 'Courier New', Courier, monospace;
 }

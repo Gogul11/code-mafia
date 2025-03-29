@@ -145,7 +145,7 @@
   }
 }
 
-.player-icon {
+/* .player-icon {
   width: 30px;
   height: 30px;
   background-color: #FFD400;
@@ -154,4 +154,47 @@
   justify-content: center;
   align-items: center;
   font-size: 14px;
+} */
+
+.powerups-button{
+  background-color: transparent;
+  color: #FFD400;
+  font-size: 24px;
+  transition: transform 0.2s;
+}
+.powerups-button:hover {
+  transform: scale(1.1);
+  background-color: transparent;
+  animation: flicker 0.15s infinite alternate;
+}
+
+.powerups-button::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  background: radial-gradient(circle, rgba(255, 165, 0, 0.8), rgba(255, 0, 0, 0.6), rgba(255, 0, 0, 0));
+  filter: blur(8px);
+  opacity: 0;
+  transition: opacity 0.2s;
+  z-index: -1;
+}
+
+.powerups-button:hover::before {
+  opacity: 1;
+  animation: fireGlow 0.3s infinite alternate;
+}
+
+/* Flickering Fire Effect */
+@keyframes flicker {
+  0% { text-shadow: 0 0 5px #FFD400, 0 0 10px #FFA500; }
+  100% { text-shadow: 0 0 10px #FFD400, 0 0 15px #FF4500; }
+}
+
+/* Glowing Fire Effect */
+@keyframes fireGlow {
+  0% { box-shadow: 0 0 10px #FFA500, 0 0 20px #FF4500, 0 0 30px #FF0000; }
+  100% { box-shadow: 0 0 15px #FFD700, 0 0 25px #FF4500, 0 0 35px #FF0000; }
 }
