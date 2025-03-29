@@ -1,0 +1,291 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+/* General Styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Press Start 2P", cursive;
+    background-color: #0f1525;
+    color: #ffd400;
+    overflow-x: hidden;
+}
+
+.homepage {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+/* Landing Page Styles */
+.landing-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+
+.retro-text {
+    font-size: 3rem;
+    text-shadow: 4px 4px 0px #000;
+    margin: 0;
+    color: #ffd400;
+}
+
+.retro-subtext {
+    font-size: 1.5rem;
+    text-shadow: 2px 2px 0px #000;
+    margin: 0;
+    color: #FF6B6B;
+    animation: blink 2s infinite;
+}
+
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+
+.login-button {
+    background-color: #ffd400;
+    color: #0f1525;
+    border: 2px solid #000;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    font-family: "Press Start 2P", cursive;
+    cursor: pointer;
+    box-shadow: 4px 4px 0px #000;
+    transition: all 0.2s ease;
+}
+
+.login-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 6px 6px 0px #000;
+}
+
+.login-button:active {
+    transform: translateY(0);
+    box-shadow: 2px 2px 0px #000;
+}
+
+/* Pixel Art Character */
+.pixel-art-character {
+    width: 50px;
+    height: 50px;
+    background-color: #FF6B6B;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    border: 2px solid #000;
+}
+
+/* CRT Scanline Effect */
+.scanlines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(transparent,
+            transparent 2px,
+            rgba(255, 255, 255, 0.1) 2px,
+            rgba(255, 255, 255, 0.1) 4px);
+    pointer-events: none;
+}
+
+/* Container for falling elements */
+.falling-elements {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none; /* Ensure clicks pass through to elements below */
+    z-index: -2;
+  }
+  
+  /* Falling element animation */
+  .falling-element {
+    position: absolute;
+    top: -100px; /* Start above the screen */
+    animation: fall linear infinite;
+  }
+  
+  @keyframes fall {
+    0% {
+      transform: translateY(-100px);
+    }
+    100% {
+      transform: translateY(100vh); /* Fall to the bottom of the screen */
+    }
+  }
+
+/* Logged-In Styles */
+.logged-in-container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+}
+
+.nav-sidebar {
+    background-color: #1a2238;
+    transition: width 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    /* Align content to the top */
+    padding-top: 20px;
+    /* Add padding to the top */
+    overflow: hidden;
+}
+
+.nav-links {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+    /* Add margin to top and bottom */
+    width: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 7vh;
+    /* Increase space between nav links */
+}
+
+.nav-links-div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align content to the left */
+    justify-content: center;
+    height: 100%;
+    overflow: hidden;
+    padding-left: 20px; /* Add padding for spacing */
+}
+
+.nav-sidebar.closed {
+    width: 5%;
+}
+
+.hamburger-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.hamburger-menu .bar {
+    width: 30px;
+    height: 4px;
+    background-color: #ffd400;
+    transition: all 0.3s ease;
+}
+
+.hamburger-menu .rotate-bar1 {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger-menu .rotate-bar2 {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
+.hamburger-menu .hide-bar {
+    opacity: 0;
+}
+
+.nav-links {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+    width: 100%;
+    text-align: center;
+}
+
+.nav-links li {
+    padding: 15px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    white-space: nowrap;
+    /* Prevent text from wrapping */
+    overflow: hidden;
+    /* Hide overflow */
+    text-overflow: ellipsis;
+    /* Add ellipsis for overflow */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.nav-links li:hover {
+    background-color: #0f1525;
+}
+
+.icon {
+    font-size: 1.5rem;
+    color: #FF6B6B;
+}
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .retro-text {
+        font-size: 2rem;
+    }
+
+    .retro-subtext {
+        font-size: 1rem;
+    }
+
+    .nav-sidebar.open {
+        width: 25%;
+    }
+
+    .nav-sidebar.closed {
+        width: 10%;
+    }
+
+    .nav-links li {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .retro-text {
+        font-size: 1.5rem;
+    }
+
+    .retro-subtext {
+        font-size: 0.8rem;
+    }
+
+    .nav-sidebar.open {
+        width: 35%;
+    }
+
+    .nav-sidebar.closed {
+        width: 15%;
+    }
+
+    .nav-links li {
+        font-size: 0.7rem;
+    }
+}

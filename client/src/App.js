@@ -15,7 +15,7 @@ function App() {
   return (
     <BrowserRouter>
     <Routes>
-      <Route path="/" element={<HomePage />} />
+      <Route path="/" element={<HomePage isLoggedIn={true} />} />
       <Route path='/editor' element={<EditorPage />} />
       <Route path='/temp' element={<Temp />} />
       <Route path='/power' element={<PowerUpContainer />} />
