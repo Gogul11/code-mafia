@@ -289,3 +289,34 @@ body {
         font-size: 0.7rem;
     }
 }
+
+.nav-sidebar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between; /* Pushes content to top and bottom */
+    background-color: #1a2238;
+    transition: width 0.3s ease;
+    padding-top: 20px;
+    height: 100vh; /* Full height of screen */
+}
+
+/* Style the logout button */
+.logout-button-sidenav {
+    background-color: transparent;
+    color: #ffd400;
+    border: none;
+    font-size: 16px;
+    font-family: "Press Start 2P", cursive;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    padding-bottom: 3vh;
+    margin-bottom: 3vh; /* Space from bottom */
+    width: 80%; /* Make it wide */
+    text-align: center;
+}
+
+.logout-button-sidenav:hover {
+    background-color: #e04e4e;
+}

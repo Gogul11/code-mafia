@@ -1,6 +1,6 @@
-import React, { useState, useEffect  } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaHome, FaCode, FaTrophy, FaFolderOpen } from "react-icons/fa";
+import { FaHome, FaCode, FaTrophy, FaSignOutAlt } from "react-icons/fa";
 import "../styles/HomePage.css";
 import LeaderBoard from "../components/LeaderBoard";
 
@@ -25,15 +25,24 @@ const HomePage = ({ isLoggedIn }) => {
     }
   };
 
+
+  const handleLogout = () => {
+    // Remove token from localStorage
+    localStorage.removeItem('token');
+    // Redirect to login page or refresh
+    window.location.href = '/';
+  };
+
+
   const [elementCount, setElementCount] = useState(0); // Track the number of elements
 
   // Function to create a falling element
   const createFallingElement = () => {
     const container = document.querySelector(".falling-elements");
-    if (!container || elementCount >= 10) return; // Limit to 10 elements
+    if (!container || elementCount >= 15) return; // Limit to 10 elements
 
     const element = document.createElement("img");
-    const assets = ["/assets/currency.svg", "/assets/ansh.png"]; // Paths relative to public folder
+    const assets = ["/assets/currency.svg", "/assets/ansh.png", "/assets/shield.svg"]; // Paths relative to public folder
     const randomAsset = assets[Math.floor(Math.random() * assets.length)];
 
     element.src = randomAsset; // Use the path directly
@@ -56,7 +65,7 @@ const HomePage = ({ isLoggedIn }) => {
   useEffect(() => {
     const interval = setInterval(createFallingElement, 500); // Create a new element every 500ms (0.5 second)
     return () => clearInterval(interval); // Cleanup on unmount
-  }, [elementCount]); 
+  }, [elementCount]);
 
   return (
     <div className="homepage">
@@ -98,6 +107,10 @@ const HomePage = ({ isLoggedIn }) => {
                 </li>
               </ul>
             </div>
+            <button className="logout-button-sidenav" onClick={handleLogout}>
+              <FaSignOutAlt className="icon" title="Logout" />
+              {isNavOpen && <span> Logout</span>}
+            </button>
           </div>
           <div className="main-content">
             {currentPage === "home" && (
