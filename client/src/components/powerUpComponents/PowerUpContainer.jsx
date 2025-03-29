@@ -4,20 +4,18 @@ import socket from "../../socket.js";
 
 function PowerUpContainer() {
     const [powers, setPowers] = useState([
-        { id: 1, name: "Situs Inversus", description: "", effect: "flip" },
-        { id: 2, name: "Smoke Screen", description: "", effect: "blind" },
-        { id: 3, name: "The Wall Breaker", description: "", effect: "wall-breaker" },
-        { id: 4, name: "Zip Bomb", description: "", effect: "zip-bomb" },
-        { id: 5, name: "The Suicide Bomber", description: "", effect: "suicide-bomber" },
-        { id: 6, name: "WindMill", description: "", effect: "windmill" },
-        { id: 7, name: "System Overload", description: "", effect: "glitch" },
-        { id: 8, name: "Innocency", description: "", effect: "innocency" },
-        { id: 9, name: "Zero Kelvin", description: "", effect: "freeze" },
+        { id: 1, name: "Situs Inversus", description: "", effect: "flip", icon: "/assets/swap.svg" },
+        { id: 2, name: "Smoke Screen", description: "", effect: "blind", icon: "/assets/smokescreen.png" },
+        { id: 3, name: "The Wall Breaker", description: "", effect: "wall-breaker", icon: "/assets/wallbreaker.png" },
+        { id: 4, name: "Zip Bomb", description: "", effect: "zip-bomb", icon: "/assets/zipbomb.png" },
+        { id: 5, name: "The Suicide Bomber", description: "", effect: "suicide-bomber", icon: "/assets/suicidebomber.png" },
+        { id: 6, name: "WindMill", description: "", effect: "windmill", icon: "/assets/windmill.png" },
+        { id: 7, name: "System Overload", description: "", effect: "glitch", icon: "/assets/systemoverload.png" },
+        { id: 8, name: "Innocency", description: "", effect: "innocency", icon: "/assets/innocency.png" },
+        { id: 9, name: "Zero Kelvin", description: "", effect: "freeze", icon: "/assets/snowflake.svg" },
     ]);
     const [teams, setTeams] = useState([]);
-    const [clicked, setClicked] = useState(false);
-    const [username, setUsername] = useState("Anonymous user");
-    const [inputValue, setInputValue] = useState("");
+    const [username, setUsername] = useState("");
     const [clickedPower, setClickedPower] = useState("");
     const [clickedTeam, setClickedTeam] = useState(null);
 
@@ -30,32 +28,26 @@ function PowerUpContainer() {
     const [popupCount, setPopupCount] = useState(0)
     const popupRef = useRef(null);
 
-    function handleClickPower(e) {
-        setClickedPower(e.target.value);
-        setClicked(true);
+    async function initSocketConnection() {
+        const token = localStorage.getItem('token');
+        if (token) {
+            try {
+                const response = await axios.get(`${process.env.REACT_APP_SERVER_BASEAPI}/auth/verify`, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+
+                if (response.data && response.data.valid && response.data.username) {
+                    setUsername(response.data.username);
+                    console.log("Username from server:", response.data.username);
+                    socket.auth = { username: response.data.username };
+                    socket.connect();
+                }
+            } catch (error) {
+                console.error('Token verification failed', error);
+            }
+        }
     }
 
-    function handleUsernameChange(e) {
-        setInputValue(e.target.value);
-    }
-
-    function onUsernameSelection(username) {
-        socket.auth = { username };
-        socket.connect();
-    }
-
-    function handleUsernameSubmit() {
-        setUsername(inputValue);
-        onUsernameSelection(inputValue);
-    }
-
-    function handleClose() {
-        setClicked(false);
-    }
-
-    function handleTeamClick(team) {
-        setClickedTeam(team);
-    }
 
     function handlePopupClose(e) {
         if (popupCount < 20) {
@@ -145,6 +137,7 @@ function PowerUpContainer() {
         }
 
         // getPowerUps();
+        initSocketConnection();
 
         socket.on("users", (users) => {
             users.forEach((user) => {
@@ -212,18 +205,13 @@ function PowerUpContainer() {
     return {
         powers,
         teams,
-        clicked,
         username,
-        inputValue,
         clickedPower,
         clickedTeam,
         popup,
         popupCount,
-        handleClickPower,
-        handleUsernameChange,
-        handleUsernameSubmit,
-        handleClose,
-        handleTeamClick,
+        setClickedPower,
+        setClickedTeam,
         handlePopupClose,
         executePowerUp,
         handleApply,

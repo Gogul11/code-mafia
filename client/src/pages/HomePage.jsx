@@ -14,8 +14,7 @@ const HomePage = ({ isLoggedIn }) => {
   };
 
   const handleLoginClick = () => {
-    // Redirect to login page or handle login logic
-    console.log("Redirecting to login...");
+    navigate("/login"); // Redirect to /login for the Login page
   };
 
   const handleNavigation = (page) => {

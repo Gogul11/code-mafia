@@ -1,71 +1,197 @@
 /* Background overlay */
 .powerups-dialog-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Dialog Box */
+.powerups-dialog {
+  background: rgba(20, 20, 20, 0.95);
+  padding: 20px;
+  width: 60vw;
+  border-radius: 10px;
+  box-shadow: 0 0 20px #ff4500, 0 0 40px #ff0000;
+  text-align: center;
+  color: white;
+  animation: popIn 0.3s ease-out;
+}
+
+/* Heading */
+.powerups-dialog h2 {
+  color: #FFD400;
+}
+
+/* Powerups & Teams Container */
+.powerups-container {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+}
+
+/* Power-ups Section (Grid Layout) */
+.powerups-column {
+  width: 60%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Individual Power-up Button */
+.power-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+/* Power-up Icon */
+.power-button img {
+  width: 4vw;
+  height: 4vw;
+  margin-bottom: 2vh;
+  /* filter: drop-shadow(0 0 10px white); */
+  filter: drop-shadow(0 0 0 white) drop-shadow(0 0 5px white);
+}
+
+/* Power-up Name */
+.power-button span {
+  color: #FFD400;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Hover Effect */
+.power-button:hover {
+  transform: scale(1.1);
+}
+
+/* Selected Power-up */
+.selected {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 10px #ffcc00);
+}
+
+/* Teams Column */
+.teams-column {
+  width: 35%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Team Selection Buttons */
+.team-button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 16px;
+  font-family: 'Press Start 2P', cursive;
+  color: #FFD400;
+  background-color: transparent;
+  transition: background 0.2s;
+}
+
+/* Hover Effect */
+.team-button:hover {
+  background: #ffd400;
+  color: #0f1525;
+}
+
+/* Close Button */
+.close-button {
+  margin-top: 10px;
+  padding: 8px 15px;
+  border: none;
+  background: #ff4500;
+  color: white;
+  font-size: 16px;
+  font-family: 'Press Start 2P', cursive;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.close-button:hover {
+  background: #ff0000;
+}
+
+.execute-button {
+  background-color: #FFD400;
+  border: none;
+  color: #0f1525;
+  padding: 8px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  font-family: 'Press Start 2P', cursive;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.execute-button:hover {
+  background-color: #246e28; /* Darker green */
+  color: white;
+  animation: greenFire 0.5s infinite alternate, vibrate 0.1s infinite;
+}
+
+/* Green fire effect */
+@keyframes greenFire {
+  0% {
+    box-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 30px #00ff00;
   }
-  
-  /* Dialog Box */
-  .powerups-dialog {
-    background: rgba(20, 20, 20, 0.95);
-    padding: 20px;
-    width: 60vw;
-    border-radius: 10px;
-    box-shadow: 0 0 20px #ff4500, 0 0 40px #ff0000;
-    text-align: center;
-    color: white;
-    animation: popIn 0.3s ease-out;
+  100% {
+    box-shadow: 0 0 20px #00ff00, 0 0 40px #00ff00, 0 0 60px #00ff00;
   }
-  
-  /* Heading */
-  .powerups-dialog h2 {
-    color: #FFD400;
+}
+
+/* Vibrating effect */
+@keyframes vibrate {
+  0% {
+    transform: translate(0, 0);
   }
-  
-  /* Powerups List */
-  .powerups-dialog ul {
-    list-style: none;
-    padding: 0;
+  25% {
+    transform: translate(-1px, 1px);
   }
-  
-  .powerups-dialog ul li {
-    margin: 10px 0;
-    font-size: 18px;
-    cursor: pointer;
-    transition: color 0.2s ease-in-out;
+  50% {
+    transform: translate(1px, -1px);
   }
-  
-  .powerups-dialog ul li:hover {
-    color: #ff4500;
+  75% {
+    transform: translate(-1px, -1px);
   }
-  
-  /* Close Button */
-  .close-button {
-    margin-top: 10px;
-    padding: 8px 15px;
-    border: none;
-    background: #ff4500;
-    color: white;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.2s;
+  100% {
+    transform: translate(1px, 1px);
   }
-  
-  .close-button:hover {
-    background: #ff0000;
+}
+
+/* Anime-style popup animation */
+@keyframes popIn {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
   }
-  
-  /* Anime-style popup animation */
-  @keyframes popIn {
-    0% { transform: scale(0.8); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
+  100% {
+    transform: scale(1);
+    opacity: 1;
   }
-  
+}

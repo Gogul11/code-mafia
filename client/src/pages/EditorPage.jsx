@@ -10,6 +10,7 @@ import '../styles/editorPage.css'
 import { BsArrowBarUp } from "react-icons/bs";
 import { BsArrowBarDown } from "react-icons/bs";
 import PowerupsDialog from '../components/PowerupsDialog.jsx';
+import axios from "axios";
 import socket from "../socket.js";
 import PowerUpContainer from '../components/powerUpComponents/PowerUpContainer.jsx';
 
@@ -48,18 +49,14 @@ const EditorPage = () => {
     const {
         powers,
         teams,
-        clicked,
         username,
         inputValue,
         clickedPower,
         clickedTeam,
         popup,
         popupCount,
-        handleClickPower,
-        handleUsernameChange,
-        handleUsernameSubmit,
-        handleClose,
-        handleTeamClick,
+        setClickedPower,
+        setClickedTeam,
         handlePopupClose,
         handleApply,
         popupRef,
@@ -89,6 +86,28 @@ const EditorPage = () => {
 
         return testCaseList;
     };
+
+    useEffect(() => {
+        const verifyToken = async () => {
+          const token = localStorage.getItem('token');
+          if (token) {
+            try {
+              const response = await axios.get(`${process.env.REACT_APP_SERVER_BASEAPI}/auth/verify`, {
+                headers: { Authorization: `Bearer ${token}` }
+              });
+              if (!response.data.valid){
+                window.location.href = "/login"
+              }
+            } catch (error) {
+              console.error('Token verification failed');
+              window.location.href = "/login"
+            }
+          } else {
+            window.location.href = "/login";
+          }
+        };
+        verifyToken();
+      }, []);
 
     useEffect(() => {
         const fetchQuestions = async () => {
@@ -202,7 +221,15 @@ const EditorPage = () => {
                         />
                     ) : null}
                     {/* Powerups Dialog Component */}
-                    {powerupsDialogOpen && <PowerupsDialog onClose={() => setPowerupsDialogOpen(false)} />}
+                    {powerupsDialogOpen &&
+                        <PowerupsDialog
+                            onClose={() => setPowerupsDialogOpen(false)}
+                            powers={powers}
+                            teams={teams}
+                            onPowerSelect={setClickedPower}
+                            onTeamSelect={setClickedTeam}
+                            usePower={handleApply} />
+                    }
                 </div>
 
             </div>
