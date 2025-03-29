@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../../styles/BottomPanel.css'; // Import the CSS for styling
 
-const BottomPanel = ({ currentQuestion, totalQuestions, xp, players, setCurrentQuestion, gotoNextQuestion, gotoPrevQuestion }) => {
+const BottomPanel = ({ currentQuestion, totalQuestions, xp, isPowerupsDialogOpen ,setPowerupsDialogOpen, setCurrentQuestion, gotoNextQuestion, gotoPrevQuestion }) => {
   const [isPlaylistExpanded, setPlaylistExpanded] = useState(false);
 
   const togglePlaylist = () => {
@@ -56,14 +56,18 @@ const BottomPanel = ({ currentQuestion, totalQuestions, xp, players, setCurrentQ
       </div>
 
       {/* Active Player Icons */}
-      <div className="active-players">
-        {players.map((player, index) => (
+      {/*<div className="active-players">
+         {players.map((player, index) => (
           <div key={index} className="player-icon">
-            {player.icon} {/* Replace with actual player icons */}
+            {player.icon}
           </div>
         ))}
+      </div> */}
+
+      {/* Powerups */}
+      <div className="powerups-section"></div>
+        <button className="nav-button powerups-button" onClick={() => setPowerupsDialogOpen(true)}>Powerups</button>
       </div>
-    </div>
   );
 };
 

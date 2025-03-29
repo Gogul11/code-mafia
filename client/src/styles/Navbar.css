@@ -1,28 +1,59 @@
-/* Navbar Styles */
 .navbar {
   display: flex;
   align-items: center;
-  background-color: #0b0f1a; /* Dark blue */
-  border-bottom: 2px solid #FFD400; /* Yellow */
+  justify-content: space-between; /* Pushes logo+title left, button right */
+  background-color: #0b0f1a;
+  border-bottom: 2px solid #FFD400;
   padding: 10px 20px;
-  font-family: 'Press Start 2P', cursive; /* 8-bit font */
-  color: #FFD400; /* Yellow */
-  width: 100%; /* Ensure it spans the full width */
-  position: fixed; 
-  top: 0;  
-  left: 0; 
-   z-index: 1000; 
+  font-family: 'Press Start 2P', cursive;
+  color: #FFD400;
+  width: 100%;
+  box-sizing: border-box; /* Ensures padding is included in width */
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+/* Wrap Logo and Title */
+.navbar-logo-title {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* Adds space between logo and title */
 }
 
 /* Logo Styles */
 .navbar-logo img {
-  height: 40px; /* Adjust the size of the logo */
+  height: 40px;
   width: auto;
-  margin-right: 15px; /* Space between logo and title */
 }
 
 /* Title Styles */
 .navbar-title {
-  font-size: 24px; /* Adjust the size of the title */
+  font-size: 24px;
   font-weight: bold;
+}
+
+/* Logout Container */
+.navbar-logout {
+  display: flex;
+  justify-content: flex-end;
+  flex-grow: 1; /* Makes sure it takes available space */
+}
+
+/* Logout Button */
+.logout-button {
+  background-color: #FFD400;
+  color: #0b0f1a;
+  border: none;
+  padding: 8px 15px;
+  font-size: 14px;
+  font-family: 'Press Start 2P', cursive;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+  background-color: #e5c200;
 }

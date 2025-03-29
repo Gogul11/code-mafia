@@ -1,17 +1,27 @@
 import React from 'react';
-import '../styles/Navbar.css'; // Import the CSS for styling
+import '../styles/Navbar.css';
 
 const Navbar = () => {
+  const handleLogout = () => {
+    // Remove token from localStorage
+    localStorage.removeItem('token');
+    // Redirect to login page or refresh
+    window.location.href = '/';
+  };
+
   return (
     <nav className="navbar">
-      {/* Logo */}
-      <div className="navbar-logo">
-        <img src="images/logo.png" alt="Logo" /> {/* Replace with your logo path */}
+      {/* Wrap Logo and Title */}
+      <div className="navbar-logo-title">
+        <div className="navbar-logo">
+          <img src="images/logo.png" alt="Logo" />
+        </div>
+        <div className="navbar-title">Codemafia</div>
       </div>
 
-      {/* Title */}
-      <div className="navbar-title">
-        Codemafia
+      {/* Logout Button */}
+      <div className="navbar-logout">
+        <button className="logout-button" onClick={handleLogout}>Logout</button>
       </div>
     </nav>
   );

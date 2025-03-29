@@ -46,7 +46,7 @@ const CodeEditor = (props) => {
 
     const[copied, setCopied] = useState(false)
     const[lang, setLang] = useState('python')
-    const[theme, setTheme] = useState('light')
+    const[theme, setTheme] = useState('vs-dark')
     const[reset, setReset] = useState(false)
 
     const handleCopy = () => {
