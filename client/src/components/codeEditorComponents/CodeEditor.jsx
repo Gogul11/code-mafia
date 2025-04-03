@@ -1,69 +1,73 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import Editor from "@monaco-editor/react";
 import '../../styles/editor.css'
-import { BsClipboard2Fill } from "react-icons/bs";
-import { BsClipboard2CheckFill } from "react-icons/bs";
-import { BsArrowClockwise } from "react-icons/bs";
+import { BsClipboard2Fill, BsClipboard2CheckFill, BsArrowClockwise } from "react-icons/bs";
 
 // Language configurations with Judge0 IDs and boilerplate code
 const LANGUAGE_CONFIG = {
   python: {
     id: 71,
     name: "Python",
-    boilerplate: "#your code here",
+    boilerplate: "# Your code here",
     monacoLang: "python"
   },
   cpp: {
     id: 54,
     name: "C++",
-    boilerplate: `#include <iostream>\nusing namespace std;\n\nint main() {\n    //Your code here\n    return 0;\n}`,
+    boilerplate: `#include <iostream>\nusing namespace std;\n\nint main() {\n    // Your code here\n    return 0;\n}`,
     monacoLang: "cpp"
   },
   c: {
     id: 50,
     name: "C",
-    boilerplate: `#include <stdio.h>\n\nint main() {\n    //Your code here\n    return 0;\n}`,
+    boilerplate: `#include <stdio.h>\n\nint main() {\n    // Your code here\n    return 0;\n}`,
     monacoLang: "c"
   },
   java: {
     id: 62,
     name: "Java",
-    boilerplate: `public class Main {\n    public static void main(String[] args) {\n        //Your code here\n    }\n}`,
+    boilerplate: `public class Main {\n    public static void main(String[] args) {\n        // Your code here\n    }\n}`,
     monacoLang: "java"
   },
   javascript: {
     id: 63,
     name: "JavaScript",
-    boilerplate: "//Your code here",
+    boilerplate: "// Your code here",
     monacoLang: "javascript"
   }
 };
 
 const CodeEditor = ({ questionId, onSubmissionComplete }) => {
-  const [lang, setLang] = useState('python');
+  // Load last used language or default to Python
+  const savedLang = localStorage.getItem("lastSelectedLang") || "python";
+  const [lang, setLang] = useState(savedLang);
   const [code, setCode] = useState(() => {
-    const savedCode = localStorage.getItem(`userCode_${questionId}`);
-    return savedCode || LANGUAGE_CONFIG[lang].boilerplate;
+    return localStorage.getItem(`userCode_${questionId}_${savedLang}`) || LANGUAGE_CONFIG[savedLang].boilerplate;
   });
+
   const [isRunning, setIsRunning] = useState(false);
   const [copied, setCopied] = useState(false);
   const [theme, setTheme] = useState('vs-dark');
 
+  useEffect(() => {
+    localStorage.setItem("lastSelectedLang", lang);
+  }, [lang]);
+
   const handleCopy = () => {
     navigator.clipboard.writeText(code)
-      .then(() => setCopied(true))
+      .then(() => setCopied(true));
 
-    setTimeout(() => setCopied(false), 2000)
-
-  }
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   const handleReset = () => {
     const response = window.confirm("This will erase the code you typed. Do you want to proceed?");
     if (response) {
-      setCode("print('Hello, world!')");
+      setCode(LANGUAGE_CONFIG[lang].boilerplate);
+      localStorage.setItem(`userCode_${questionId}_${lang}`, LANGUAGE_CONFIG[lang].boilerplate);
     }
-  }
+  };
 
   const handleRunCode = async () => {
     setIsRunning(true);
@@ -91,10 +95,12 @@ const CodeEditor = ({ questionId, onSubmissionComplete }) => {
   const handleLanguageChange = (newLang) => {
     const response = window.confirm("Changing language will reset your code. Continue?");
     if (response) {
+      localStorage.setItem("lastSelectedLang", newLang);
       setLang(newLang);
-      const boilerplate = LANGUAGE_CONFIG[newLang].boilerplate;
-      setCode(boilerplate);
-      localStorage.setItem(`userCode_${questionId}`, boilerplate);
+
+      // Load saved code for the new language or set to boilerplate
+      const savedCode = localStorage.getItem(`userCode_${questionId}_${newLang}`);
+      setCode(savedCode || LANGUAGE_CONFIG[newLang].boilerplate);
     }
   };
 
@@ -102,40 +108,42 @@ const CodeEditor = ({ questionId, onSubmissionComplete }) => {
     <div>
       <div id='top-div'>
 
+        {/* Language Selection */}
         <select id="lang" value={lang} onChange={(e) => handleLanguageChange(e.target.value)}>
-          <option id="lang-option" value=''>Select Language</option>
-          <option id="lang-option" value='python'>Python</option>
-          <option id="lang-option" value='cpp'>C++</option>
-          <option id="lang-option" value='c'>C</option>
-          <option id="lang-option" value='java'>Java</option>
-          <option id="lang-option" value='javascript'>Java script</option>
+          <option value=''>Select Language</option>
+          {Object.keys(LANGUAGE_CONFIG).map((key) => (
+            <option key={key} value={key}>{LANGUAGE_CONFIG[key].name}</option>
+          ))}
         </select>
 
+        {/* Theme Selection */}
         <select id='lang' value={theme} onChange={(e) => setTheme(e.target.value)}>
-          <option id="lang-option" value=''>Select Theme</option>
-          <option id="lang-option" value='light'>Light Theme</option>
-          <option id="lang-option" value='vs-dark'>VS code Dark Theme</option>
-          <option id="lang-option" value='hc-black'>Dark Theme</option>
+          <option value=''>Select Theme</option>
+          <option value='light'>Light Theme</option>
+          <option value='vs-dark'>VS Code Dark Theme</option>
+          <option value='hc-black'>Dark Theme</option>
         </select>
 
+        {/* Copy and Reset Buttons */}
         <div className="but">
-          {copied ? <BsClipboard2CheckFill className="copy" size={30} color="green" /> : <BsClipboard2Fill className="copy" onClick={handleCopy} size={30} />}
-
+          {copied ? <BsClipboard2CheckFill className="copy" size={30} color="green" /> : 
+          <BsClipboard2Fill className="copy" onClick={handleCopy} size={30} />}
+          
           <BsArrowClockwise className='reset' size={30} onClick={handleReset} />
         </div>
 
       </div>
+
       {copied && <p id='success'>Code Copied to Clipboard</p>}
 
+      {/* Code Editor */}
       <div id='editor'>
-
         <Editor
           value={code}
           onChange={(value) => {
             setCode(value);
-            localStorage.setItem(`userCode_${questionId}`, value);
-          }
-          }
+            localStorage.setItem(`userCode_${questionId}_${lang}`, value);
+          }}
           language={LANGUAGE_CONFIG[lang].monacoLang}
           className="editor-container"
           height="95%"
@@ -150,7 +158,6 @@ const CodeEditor = ({ questionId, onSubmissionComplete }) => {
           }}
           theme={theme}
         />
-
       </div>
 
       <div className="run">
