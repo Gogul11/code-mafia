@@ -13,7 +13,7 @@ const Navbar = () => {
     <nav className="navbar" style={{ userSelect: 'none' }}>
         <div className="navbar-logo-title" onClick={() => window.location.href = '/'}>
           <div className="navbar-logo">
-            <img src="images/logo.png" alt="Logo" />
+            <img src="images/cm_logo.png" alt="Logo" />
           </div>
           <div className="navbar-title">Codemafia</div>
         </div>
