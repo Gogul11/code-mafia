@@ -36,10 +36,10 @@ function PowerUpContainer() {
                     headers: { Authorization: `Bearer ${token}` }
                 });
 
-                if (response.data && response.data.valid && response.data.username) {
-                    setUsername(response.data.username);
-                    console.log("Username from server:", response.data.username);
-                    socket.auth = { username: response.data.username };
+                if (response.data && response.data.valid && response.data.team_name) {
+                    setUsername(response.data.team_name);
+                    console.log("Username from server:", response.data.team_name);
+                    socket.auth = { username: response.data.team_name };
                     socket.connect();
                 }
             } catch (error) {
