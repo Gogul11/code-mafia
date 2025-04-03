@@ -46,7 +46,6 @@ export async function runBatchCode(req, res, next) {
     try {
         console.log("Step 1: Extracting request body");
         const { question_id, language_id, source_code } = req.body; 
-        console.log("Received data:", req.body);
         if (!question_id || typeof question_id !== "number") {
             return res.status(400).json({ error: "Invalid question_id" });
         }
@@ -74,7 +73,6 @@ export async function runBatchCode(req, res, next) {
             input: tc.input,
             expected_output: tc.expected_output.toString() // Ensure string comparison
         }));
-        console.log("Extracted test cases:", testCases);
 
         console.log("Step 4: Preparing Judge0 submissions");
         const submissions = testCases.map(testCase => ({
