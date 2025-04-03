@@ -1,8 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import CodeEditor from '../components/codeEditorComponents/CodeEditor.jsx';
 import CodeDescriptionPane from '../components/codeEditorComponents/CodeDescriptionPane.jsx';
-import TestCase from '../components/codeEditorComponents/TestCase.jsx';
-import TestCaseTaskBar from '../components/codeEditorComponents/TestCaseTaskBar.jsx';
 import Output from '../components/codeEditorComponents/Output.jsx';
 import BottomPanel from '../components/codeEditorComponents/BottomPanel.jsx';
 import Navbar from '../components/Navbar.jsx';
@@ -11,23 +9,12 @@ import { BsArrowBarUp } from "react-icons/bs";
 import { BsArrowBarDown } from "react-icons/bs";
 import PowerupsDialog from '../components/PowerupsDialog.jsx';
 import axios from "axios";
-import socket from "../socket.js";
 import PowerUpContainer from '../components/powerUpComponents/PowerUpContainer.jsx';
+import TestCases from '../components/codeEditorComponents/TestCases.jsx';
 
 const EditorPage = () => {
-    const testCaseInput = ['hi', 'hello', 'bye'];
-    const expectedOutput = ['hi', 'hello', 'bye'];
 
-    const [testCaseActive, setTestCaseActive] = useState({
-        test_case_input: "",
-        test_case_output: "",
-        stdout: "",
-    });
     const [testCaseList, setTestCaseList] = useState([]);
-    const [testCaseIndex, setTestCaseIndex] = useState(1);
-    const [tcStatusCode, setTcStatusCode] = useState(["", "", ""]);
-    const [message, setMessage] = useState(["Run first!", "Run first!", "Run first!"]);
-    const [click, setClick] = useState(null);
     const [problemTitle, setProblemTitle] = useState("");
     const [problemDescription, setProblemDescription] = useState("");
 
@@ -44,6 +31,7 @@ const EditorPage = () => {
     // error and loading
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
 
     //power ups related___________________________________________________________________________________________________
     const {
@@ -66,48 +54,60 @@ const EditorPage = () => {
     //_______________________________________________________________________________________________________
 
     const loadQuestion = async () => {
+        console.log("questions: ", questionSet);
         const question = questionSet[currentQuestion - 1];
-        if (!question) {
+        if (!question) return;
+
+        setProblemTitle(`${currentQuestion}. ${question.title}`);
+        setProblemDescription(question.description);
+
+        // Convert test_cases object into an array
+        const testCasesArray = Object.entries(question.test_cases).map(([key, value]) => ({
+            id: key,
+            input: value.input,
+            expected_output: value.expected_output
+        }));
+
+        setTestCaseList(testCasesArray); // Update test case list state
+    };
+
+    const onSubmissionComplete = (results) => {
+        console.log("results: ", results)
+        if (results.error) {
             return;
         }
-        setProblemTitle(currentQuestion + ". " + question.title);
-        setProblemDescription(question.description);
-        setTestCaseList(parseTestCaseList(Object.values(question.test_cases)));
-        setTestCaseIndex(1);
-    };
 
-    const parseTestCaseList = (testCases) => {
-        const testCaseList = Object.values(testCases).map(testCase => {
-            return {
-                input: JSON.stringify(testCase.input), // Convert input to string
-                expected_output: JSON.stringify(testCase.expected_output) // Convert expected_output to string
-            };
-        });
-
-        return testCaseList;
-    };
+        // Update all test case results at once
+        setTestCaseList(results.results.map(result => ({
+            name: result.testCase,
+            input: result.input,
+            expected_output: result.expectedOutput,
+            output: result.output,
+            status: result.status
+        })));
+    }
 
     useEffect(() => {
         const verifyToken = async () => {
-          const token = localStorage.getItem('token');
-          if (token) {
-            try {
-              const response = await axios.get(`${process.env.REACT_APP_SERVER_BASEAPI}/auth/verify`, {
-                headers: { Authorization: `Bearer ${token}` }
-              });
-              if (!response.data.valid){
-                window.location.href = "/login"
-              }
-            } catch (error) {
-              console.error('Token verification failed');
-              window.location.href = "/login"
+            const token = localStorage.getItem('token');
+            if (token) {
+                try {
+                    const response = await axios.get(`${process.env.REACT_APP_SERVER_BASEAPI}/auth/verify`, {
+                        headers: { Authorization: `Bearer ${token}` }
+                    });
+                    if (!response.data.valid) {
+                        window.location.href = "/login"
+                    }
+                } catch (error) {
+                    console.error('Token verification failed');
+                    window.location.href = "/login"
+                }
+            } else {
+                window.location.href = "/login";
             }
-          } else {
-            window.location.href = "/login";
-          }
         };
         verifyToken();
-      }, []);
+    }, []);
 
     useEffect(() => {
         const fetchQuestions = async () => {
@@ -140,7 +140,6 @@ const EditorPage = () => {
             loadQuestion();
         }
     }, [currentQuestion, questionSet]);
-
 
     const gotoNextQuestion = () => {
         setCurrentQuestion(prev => Math.min(prev + 1, totalQuestions));
@@ -179,25 +178,15 @@ const EditorPage = () => {
                         <CodeDescriptionPane problemTitle={problemTitle} problemDescription={problemDescription} />
                     </div>
                     <div className='editor'>
-                        <CodeEditor testCaseInput={testCaseInput} expectedOutput={expectedOutput} statusSetter={setTcStatusCode} messageSetter={setMessage} click={click} />
+                        <CodeEditor
+                            questionId={questionSet[currentQuestion - 1].id}
+                            onSubmissionComplete={(results) => onSubmissionComplete(results)}
+                        />
                     </div>
                 </div>
                 <div>
                     <div id='test-case-choose'>
-                        <TestCaseTaskBar
-                            tcSetter={setTestCaseActive}
-                            testCaseList={testCaseList} // Pass the testCaseList here
-                            message={message}
-                            clickSetter={setClick}
-                        />
-                    </div>
-                    <div className='t-c'>
-                        <div id='test-case'>
-                            <TestCase value={testCaseActive} statusCode={tcStatusCode} message={message} />
-                        </div>
-                    </div>
-                    <div id='output-display'>
-                        <Output tcStatus={tcStatusCode} />
+                        <TestCases testCases={testCaseList} />
                     </div>
                     {windowWidth < 770 ? (
                         <div style={{ position: open ? "fixed" : "relative", bottom: open ? "250px" : "5px", left: open ? "10%" : "50%", transform: "translateX(-50%)", zIndex: 1000 }}>

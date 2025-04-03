@@ -1,0 +1,91 @@
+.test-case-container {
+    width: 100%;
+    background: #1e1e1e;  /* Dark background */
+    border-radius: 8px;
+    padding: 10px;
+    padding-bottom: 8vh;
+    margin-top: 10px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    color: #FFD400; /* Primary text color */
+}
+
+/* Test Case List */
+.test-case-list {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.test-case-btn {
+    background: #2a2a2a;
+    color: #FFD400;
+    border: 1px solid #FFD400;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s, color 0.3s;
+}
+
+.test-case-btn.active {
+    background: #FFD400;
+    color: #1e1e1e;
+}
+
+/* Test Case Details */
+.test-case-details,
+.test-case-output {
+    background: #2a2a2a;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+h3 {
+    color: #FFD400; /* Primary heading color */
+    margin-bottom: 5px;
+}
+
+pre {
+    font-family: monospace;
+    font-size: 20px; /* Adjusted for readability */
+    background: #1e1e1e;
+    padding: 8px;
+    border-radius: 5px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+/* Prefilled text (default placeholders) - Yellow */
+.test-case-input.prefilled,
+.test-case-output.prefilled,
+.test-case-result.prefilled {
+    color: #FFD400;
+}
+
+/* Loaded data - Pink */
+.test-case-input.loaded,
+.test-case-output.loaded,
+.test-case-result.loaded {
+    color: #FF6B6B;
+}
+
+/* Test Case Status */
+.status {
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+/* Green for success */
+.status.success {
+    color: #28A745;
+    background: rgba(40, 167, 69, 0.2);
+}
+
+/* Red for failure */
+.status.failed {
+    color: #DC3545;
+    background: rgba(220, 53, 69, 0.2);
+}
