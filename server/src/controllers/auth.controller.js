@@ -4,29 +4,56 @@ import bcrypt from 'bcrypt';
 
 const SECRET_KEY = process.env.SECRET_KEY;
 
-
 const login = async (req, res) => {
   const { username, password } = req.body;
+  console.log('Received login request:', { username, password });
 
   try {
-    const { data: user, error } = await supabase
+    const { data: user, error: userError } = await supabase
       .from('users')
       .select('*')
       .eq('username', username)
       .single();
+    console.log('User fetch result:', { user, userError });
 
-    if (error || !user) {
+    if (userError || !user) {
+      console.log('Invalid credentials: user not found or error occurred');
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
     const isPasswordValid = bcrypt.compareSync(password, user.password);
+    console.log('Password validation result:', { isPasswordValid });
     if (!isPasswordValid) {
+      console.log('Invalid credentials: password mismatch');
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
-    const token = jwt.sign({ username }, SECRET_KEY, { expiresIn: '1h' });
+    const { data: team, error: teamError } = await supabase
+      .from('teams')
+      .select('*')
+      .eq('id', user.team_id)
+      .single();
+    console.log('Team fetch result:', { team, teamError });
+
+    if (teamError || !team) {
+      console.log('Team not found or error occurred');
+      return res.status(500).json({ message: 'Team not found' });
+    }
+
+    const token = jwt.sign(
+      { 
+        username, 
+        team_id: user.team_id, 
+        team_name: team.team_name 
+      }, 
+      SECRET_KEY, 
+      { expiresIn: '1h' }
+    );
+    console.log('Generated JWT token:', { token });
+
     res.json({ token });
   } catch (err) {
+    console.error('Error during login:', err);
     res.status(500).json({ message: 'Internal server error' });
   }
 };
@@ -39,7 +66,7 @@ const verify = (req, res) => {
 
   try {
     const decoded = jwt.verify(token, SECRET_KEY);
-    res.json({ valid: true, username: decoded.username });
+    res.json({ valid: true, username: decoded.username, team_name: decoded.team_name });
   } catch (err) {
     res.status(401).json({ valid: false, message: 'Invalid token' });
   }
