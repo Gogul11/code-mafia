@@ -158,50 +158,6 @@ function PowerUpContainer() {
         };
     }, []);
 
-    // return (
-    //     <>
-    //         <div id="overlay" ref={overlayRef}></div>
-    //         {username === "Anonymous user" ? (
-    //             <div id="username-input">
-    //                 <input type="text" value={inputValue} onChange={handleUsernameChange} />
-    //                 <button onClick={handleUsernameSubmit}>Next</button>
-    //             </div>
-    //         ) : (
-    //             <div id="power-page">
-    //                 <div id="powerup-container">
-    //                     {powers.map((power) => (
-    //                         <button key={power.id} onClick={handleClickPower} value={power.effect}>
-    //                             {power.name}
-    //                         </button>
-    //                     ))}
-    //                 </div>
-
-    //                 {clicked && (
-    //                     <div id="teams-container">
-    //                         <ul id="teams-list">
-    //                             {teams
-    //                                 .filter((team) => !team.isCurrentUser)
-    //                                 .map((team) => (
-    //                                     <li key={team.userID}>
-    //                                         <button onClick={() => handleTeamClick(team)}>{team.username}</button>
-    //                                     </li>
-    //                                 ))}
-    //                         </ul>
-    //                         <button onClick={handleApply}>Apply</button>
-    //                         <button onClick={handleClose}>Close</button>
-    //                     </div>
-    //                 )}
-
-    //                 {popup && <div className="popup">
-    //                     <div ref={popupRef} className="popup-box">
-    //                         Hello
-    //                         <button onClick={(e) => handlePopupClose(e)}>&times;</button>
-    //                     </div>
-    //                 </div>}
-    //             </div>
-    //         )}
-    //     </>
-    // );
     return {
         powers,
         teams,
