@@ -8,6 +8,7 @@ import LoginPage from './pages/LoginPage.jsx';
 import axios from 'axios';
 
 import socket from './socket.js';
+import LeaderBoard from './components/LeaderBoard.jsx';
 
 socket.onAny((event, ...args) => {
   console.log(event, args);
@@ -43,6 +44,7 @@ function App() {
       <Route path='/editor' element={<EditorPage />} />
       <Route path='/temp' element={<Temp />} />
       <Route path='/power' element={<PowerUpContainer />} />
+      <Route path='/leader' element={<LeaderBoard/>}/>
     </Routes> 
     </BrowserRouter>
   );

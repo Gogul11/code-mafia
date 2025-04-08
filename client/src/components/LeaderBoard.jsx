@@ -1,30 +1,18 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-const sampleLeaders = [
-    { id: 1, teamName: "Team Alpha", score: 95 },
-    { id: 2, teamName: "Team Beta", score: 90 },
-    { id: 3, teamName: "Team Gamma", score: 85 },
-    { id: 4, teamName: "Team Delta", score: 80 },
-    { id: 5, teamName: "Team Epsilon", score: 75 },
-    { id: 6, teamName: "Team Zeta", score: 70 },
-    { id: 7, teamName: "Team Eta", score: 65 },
-    { id: 8, teamName: "Team Theta", score: 60 },
-    { id: 9, teamName: "Team Iota", score: 55 },
-    { id: 10, teamName: "Team Kappa", score: 50 },
-];
+
 const LeaderBoard = () => {
     const [leaders, setLeaders] = useState([]);
 
     useEffect(() => {
         // Fetch leaderboard data from the backend
         const fetchLeaders = async () => {
-            // try {
-            //     const response = await axios.get("/api/leaderboard"); // Replace with your backend endpoint
-            //     setLeaders(response.data.slice(0, 10)); // Get top 10 teams
-            // } catch (error) {
-            //     console.error("Error fetching leaderboard data:", error);
-            // }
-            setLeaders(sampleLeaders); // Use sample data for testing
+            try {
+                const response = await axios.get("http://localhost:8080/api/leader"); // Replace with your backend endpoint
+                setLeaders(response.data.data.slice(0, 10)); // Get top 10 teams
+            } catch (error) {
+                console.error("Error fetching leaderboard data:", error);
+            }
         };
 
         fetchLeaders();
@@ -90,7 +78,7 @@ const LeaderBoard = () => {
                 </thead>
                 <tbody>
                     {leaders.map((leader, index) => (
-                        <tr key={leader.id} style={{ height: "40px" }}>
+                        <tr key={leader.team_id} style={{ height: "40px" }}>
                             <td
                                 style={{
                                     padding: "1vw",
@@ -105,8 +93,8 @@ const LeaderBoard = () => {
                                 <span>{getMedal(index)}</span>
                                 <span>{index + 1}</span>
                             </td>
-                            <td style={{ padding: "1vw", fontSize: "2vh", color: "#FFD400" }}>{leader.teamName}</td>
-                            <td style={{ padding: "1vw", fontSize: "2vh", color: "#FFD400" }}>{leader.score}</td>
+                            <td style={{ padding: "1vw", fontSize: "2vh", color: "#FFD400" }}>{leader.team_name}</td>
+                            <td style={{ padding: "1vw", fontSize: "2vh", color: "#FFD400" }}>{leader.points}</td>
                         </tr>
                     ))}
                 </tbody>
