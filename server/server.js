@@ -5,6 +5,7 @@ import { Server } from "socket.io";
 import http from "http";
 import "dotenv/config";
 import router from "./src/routes/routes.js";
+import { getLeader } from "./src/controllers/leader.controller.js";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -57,6 +58,7 @@ app.get("/", (req, res) => {
     res.send("<h1>Code Mafia API ENDPOINT</h1>");
 });
 app.use("/api", router);
+setInterval(getLeader, 60000);
 
 server.listen(PORT, () => {
     console.log(`The server is listening on port: ${PORT}`);

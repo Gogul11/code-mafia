@@ -3,6 +3,7 @@ import EditorRoutes from './editor.route.js';
 import gameRouter from './game.route.js';
 import problem from './problems.route.js';
 import auth from './auth.route.js';
+import { getLeaderboardFromRedis } from '../controllers/leader.controller.js';
 
 const router = express.Router();
 
@@ -14,6 +15,7 @@ router.use("/editor", EditorRoutes);
 router.use("/game", gameRouter);
 router.use("/problem", problem);
 router.use("/auth", auth)
+router.use("/leader", getLeaderboardFromRedis)
 
 router.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;
