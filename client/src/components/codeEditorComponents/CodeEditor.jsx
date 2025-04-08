@@ -72,12 +72,18 @@ const CodeEditor = ({ questionId, onSubmissionComplete }) => {
   const handleRunCode = async () => {
     setIsRunning(true);
     try {
+      const token = localStorage.getItem("token");
       const response = await axios.post(
         `${process.env.REACT_APP_SERVER_BASEAPI}/editor/batch`,
         {
           question_id: questionId,
           language_id: LANGUAGE_CONFIG[lang].id,
           source_code: code
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
         }
       );
 
@@ -126,9 +132,9 @@ const CodeEditor = ({ questionId, onSubmissionComplete }) => {
 
         {/* Copy and Reset Buttons */}
         <div className="but">
-          {copied ? <BsClipboard2CheckFill className="copy" size={30} color="green" /> : 
-          <BsClipboard2Fill className="copy" onClick={handleCopy} size={30} />}
-          
+          {copied ? <BsClipboard2CheckFill className="copy" size={30} color="green" /> :
+            <BsClipboard2Fill className="copy" onClick={handleCopy} size={30} />}
+
           <BsArrowClockwise className='reset' size={30} onClick={handleReset} />
         </div>
 
