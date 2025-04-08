@@ -107,6 +107,43 @@ export async function runBatchCode(req, res, next) {
     }
 }
 
+export async function getPoints(req, res, next) {
+    try {
+        const token = req.headers.authorization?.split(" ")[1];
+
+        if (!token) {
+            return res.status(401).json({ error: "Authorization token is required" });
+        }
+
+        let team_id;
+        try {
+            const decoded = jwt.verify(token, process.env.SECRET_KEY);
+            team_id = decoded.team_id;
+        } catch (err) {
+            return res.status(400).json({ error: "Invalid token" });
+        }
+
+        if (!team_id) {
+            return res.status(400).json({ error: "Team_id not found in token" });
+        }
+
+        const { data: team, error } = await supabase
+            .from("teams")
+            .select("points")
+            .eq("id", team_id)
+            .single();
+
+        if (error) {
+            throw error;
+        }
+
+        return res.status(200).json({ team_id, points: team.points });
+    } catch (error) {
+        console.error("Error in getPoints:", error);
+        next(error);
+    }
+}
+
 
 
 // Helper Functions

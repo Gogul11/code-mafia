@@ -23,7 +23,7 @@ const EditorPage = () => {
     // State for currentQuestion, totalQuestions, and xp
     const [currentQuestion, setCurrentQuestion] = useState(1);
     const [totalQuestions, setTotalQuestions] = useState(10);
-    const [xp, setXp] = useState(50);
+    const [xp, setXp] = useState(0);
 
     //powerups dialog
     const [powerupsDialogOpen, setPowerupsDialogOpen] = useState(false);
@@ -71,11 +71,25 @@ const EditorPage = () => {
         setTestCaseList(testCasesArray); // Update test case list state
     };
 
+    const getXP = async () => {
+        axios.get(`${process.env.REACT_APP_SERVER_BASEAPI}/editor/points`, {
+            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+        }).then(response => {
+            if (response.data && response.data.points !== undefined) {
+                setXp(response.data.points);
+            }
+        }).catch(err => {
+            console.error("Failed to fetch points:", err);
+        });
+    }
+
     const onSubmissionComplete = (results) => {
         console.log("results: ", results)
         if (results.error) {
             return;
         }
+
+        getXP()
 
         // Update all test case results at once
         setTestCaseList(results.results.map(result => ({
@@ -107,6 +121,7 @@ const EditorPage = () => {
             }
         };
         verifyToken();
+        getXP();
     }, []);
 
     useEffect(() => {
