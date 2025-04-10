@@ -2,7 +2,7 @@ import supabase from "../config/db.js";
 import client from "../config/redisdb.js";
 
 export const getLeader = async() => {
-    const {data, error} = await supabase.from("leaderboard").select("*")
+    const {data, error} = await supabase.from("teams").select("*")
 
     if (error) {
         console.error("Error fetching challenges:", error);
