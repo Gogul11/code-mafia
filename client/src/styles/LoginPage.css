@@ -6,41 +6,88 @@
   height: 100vh;
   background-color: #0f1525;
   gap: 20px;
+  padding: 20px;
+  text-align: center;
 }
 
 .login-container h1 {
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
+  font-size: 2.5rem;
   color: #FFD400;
 }
 
 .login-container input {
-  width: 80%;
-  max-width: 30vw;
+  width: 90%;
+  max-width: 400px;
   padding: 0.8rem;
-  margin: 0.5rem 0;
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 1rem;
+  outline: none;
+  background-color: #fff;
+}
+
+.login-container input:focus {
+  border-color: #FFD400;
+  box-shadow: 0 0 5px #FFD400;
 }
 
 .login-container button {
-  width: 20%;
-  height: 6vh;
-  max-width: 10vw;
-  padding: 0.8rem;
-  margin-top: 1rem;
+  width: 90%;
+  max-width: 200px;
+  height: 48px;
   background-color: #FF6B6B;
   color: #0f1525;
   border: none;
   padding: 8px 16px;
   font-family: 'Press Start 2P', cursive;
+  font-size: 0.8rem;
   cursor: pointer;
   border-radius: 5px;
+  transition: all 0.3s ease;
 }
 
 .login-container button:hover {
   transform: scale(1.1);
   background-color: #FFD400;
   animation: flicker 0.15s infinite alternate;
+}
+
+/* Flicker animation */
+@keyframes flicker {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.7;
+  }
+}
+
+/* Responsive Media Queries */
+@media (max-width: 768px) {
+  .login-container h1 {
+    font-size: 2rem;
+  }
+
+  .login-container input {
+    font-size: 0.95rem;
+  }
+
+  .login-container button {
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-container h1 {
+    font-size: 1.5rem;
+  }
+
+  .login-container input {
+    font-size: 0.9rem;
+  }
+
+  .login-container button {
+    height: 44px;
+    font-size: 0.7rem;
+  }
 }

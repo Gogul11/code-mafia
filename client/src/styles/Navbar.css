@@ -1,59 +1,115 @@
 .navbar {
   display: flex;
   align-items: center;
-  justify-content: space-between; /* Pushes logo+title left, button right */
+  justify-content: space-between;
   background-color: #0b0f1a;
-  border-bottom: 2px solid #FFD400;
+  color: #FFD400;
   padding: 10px 20px;
   font-family: 'Press Start 2P', cursive;
-  color: #FFD400;
-  width: 100%;
-  box-sizing: border-box; /* Ensures padding is included in width */
   position: fixed;
   top: 0;
   left: 0;
+  width: 100%;
   z-index: 1000;
+  box-sizing: border-box;
 }
 
-/* Wrap Logo and Title */
-.navbar-logo-title {
+.logo {
+  height: 40px;
+  margin-right: 10px;
+}
+
+.navbar-left {
   display: flex;
   align-items: center;
-  gap: 15px; /* Adds space between logo and title */
+  gap: 10px;
+  cursor: pointer;
 }
 
-/* Logo Styles */
-.navbar-logo img {
-  height: 40px;
-  width: auto;
-}
-
-/* Title Styles */
 .navbar-title {
-  font-size: 24px;
-  font-weight: bold;
+  font-size: 1.1rem;
 }
 
-/* Logout Container */
-.navbar-logout {
+.navbar-links ul {
   display: flex;
-  justify-content: flex-end;
-  flex-grow: 1; /* Makes sure it takes available space */
+  list-style: none;
+  gap: 30px;
 }
 
-/* Logout Button */
+.navbar-links li {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+}
+
 .logout-button {
   background-color: #FFD400;
   color: #0b0f1a;
   border: none;
-  padding: 8px 15px;
-  font-size: 14px;
+  padding: 8px 12px;
   font-family: 'Press Start 2P', cursive;
+  font-size: 0.8rem;
+  border-radius: 4px;
   cursor: pointer;
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
 }
 
 .logout-button:hover {
   background-color: #e5c200;
+}
+
+.hamburger-icon {
+  display: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* Mobile Sidebar */
+.mobile-sidebar {
+  display: none;
+}
+
+.mobile-sidebar.open {
+  display: flex;
+  flex-direction: column;
+  background-color: #0b0f1a;
+  position: fixed;
+  top: 60px;
+  left: 0;
+  width: 100%;
+  z-index: 999;
+  align-items: center;
+}
+
+.mobile-sidebar ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.mobile-sidebar li {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+@media screen and (max-width: 768px) {
+  .navbar-links {
+    display: none;
+  }
+
+  .logout-button {
+    display: none;
+  }
+
+  .hamburger-icon {
+    display: block;
+  }
 }

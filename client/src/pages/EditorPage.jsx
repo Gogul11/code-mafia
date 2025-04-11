@@ -204,14 +204,40 @@ const EditorPage = () => {
                         <TestCases testCases={testCaseList} />
                     </div>
                     {windowWidth < 770 ? (
-                        <div style={{ position: open ? "fixed" : "relative", bottom: open ? "250px" : "5px", left: open ? "10%" : "50%", transform: "translateX(-50%)", zIndex: 1000 }}>
-                            {open ? (
-                                <BsArrowBarDown size={30} onClick={() => setOpen(false)} style={{ cursor: "pointer" }} />
-                            ) : (
-                                <BsArrowBarUp size={30} onClick={() => setOpen(true)} style={{ cursor: "pointer" }} />
-                            )}
-                        </div>
-                    ) : null}
+                                <div
+                                    style={{
+                                        position: "fixed",
+                                        bottom: open ? "20px" : "20px", // Adjust based on your BottomPanel height
+                                        left: "10%",
+                                        transform: "translateX(-50%)",
+                                        zIndex: 1000,
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        width: "100%",
+                                        pointerEvents: "none", // Let clicks pass through the container
+                                    }}
+                                >
+                                    <div
+                                        style={{
+                                            backgroundColor: "#FFD400",
+                                            borderRadius: "50%",
+                                            padding: "8px",
+                                            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.2)",
+                                            pointerEvents: "auto", // Enable clicks on the button
+                                            cursor: "pointer",
+                                        }}
+                                        onClick={() => setOpen(!open)}
+                                    >
+                                        {open ? (
+                                            <BsArrowBarDown size={24} color="#030617" />
+                                        ) : (
+                                            <BsArrowBarUp size={24} color="#030617" />
+                                        )}
+                                    </div>
+                                </div>
+                            ) : null}
+
                     {windowWidth >= 770 || open ? (
                         <BottomPanel
                             currentQuestion={currentQuestion}
@@ -224,6 +250,7 @@ const EditorPage = () => {
                             setPowerupsDialogOpen={setPowerupsDialogOpen}
                         />
                     ) : null}
+
                     {/* Powerups Dialog Component */}
                     {powerupsDialogOpen &&
                         <PowerupsDialog

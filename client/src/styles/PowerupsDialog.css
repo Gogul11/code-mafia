@@ -63,7 +63,6 @@
   width: 4vw;
   height: 4vw;
   margin-bottom: 2vh;
-  /* filter: drop-shadow(0 0 10px white); */
   filter: drop-shadow(0 0 0 white) drop-shadow(0 0 5px white);
 }
 
@@ -150,7 +149,7 @@
 }
 
 .execute-button:hover {
-  background-color: #246e28; /* Darker green */
+  background-color: #246e28;
   color: white;
   animation: greenFire 0.5s infinite alternate, vibrate 0.1s infinite;
 }
@@ -193,5 +192,69 @@
   100% {
     transform: scale(1);
     opacity: 1;
+  }
+}
+
+/* ------------------------------ */
+/* RESPONSIVE STYLING */
+/* ------------------------------ */
+
+@media (max-width: 768px) {
+  .powerups-dialog {
+    width: 90vw;
+    padding: 15px;
+  }
+
+  .powerups-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .powerups-column,
+  .teams-column {
+    width: 100%;
+  }
+
+  .powerups-column {
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .power-button img {
+    width: 12vw;
+    height: 12vw;
+    margin-bottom: 1vh;
+  }
+
+  .power-button span {
+    font-size: 0.6rem;
+  }
+
+  .team-button {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .close-button,
+  .execute-button {
+    font-size: 14px;
+    padding: 6px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .powerups-dialog h2 {
+    font-size: 1.2rem;
+  }
+
+  .power-button span {
+    font-size: 0.5rem;
+  }
+
+  .execute-button,
+  .close-button {
+    width: 100%;
+    margin-top: 10px;
   }
 }

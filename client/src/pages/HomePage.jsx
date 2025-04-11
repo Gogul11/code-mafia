@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { FaHome, FaCode, FaTrophy, FaSignOutAlt } from "react-icons/fa";
 import "../styles/HomePage.css";
 import LeaderBoard from "../components/LeaderBoard";
+import Navbar from "../components/Navbar";
 
 const HomePage = ({ isLoggedIn }) => {
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -82,49 +83,7 @@ const HomePage = ({ isLoggedIn }) => {
         </div>
       ) : (
         <div className="logged-in-container">
-          <div
-            className={`nav-sidebar ${isNavOpen ? "open" : "closed"}`}
-            onClick={toggleNav}
-          >
-            <div className="hamburger-menu">
-              <div className={`bar ${isNavOpen ? "rotate-bar1" : ""}`}></div>
-              <div className={`bar ${isNavOpen ? "hide-bar" : ""}`}></div>
-              <div className={`bar ${isNavOpen ? "rotate-bar2" : ""}`}></div>
-            </div>
-            <div className="nav-links-div">
-              <ul className="nav-links">
-                <li onClick={() => handleNavigation("home")}>
-                  <FaHome className="icon" title="Homepage" />
-                  {isNavOpen && <span>Homepage</span>}
-                </li>
-                <li onClick={() => handleNavigation("editor")}>
-                  <FaCode className="icon" title="Code Editor" />
-                  {isNavOpen && <span>Code Editor</span>}
-                </li>
-                <li onClick={() => handleNavigation("leaderboard")}>
-                  <FaTrophy className="icon" title="Leaderboard" />
-                  {isNavOpen && <span>Leaderboard</span>}
-                </li>
-              </ul>
-            </div>
-            <button className="logout-button-sidenav" onClick={handleLogout}>
-              <FaSignOutAlt className="icon" title="Logout" />
-              {isNavOpen && <span> Logout</span>}
-            </button>
-          </div>
-          <div className="main-content">
-            {currentPage === "home" && (
-              <>
-                <h1>Welcome Back, Coder!</h1>
-                <p>Start coding or check the leaderboard.</p>
-              </>
-            )}
-            {currentPage === "leaderboard" && (
-              <>
-                <LeaderBoard />
-              </>
-            )}
-          </div>
+         <Navbar/>
         </div>
       )}
     </div>

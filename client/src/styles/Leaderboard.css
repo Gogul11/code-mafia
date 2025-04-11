@@ -1,0 +1,141 @@
+
+@keyframes glitch {
+  0%, 100% {
+    text-shadow: 2px 2px #ff0000, -2px -2px #0000ff;
+  }
+  25% {
+    text-shadow: 2px -2px #ff0000, -2px 2px #0000ff;
+  }
+  50% {
+    text-shadow: -2px 2px #ff0000, 2px -2px #0000ff;
+  }
+  75% {
+    text-shadow: -2px -2px #ff0000, 2px 2px #0000ff;
+  }
+}
+
+
+
+/* Wrapper to handle padding */
+.leaderboard-wrapper {
+  padding: 1rem;
+}
+
+/* Main container */
+.leaderboard-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+  padding-top: 60px; 
+}
+
+/* Title */
+.leaderboard-title {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  animation: glitch 1s infinite;
+}
+
+/* Responsive table container */
+.leaderboard-table-wrapper {
+  overflow-x: auto;
+}
+
+/* Table */
+.leaderboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: auto;
+  min-width: 400px;
+}
+
+.leaderboard-table th,
+.leaderboard-table td {
+  padding: 12px;
+  font-size: 1rem;
+  text-align: center;
+  border-bottom: 1px solid #ffd40033;
+}
+
+.leaderboard-table th {
+  animation: glitch 1s infinite;
+}
+
+.rank-cell {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.medal {
+  font-size: 1.2rem;
+}
+
+/* Pagination buttons */
+.leaderboard-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.leaderboard-buttons button {
+  background-color: #1f1f1f;
+  color: #ffd400;
+  border: 2px solid #ffd400;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s ease;
+  box-shadow: 2px 2px #ff0000, -2px -2px #0000ff;
+}
+
+.leaderboard-buttons button:hover {
+  background-color: #ffd400;
+  color: #1f1f1f;
+  transform: scale(1.05);
+  box-shadow: 0 0 10px #ff0000, 0 0 10px #0000ff;
+}
+
+.leaderboard-buttons button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .leaderboard-title {
+    font-size: 2rem;
+  }
+
+  .leaderboard-table th,
+  .leaderboard-table td {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+
+  .leaderboard-buttons button {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .leaderboard-title {
+    font-size: 1.5rem;
+  }
+
+  .leaderboard-buttons {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .leaderboard-buttons button {
+    width: 100%;
+    padding: 10px;
+  }
+}

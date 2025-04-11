@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import "../styles/Leaderboard.css";
+import Navbar from "./Navbar";
 
 const LeaderBoard = () => {
-    const [leaders, setLeaders] = useState([]);
+    const [ten, setTen] = useState(0);
+    const [allLeaders, setAllLeaders] = useState([]);
 
     useEffect(() => {
-        // Fetch leaderboard data from the backend
         const fetchLeaders = async () => {
             try {
-                const response = await axios.get("http://localhost:8080/api/leader"); // Replace with your backend endpoint
-                setLeaders(response.data.data.slice(0, 10)); // Get top 10 teams
+                const response = await axios.get(`${process.env.REACT_APP_SERVER_BASEAPI}/leader`);
+                setAllLeaders(response.data.data);
             } catch (error) {
                 console.error("Error fetching leaderboard data:", error);
             }
@@ -19,107 +21,59 @@ const LeaderBoard = () => {
     }, []);
 
     const getMedal = (index) => {
-        if (index === 0) return "🥇"; // Gold medal
-        if (index === 1) return "🥈"; // Silver medal
-        if (index === 2) return "🥉"; // Bronze medal
+        if (index === 0) return "🥇";
+        if (index === 1) return "🥈";
+        if (index === 2) return "🥉";
         return null;
     };
 
+    const handlePrev = () => {
+        if (ten > 0) setTen(ten - 10);
+    };
+
+    const handleNext = () => {
+        if (ten + 10 < allLeaders.length) setTen(ten + 10);
+    };
+
+    const leaders = allLeaders.slice(ten, ten + 10);
+
     return (
-        <div style={{ padding: "20px", textAlign: "center" }}>
-            <h1
-                style={{
-                    fontSize: "4rem",
-                    position: "relative",
-                    color: "#FFD400",
-                    textShadow: "2px 2px #ff0000, -2px -2px #0000ff",
-                    animation: "glitch 1s infinite",
-                }}
-            >
-                Leaderboard
-            </h1>
-            <table style={{ margin: "0 auto", borderCollapse: "collapse", width: "80%" }}>
-                <thead>
-                    <tr>
-                        <th
-                            style={{
-                                padding: "1vw",
-                                fontSize: "2rem",
-                                color: "#FFD400",
-                                textShadow: "2px 2px #ff0000, -2px -2px #0000ff",
-                                animation: "glitch 1s infinite",
-                            }}
-                        >
-                            Rank
-                        </th>
-                        <th
-                            style={{
-                                padding: "1vw",
-                                fontSize: "2rem",
-                                color: "#FFD400",
-                                textShadow: "2px 2px #ff0000, -2px -2px #0000ff",
-                                animation: "glitch 1s infinite",
-                            }}
-                        >
-                            Team
-                        </th>
-                        <th
-                            style={{
-                                padding: "1vw",
-                                fontSize: "2rem",
-                                color: "#FFD400",
-                                textShadow: "2px 2px #ff0000, -2px -2px #0000ff",
-                                animation: "glitch 1s infinite",
-                            }}
-                        >
-                            Score
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {leaders.map((leader, index) => (
-                        <tr key={leader.team_id} style={{ height: "40px" }}>
-                            <td
-                                style={{
-                                    padding: "1vw",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    gap: "1vw",
-                                    fontSize: "2vh",
-                                    color: "#FFD400",
-                                }}
-                            >
-                                <span>{getMedal(index)}</span>
-                                <span>{index + 1}</span>
-                            </td>
-                            <td style={{ padding: "1vw", fontSize: "2vh", color: "#FFD400" }}>{leader.team_name}</td>
-                            <td style={{ padding: "1vw", fontSize: "2vh", color: "#FFD400" }}>{leader.points}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-            <style>
-                {`
-                    @keyframes glitch {
-                        0% {
-                            text-shadow: 2px 2px #ff0000, -2px -2px #0000ff;
-                        }
-                        25% {
-                            text-shadow: 2px -2px #ff0000, -2px 2px #0000ff;
-                        }
-                        50% {
-                            text-shadow: -2px 2px #ff0000, 2px -2px #0000ff;
-                        }
-                        75% {
-                            text-shadow: -2px -2px #ff0000, 2px 2px #0000ff;
-                        }
-                        100% {
-                            text-shadow: 2px 2px #ff0000, -2px -2px #0000ff;
-                        }
-                    }
-                `}
-            </style>
+        <div className="leaderboard-wrapper">
+            <Navbar />
+            <div className="leaderboard-container">
+                <h1 className="leaderboard-title">Leaderboard</h1>
+                <div className="leaderboard-table-wrapper">
+                    <table className="leaderboard-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Team</th>
+                                <th>Score</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {leaders.map((leader, index) => (
+                                <tr key={leader.team_id}>
+                                    <td className="rank-cell">
+                                        <span className="medal">{getMedal(ten + index)}</span>
+                                        <span>{ten + index + 1}</span>
+                                    </td>
+                                    <td>{leader.name}</td>
+                                    <td>{leader.points}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+                <div className="leaderboard-buttons">
+                    <button onClick={handlePrev} disabled={ten === 0}>
+                        Previous
+                    </button>
+                    <button onClick={handleNext} disabled={ten + 10 >= allLeaders.length}>
+                        Next
+                    </button>
+                </div>
+            </div>
         </div>
     );
 };
