@@ -161,8 +161,16 @@ const CodeEditor = ({ questionId, onSubmissionComplete }) => {
             lineNumbers: "on",
             wordWrap: "on",
             scrollBeyondLastLine: false,
+            readOnly: false,
+            contextmenu: false,
           }}
           theme={theme}
+          onMount={(editor) => {
+            editor.onDidPaste(() => {
+              console.log("Paste action blocked");
+              editor.trigger('keyboard', 'undo', null); // Revert the paste
+            });
+          }}
         />
       </div>
 
