@@ -1,14 +1,19 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import { Server } from "socket.io";
 import http from "http";
-import "dotenv/config";
+import { createClient } from 'redis';
+
 import router from "./src/routes/routes.js";
 import { getLeader } from "./src/controllers/leader.controller.js";
+import auth from "../server/src/routes/auth.route.js";
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8080;
 const server = http.createServer(app);
 
 const io = new Server(server, {
@@ -16,6 +21,13 @@ const io = new Server(server, {
         origin: "http://localhost:3000"
     }
 });
+
+
+const redisClient = createClient();
+redisClient.on("error", (err) => console.error("Redis Client Error", err));
+
+
+await redisClient.connect();
 
 const users = new Map();
 
@@ -27,6 +39,7 @@ io.use((socket, next) => {
     socket.username = username;
     next();
 });
+
 
 io.on("connection", (socket) => {
     console.log(`User connected: ${socket.id}`);
@@ -41,24 +54,69 @@ io.on("connection", (socket) => {
         console.log(`User disconnected: ${socket.id}`);
     });
 
-    socket.on("power-up attack", ({ powerUp, targetUserID, from }) => {
+    
+    socket.on("power-up attack", async ({ powerUp, targetUserID, from }) => {
         console.log(`Power-up "${powerUp}" sent from ${from} to ${targetUserID}`);
 
         if (users.has(targetUserID)) {
+            const targetUser = users.get(targetUserID);
+            const targetUsername = targetUser.username;
+            
+      
+            const key = `powerup:${targetUsername}:${powerUp}`;
+            const expiryTime = 300;
+
+            await redisClient.set(key, JSON.stringify({ from, powerUp }), {
+                EX: expiryTime
+            });
+
             io.to(targetUserID).emit("receive power-up", { powerUp, from });
         }
     });
+    socket.on("get-active-powerups", async () => {
+        const username = socket.username;
+
+        try {
+          
+            const keys = await redisClient.keys(`powerup:${username}:*`);
+
+            const activePowerups = [];
+            for (const key of keys) {
+                const data = await redisClient.get(key);
+                if (data) {
+                   
+                    const ttl = await redisClient.ttl(key);
+                    const powerupData = JSON.parse(data);
+                    
+                 
+                    powerupData.remainingTime = ttl > 0 ? ttl : 60; 
+                    
+                    activePowerups.push(powerupData);
+                }
+            }
+
+            console.log(`Found ${activePowerups.length} active powerups for user ${username}`);
+            socket.emit("apply-active-powerups", activePowerups);
+        } catch (err) {
+            console.error("Error fetching active powerups:", err);
+        }
+    });
 });
+
 
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+
 app.get("/", (req, res) => {
     res.send("<h1>Code Mafia API ENDPOINT</h1>");
 });
 app.use("/api", router);
+app.use("/auth", auth);
+
 setInterval(getLeader, 60000);
+
 
 server.listen(PORT, () => {
     console.log(`The server is listening on port: ${PORT}`);
