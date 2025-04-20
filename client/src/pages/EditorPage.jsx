@@ -20,20 +20,16 @@ const EditorPage = () => {
 
     const [questionSet, setQuestionSet] = useState([]);
 
-    // State for currentQuestion, totalQuestions, and xp
     const [currentQuestion, setCurrentQuestion] = useState(1);
     const [totalQuestions, setTotalQuestions] = useState(10);
     const [xp, setXp] = useState(0);
 
-    //powerups dialog
     const [powerupsDialogOpen, setPowerupsDialogOpen] = useState(false);
 
-    // error and loading
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
 
-    //power ups related___________________________________________________________________________________________________
     const {
         powers,
         teams,
@@ -51,8 +47,6 @@ const EditorPage = () => {
         overlayRef
     } = PowerUpContainer();
 
-    //_______________________________________________________________________________________________________
-
     const loadQuestion = async () => {
         console.log("questions: ", questionSet);
         const question = questionSet[currentQuestion - 1];
@@ -61,14 +55,14 @@ const EditorPage = () => {
         setProblemTitle(`${currentQuestion}. ${question.title}`);
         setProblemDescription(question.description);
 
-        // Convert test_cases object into an array
+       
         const testCasesArray = Object.entries(question.test_cases).map(([key, value]) => ({
             id: key,
             input: value.input,
             expected_output: value.expected_output
         }));
 
-        setTestCaseList(testCasesArray); // Update test case list state
+        setTestCaseList(testCasesArray); 
     };
 
     const getXP = async () => {
@@ -91,7 +85,7 @@ const EditorPage = () => {
 
         getXP()
 
-        // Update all test case results at once
+       
         setTestCaseList(results.results.map(result => ({
             name: result.testCase,
             input: result.input,
@@ -137,7 +131,6 @@ const EditorPage = () => {
                 if (!data.qs || !Array.isArray(data.qs) || data.qs.length === 0) {
                     throw new Error("No questions available.");
                 }
-                //setting states
                 setQuestionSet(data.qs);
                 setTotalQuestions(data.qs.length);
                 setCurrentQuestion(1);
@@ -182,8 +175,6 @@ const EditorPage = () => {
             <div id="overlay" ref={overlayRef}></div>
 
             <div className='main'>
-                {/* <p className='p'>text</p> */}
-
                 <div>
                     <Navbar />
                 </div>
@@ -207,7 +198,7 @@ const EditorPage = () => {
                                 <div
                                     style={{
                                         position: "fixed",
-                                        bottom: open ? "20px" : "20px", // Adjust based on your BottomPanel height
+                                        bottom: open ? "20px" : "20px", 
                                         left: "10%",
                                         transform: "translateX(-50%)",
                                         zIndex: 1000,
@@ -215,7 +206,7 @@ const EditorPage = () => {
                                         justifyContent: "center",
                                         alignItems: "center",
                                         width: "100%",
-                                        pointerEvents: "none", // Let clicks pass through the container
+                                        pointerEvents: "none", 
                                     }}
                                 >
                                     <div
@@ -224,7 +215,7 @@ const EditorPage = () => {
                                             borderRadius: "50%",
                                             padding: "8px",
                                             boxShadow: "0 4px 12px rgba(0, 0, 0, 0.2)",
-                                            pointerEvents: "auto", // Enable clicks on the button
+                                            pointerEvents: "auto",
                                             cursor: "pointer",
                                         }}
                                         onClick={() => setOpen(!open)}
@@ -251,7 +242,7 @@ const EditorPage = () => {
                         />
                     ) : null}
 
-                    {/* Powerups Dialog Component */}
+      
                     {powerupsDialogOpen &&
                         <PowerupsDialog
                             onClose={() => setPowerupsDialogOpen(false)}
@@ -270,4 +261,4 @@ const EditorPage = () => {
 
 export default EditorPage;
 
-//() => setPowerupsDialogOpen(false)
+

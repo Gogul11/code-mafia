@@ -62,24 +62,43 @@ function PowerUpContainer() {
         }
     }
 
-    function executePowerUp(effect) {
+    function executePowerUp(effect, remainingTime = 60) {
+     
+        const duration = remainingTime * 1000;
+        
         if (effect === "windmill") {
             setIsRotating(true);
+            
+            
+            if (windmillTimerRef.current) {
+                clearTimeout(windmillTimerRef.current);
+            }
+           
+            windmillTimerRef.current = setTimeout(() => {
+                setIsRotating(false);
+            }, duration);
         }
         else if (effect === "flip") {
             document.body.classList.add("flip");
-            setTimeout(() => { document.body.classList.remove("flip") }, 1000 * 60);
+            setTimeout(() => { document.body.classList.remove("flip") }, duration);
         }
         else if (effect === "freeze") {
-            overlayRef.current.classList.add("overlay");
-            setTimeout(() => { overlayRef.current.classList.remove("overlay") }, 1000 * 60);
+            if (overlayRef.current) {
+                overlayRef.current.classList.add("overlay");
+                setTimeout(() => { 
+                    if (overlayRef.current) {
+                        overlayRef.current.classList.remove("overlay") 
+                    }
+                }, duration);
+            }
         }
         else if (effect === "glitch") {
             setPopup(true);
+            
         }
         else if (effect === "blind") {
             document.body.classList.add("foggy");
-            setTimeout(() => { document.body.classList.remove("foggy") }, 1000 * 60);
+            setTimeout(() => { document.body.classList.remove("foggy") }, duration);
         }
     }
 
@@ -100,10 +119,14 @@ function PowerUpContainer() {
         setClickedTeam(null);
     }
 
+   
+    const windmillTimerRef = useRef(null);
+    const effectTimersRef = useRef([]);
+
     useEffect(() => {
         if (isRotating) {
             const rotate = () => {
-                angleRef.current += 1; // Adjust for speed
+                angleRef.current += 1; 
                 document.body.style.transform = `rotate(${angleRef.current}deg)`;
                 document.body.style.transformOrigin = "50% 50%";
                 requestRef.current = requestAnimationFrame(rotate);
@@ -111,13 +134,8 @@ function PowerUpContainer() {
 
             requestRef.current = requestAnimationFrame(rotate);
 
-            const timer = setTimeout(() => {
-                setIsRotating(false);
-            }, 1000 * 60);
-
             return () => {
                 cancelAnimationFrame(requestRef.current);
-                clearTimeout(timer);
                 document.body.style.transform = "none";
             };
         }
@@ -136,7 +154,6 @@ function PowerUpContainer() {
             }
         }
 
-        // getPowerUps();
         initSocketConnection();
 
         socket.on("users", (users) => {
@@ -151,10 +168,25 @@ function PowerUpContainer() {
             alert(`You were attacked with ${powerUp} by ${from}!`);
         });
 
+        socket.on("apply-active-powerups", (activePowerups) => {
+            console.log("Active powerups:", activePowerups);
+            activePowerups.forEach(powerup => {
+                executePowerUp(powerup.powerUp, powerup.remainingTime);
+            });
+        });
+
+  
+        socket.emit("get-active-powerups");
 
         return () => {
             socket.off("users");
             socket.off("receive power-up");
+            socket.off("apply-active-powerups");
+            
+            
+            if (windmillTimerRef.current) {
+                clearTimeout(windmillTimerRef.current);
+            }
         };
     }, []);
 
