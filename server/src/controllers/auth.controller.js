@@ -15,6 +15,7 @@ const login = async (req, res) => {
 
     if (userError || !user) {
       console.log('Invalid credentials: user not found or error occurred');
+      console.error('User error:', userError);
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
