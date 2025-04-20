@@ -1,6 +1,6 @@
 import { createClient } from 'redis';
 
-const client = redis.createClient({
+const client = createClient({
     host: "redis",
     port: 6379,
     password: process.env.REDIS_PASSWORD,
