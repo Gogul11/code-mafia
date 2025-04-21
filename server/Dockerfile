@@ -15,4 +15,4 @@ COPY . .
 EXPOSE 8080
 
 # Start the backend
-CMD [ "npm", "start" ]
+CMD [ "node", "server.js" ]

@@ -10,7 +10,7 @@ import { createClient } from 'redis';
 
 import router from "./src/routes/routes.js";
 import { getLeader } from "./src/controllers/leader.controller.js";
-import auth from "../server/src/routes/auth.route.js";
+import auth from "./src/routes/auth.route.js";
 
 const app = express();
 const PORT = process.env.PORT || 8080;
