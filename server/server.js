@@ -6,7 +6,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import { Server } from "socket.io";
 import http from "http";
-import { createClient } from 'redis';
+import client from './src/config/redisdb.js';
 
 import router from "./src/routes/routes.js";
 import { getLeader } from "./src/controllers/leader.controller.js";
@@ -27,12 +27,6 @@ const io = new Server(server, {
     }
 });
 
-
-const redisClient = createClient();
-redisClient.on("error", (err) => console.error("Redis Client Error", err));
-
-
-await redisClient.connect();
 
 const users = new Map();
 
@@ -71,7 +65,7 @@ io.on("connection", (socket) => {
             const key = `powerup:${targetUsername}:${powerUp}`;
             const expiryTime = 300;
 
-            await redisClient.set(key, JSON.stringify({ from, powerUp }), {
+            await client.set(key, JSON.stringify({ from, powerUp }), {
                 EX: expiryTime
             });
 
@@ -83,14 +77,14 @@ io.on("connection", (socket) => {
 
         try {
           
-            const keys = await redisClient.keys(`powerup:${username}:*`);
+            const keys = await client.keys(`powerup:${username}:*`);
 
             const activePowerups = [];
             for (const key of keys) {
-                const data = await redisClient.get(key);
+                const data = await client.get(key);
                 if (data) {
                    
-                    const ttl = await redisClient.ttl(key);
+                    const ttl = await client.ttl(key);
                     const powerupData = JSON.parse(data);
                     
                  
