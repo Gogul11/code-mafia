@@ -1,0 +1,13 @@
+# Node modules (reinstall inside container)
+node_modules
+
+# Environment files (already loaded via env_file in compose)
+.env
+
+# Docker-related
+Dockerfile
+.dockerignore
+
+# Git
+.git
+.gitignore
