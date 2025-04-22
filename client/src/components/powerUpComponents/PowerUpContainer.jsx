@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import socket from "../../socket.js";
 
@@ -13,9 +13,11 @@ function PowerUpContainer() {
         { id: 7, name: "System Overload", description: "", effect: "glitch", icon: "/assets/systemoverload.png" },
         { id: 8, name: "Innocency", description: "", effect: "innocency", icon: "/assets/innocency.png" },
         { id: 9, name: "Zero Kelvin", description: "", effect: "freeze", icon: "/assets/snowflake.svg" },
+        { id: 10, name: "Shield", description: "", effect: "shield", icon: "/assets/shield.svg" },
     ]);
     const [teams, setTeams] = useState([]);
     const [username, setUsername] = useState("");
+    const [socketUser, setSocketUser] = useState("");
     const [clickedPower, setClickedPower] = useState("");
     const [clickedTeam, setClickedTeam] = useState(null);
 
@@ -27,6 +29,7 @@ function PowerUpContainer() {
     const [popup, setPopup] = useState(false);
     const [popupCount, setPopupCount] = useState(0)
     const popupRef = useRef(null);
+    const [coins, setCoins] = useState(0);
 
     async function initSocketConnection() {
         const token = localStorage.getItem('token');
@@ -62,18 +65,30 @@ function PowerUpContainer() {
         }
     }
 
+    async function getCoins() {
+        axios.get(`${process.env.REACT_APP_SERVER_BASEAPI}/game/getcoins`, {
+            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+        }).then(response => {
+            if (response.data && response.data.coins !== undefined) {
+                setCoins(response.data.coins);
+            }
+        }).catch(err => {
+            console.error("Failed to fetch coins:", err);
+        });
+    }
+
     function executePowerUp(effect, remainingTime = 60) {
-     
+
         const duration = remainingTime * 1000;
-        
+
         if (effect === "windmill") {
             setIsRotating(true);
-            
-            
+
+
             if (windmillTimerRef.current) {
                 clearTimeout(windmillTimerRef.current);
             }
-           
+
             windmillTimerRef.current = setTimeout(() => {
                 setIsRotating(false);
             }, duration);
@@ -85,9 +100,9 @@ function PowerUpContainer() {
         else if (effect === "freeze") {
             if (overlayRef.current) {
                 overlayRef.current.classList.add("overlay");
-                setTimeout(() => { 
+                setTimeout(() => {
                     if (overlayRef.current) {
-                        overlayRef.current.classList.remove("overlay") 
+                        overlayRef.current.classList.remove("overlay")
                     }
                 }, duration);
             }
@@ -182,30 +197,45 @@ function PowerUpContainer() {
     }
 
     function handleApply() {
-        if (!clickedPower || !clickedTeam) {
-            alert("Please select a power and a team.");
+        if (clickedPower!=="shield" && (!clickedPower || !clickedTeam)) {
+            alert("Please select a power and team.");
             return;
         }
 
-        socket.emit("power-up attack", {
-            powerUp: clickedPower,
-            targetUserID: clickedTeam.userID,
-            from: username
-        });
+        if (clickedPower!=="shield") {
+            socket.emit("power-up attack", {
+                powerUp: clickedPower,
+                targetUserID: clickedTeam.userID,
+                from: username,
+                token: localStorage.getItem("token")
+            });
+            alert(`You used ${clickedPower} on ${clickedTeam.username}`);
+        } else {
+            console.log(socketUser);
+            console.log(username);
+            socket.emit("power-up attack", {
+                powerUp: clickedPower,
+                from: username,
+                targetUserID: socketUser.userID,
+                token: localStorage.getItem("token")
+            });
+            alert(`You used ${clickedPower}`);
+        }
 
-        alert(`You used ${clickedPower} on ${clickedTeam.username}`);
+        
         setClickedPower("");
         setClickedTeam(null);
+        getCoins();
     }
 
-   
+
     const windmillTimerRef = useRef(null);
     const effectTimersRef = useRef([]);
 
     useEffect(() => {
         if (isRotating) {
             const rotate = () => {
-                angleRef.current += 1; 
+                angleRef.current += 1;
                 document.body.style.transform = `rotate(${angleRef.current}deg)`;
                 document.body.style.transformOrigin = "50% 50%";
                 requestRef.current = requestAnimationFrame(rotate);
@@ -223,21 +253,14 @@ function PowerUpContainer() {
 
 
     useEffect(() => {
-        async function getPowerUps() {
-            try {
-                const response = await axios.get(process.env.REACT_APP_SERVER_BASEAPI + "/game/getpowers");
-                console.log("data", response.data.data);
-                if (response.data) setPowers(response.data.data);
-            } catch (error) {
-                console.error(error);
-            }
-        }
-
         initSocketConnection();
 
         socket.on("users", (users) => {
             users.forEach((user) => {
                 user.isCurrentUser = user.userID === socket.id;
+                if (user.isCurrentUser) {
+                    setSocketUser(user);
+                }
             });
             setTeams(users);
         });
@@ -247,6 +270,15 @@ function PowerUpContainer() {
             alert(`You were attacked with ${powerUp} by ${from}!`);
         });
 
+        socket.on("coins-error", ({ message }) => {
+            alert(message);
+        });
+
+        socket.on("blocked-by-shield", ({ message }) => {
+            alert(message);
+        });
+        
+
         socket.on("apply-active-powerups", (activePowerups) => {
             console.log("Active powerups:", activePowerups);
             activePowerups.forEach(powerup => {
@@ -254,15 +286,15 @@ function PowerUpContainer() {
             });
         });
 
-  
+
         socket.emit("get-active-powerups");
 
         return () => {
             socket.off("users");
             socket.off("receive power-up");
             socket.off("apply-active-powerups");
-            
-            
+
+
             if (windmillTimerRef.current) {
                 clearTimeout(windmillTimerRef.current);
             }
@@ -277,6 +309,8 @@ function PowerUpContainer() {
         clickedTeam,
         popup,
         popupCount,
+        coins,
+        getCoins,
         setClickedPower,
         setClickedTeam,
         handlePopupClose,

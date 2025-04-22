@@ -85,6 +85,10 @@
   transform: scale(1.1);
   filter: drop-shadow(0 0 10px #ffcc00);
 }
+.power-button.selected span {
+  color: #00ffea; /* bright cyan-blue for contrast */
+}
+
 
 /* Teams Column */
 .teams-column {
@@ -106,6 +110,13 @@
   color: #FFD400;
   background-color: transparent;
   transition: background 0.2s;
+}
+
+.team-button.selected {
+  background: #FFD400;
+  color: #0f1525;
+  font-weight: bold;
+  box-shadow: 0 0 10px #FFD400;
 }
 
 /* Hover Effect */
@@ -257,4 +268,20 @@
     width: 100%;
     margin-top: 10px;
   }
+}
+
+.coin-icon {
+  width: 6vh;
+  height: 6vh;
+  filter: drop-shadow(0 0 4px #FFD400);
+}
+
+.coins-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.coin-count {
+  color: #ff5252;
 }

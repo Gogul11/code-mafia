@@ -6,7 +6,6 @@ import jwt from 'jsonwebtoken';
 
 export async function runCode(req, res, next) {
     try {
-        console.log(req.body);
         const header = {
             "Content-Type": "application/json",
             "X-Auth-Token": process.env.X_AUTH_TOKEN,
@@ -26,8 +25,6 @@ export async function runCode(req, res, next) {
             do {
                 response = await axios.get(process.env.JUDGE_ZERO_API + "/submissions/" + submission_token);
             } while (response.data.status.id <= 2);
-            console.log(response.data);
-
             res.status(200).json({
                 "stdout": response.data.stdout,
                 "stderr": response.data.stderr,
@@ -145,7 +142,6 @@ export async function getPoints(req, res, next) {
 }
 
 
-
 // Helper Functions
 function validateRequest(question_id) {
     return question_id && typeof question_id === "number";
@@ -254,7 +250,6 @@ async function storeSubmission({ team_id, question_id, challenge, source_code, p
 
     const points_awarded = Math.round((passed / total) * challenge.points);
 
-    // Fetch the current submission
     const { data: existing, error: fetchError } = await supabase
         .from("submissions")
         .select("id, points_awarded")
@@ -278,21 +273,27 @@ async function storeSubmission({ team_id, question_id, challenge, source_code, p
 
         if (insertError) throw insertError;
 
-        // Fetch current team score
+        // Fetch current team score and coins
         const { data: teamData, error: teamFetchError } = await supabase
             .from("teams")
-            .select("points")
+            .select("points, coins")
             .eq("id", team_id)
             .single();
 
         if (teamFetchError) throw teamFetchError;
 
         const newScore = teamData.points + points_awarded;
+        let updatedFields = { points: newScore };
 
-        // Update team points
+        // Award 5 coins if fully passed
+        if (passed === total) {
+            updatedFields.coins = teamData.coins + 5;
+        }
+
+        // Update team points and maybe coins
         const { error: teamUpdateError } = await supabase
             .from("teams")
-            .update({ points: newScore })
+            .update(updatedFields)
             .eq("id", team_id);
 
         if (teamUpdateError) throw teamUpdateError;
@@ -315,7 +316,7 @@ async function storeSubmission({ team_id, question_id, challenge, source_code, p
         // Fetch current team point
         const { data: teamData, error: teamFetchError } = await supabase
             .from("teams")
-            .select("points")
+            .select("points, coins")
             .eq("id", team_id)
             .single();
 
@@ -323,13 +324,18 @@ async function storeSubmission({ team_id, question_id, challenge, source_code, p
 
         const newScore = teamData.points + scoreDiff;
 
+        let updatedFields = { points: newScore };
+        // Award 5 coins if fully passed for the first time
+        if (existing.points_awarded !== challenge.points && passed === total) {
+            updatedFields.coins = teamData.coins + 5;
+        }
+
         // Update team point
         const { error: teamUpdateError } = await supabase
             .from("teams")
-            .update({ points: newScore })
+            .update(updatedFields)
             .eq("id", team_id);
 
         if (teamUpdateError) throw teamUpdateError;
     }
 }
-

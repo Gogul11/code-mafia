@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import CodeEditor from '../components/codeEditorComponents/CodeEditor.jsx';
 import CodeDescriptionPane from '../components/codeEditorComponents/CodeDescriptionPane.jsx';
-import Output from '../components/codeEditorComponents/Output.jsx';
 import BottomPanel from '../components/codeEditorComponents/BottomPanel.jsx';
 import Navbar from '../components/Navbar.jsx';
 import '../styles/editorPage.css'
@@ -39,6 +38,8 @@ const EditorPage = () => {
         clickedTeam,
         popup,
         popupCount,
+        coins,
+        getCoins,
         setClickedPower,
         setClickedTeam,
         handlePopupClose,
@@ -77,13 +78,15 @@ const EditorPage = () => {
         });
     }
 
+
     const onSubmissionComplete = (results) => {
         console.log("results: ", results)
         if (results.error) {
             return;
         }
 
-        getXP()
+        getXP();
+        getCoins();
 
        
         setTestCaseList(results.results.map(result => ({
@@ -116,6 +119,7 @@ const EditorPage = () => {
         };
         verifyToken();
         getXP();
+        getCoins();
     }, []);
 
     useEffect(() => {
@@ -250,7 +254,8 @@ const EditorPage = () => {
                             teams={teams}
                             onPowerSelect={setClickedPower}
                             onTeamSelect={setClickedTeam}
-                            usePower={handleApply} />
+                            usePower={handleApply}
+                            coins={coins} />
                     }
                 </div>
 
