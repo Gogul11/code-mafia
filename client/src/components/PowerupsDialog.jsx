@@ -19,11 +19,10 @@ const PowerupsDialog = ({ onClose, powers, teams, onPowerSelect, onTeamSelect, u
     <div className="powerups-dialog-overlay">
       <div className="powerups-dialog">
         <h2>Powerups</h2>
-        <p>Select a power-up and a target team.</p>
+        <p>Select a power-up{selectedPower ? ' and a target team' : ''}.</p>
 
         <div className="powerups-container">
           {/* Power-ups column */}
-
           <div className="powerups-column">
             {powers.map((power) => (
               <button
@@ -37,25 +36,35 @@ const PowerupsDialog = ({ onClose, powers, teams, onPowerSelect, onTeamSelect, u
             ))}
           </div>
 
-          {/* Teams column */}
-          <div className="teams-column">
-            <h3>Choose who to attack</h3>
-            {teams
-              .filter((team) => !team.isCurrentUser)
-              .map((team) => (
-                <button
-                  key={team.userID}
-                  className={`team-button ${selectedTeam === team ? 'selected' : ''}`}
-                  onClick={() => handleTeamClick(team)}
-                >
-                  {team.username}
-                </button>
-              ))}
-          </div>
+          {/* Teams column (only after selecting a power-up) */}
+          {selectedPower && (
+            <div className="teams-column">
+              <h3>Choose who to attack</h3>
+              {teams
+                .filter((team) => !team.isCurrentUser)
+                .map((team) => (
+                  <button
+                    key={team.userID}
+                    className={`team-button ${selectedTeam === team ? 'selected' : ''}`}
+                    onClick={() => handleTeamClick(team)}
+                  >
+                    {team.username}
+                  </button>
+                ))}
+            </div>
+          )}
         </div>
 
-        <button className="close-button" onClick={onClose}>Close</button>
-        <button className="execute-button" onClick={usePower}>Use Power</button>
+        <div className="action-buttons">
+          <button className="close-button" onClick={onClose}>Close</button>
+          <button
+            className="execute-button"
+            onClick={usePower}
+            disabled={!selectedPower || !selectedTeam}
+          >
+            Use Power
+          </button>
+        </div>
       </div>
     </div>
   );
