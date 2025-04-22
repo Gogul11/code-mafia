@@ -24,6 +24,7 @@ const EditorPage = () => {
     const [xp, setXp] = useState(0);
 
     const [powerupsDialogOpen, setPowerupsDialogOpen] = useState(false);
+    const [coins, setCoins] = useState(0);
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -76,13 +77,26 @@ const EditorPage = () => {
         });
     }
 
+    const getCoins = async () => {
+        axios.get(`${process.env.REACT_APP_SERVER_BASEAPI}/game/getcoins`, {
+            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+        }).then(response => {
+            if (response.data && response.data.coins !== undefined) {
+                setCoins(response.data.coins);
+            }
+        }).catch(err => {
+            console.error("Failed to fetch coins:", err);
+        });
+    }
+
     const onSubmissionComplete = (results) => {
         console.log("results: ", results)
         if (results.error) {
             return;
         }
 
-        getXP()
+        getXP();
+        getCoins();
 
        
         setTestCaseList(results.results.map(result => ({
@@ -115,6 +129,7 @@ const EditorPage = () => {
         };
         verifyToken();
         getXP();
+        getCoins();
     }, []);
 
     useEffect(() => {
@@ -249,7 +264,8 @@ const EditorPage = () => {
                             teams={teams}
                             onPowerSelect={setClickedPower}
                             onTeamSelect={setClickedTeam}
-                            usePower={handleApply} />
+                            usePower={handleApply}
+                            coins={coins} />
                     }
                 </div>
 

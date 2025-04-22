@@ -13,6 +13,7 @@ function PowerUpContainer() {
         { id: 7, name: "System Overload", description: "", effect: "glitch", icon: "/assets/systemoverload.png" },
         { id: 8, name: "Innocency", description: "", effect: "innocency", icon: "/assets/innocency.png" },
         { id: 9, name: "Zero Kelvin", description: "", effect: "freeze", icon: "/assets/snowflake.svg" },
+        { id: 10, name: "Shield", description: "", effect:"shield", icon: "/assets/shield.svg"},
     ]);
     const [teams, setTeams] = useState([]);
     const [username, setUsername] = useState("");

@@ -269,3 +269,19 @@
     margin-top: 10px;
   }
 }
+
+.coin-icon {
+  width: 6vh;
+  height: 6vh;
+  filter: drop-shadow(0 0 4px #FFD400);
+}
+
+.coins-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.coin-count {
+  color: #ff5252;
+}
