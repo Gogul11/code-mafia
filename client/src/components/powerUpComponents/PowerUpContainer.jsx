@@ -94,53 +94,91 @@ function PowerUpContainer() {
         }
 
         else if (effect === "glitch") {
-            const glitchDuration = duration; // usually 60s
-            const glitchInterval = 300;
-            let glitchEndTime = Date.now() + glitchDuration;
+            const glitchEnd = Date.now() + duration;
         
             document.body.classList.add("glitching");
         
-            const glitchPopups = setInterval(() => {
-                if (Date.now() > glitchEndTime) {
-                    clearInterval(glitchPopups);
-                    cleanupGlitch();
+            const glitchInterval = setInterval(() => {
+                if (Date.now() > glitchEnd) {
+                    clearInterval(glitchInterval);
+                    document.body.classList.remove("glitching");
                     return;
                 }
-        
-                const popup = document.createElement("div");
-                popup.className = "glitch-popup";
-                popup.textContent = "!!GL!TCH!!";
-        
-                popup.style.top = `${Math.random() * 90}vh`;
-                popup.style.left = `${Math.random() * 90}vw`;
-                popup.style.fontSize = `${12 + Math.random() * 20}px`;
-        
-                document.body.appendChild(popup);
-        
-                setTimeout(() => {
-                    popup.remove();
-                }, 4000); // remove individual popup after 4s
-            }, glitchInterval);
+                flickerText();
+            }, 300);
         
             setTimeout(() => {
-                clearInterval(glitchPopups);
-                cleanupGlitch();
-            }, glitchDuration);
+                clearInterval(glitchInterval);
+                document.body.classList.remove("glitching");
+            }, duration);
         }
-        
+
         else if (effect === "blind") {
             document.body.classList.add("foggy");
             setTimeout(() => { document.body.classList.remove("foggy") }, duration);
         }
 
-        else if (effect == "wall-breaker") {
-            
+        else if (effect === "zip-bomb") {
+            const bombEnd = Date.now() + duration;
+        
+            let zipInterval = setInterval(() => {
+                if (Date.now() > bombEnd) {
+                    clearInterval(zipInterval);
+                    return;
+                }
+        
+                createZipPopup();
+            }, 900);
+        
+            setTimeout(() => {
+                clearInterval(zipInterval);
+                document.querySelectorAll(".zip-popup").forEach(el => el.remove());
+            }, duration);
         }
+        
     }
 
-    function cleanupGlitch() {
-        document.body.classList.remove("glitching");
-        document.querySelectorAll(".glitch-popup").forEach(el => el.remove());
+    function flickerText() {
+        const elements = document.querySelectorAll("p, span, h1, h2, h3, li, button");
+        const element = elements[Math.floor(Math.random() * elements.length)];
+    
+        if (!element || element.textContent.length < 4) return;
+    
+        const original = element.textContent;
+        const glitched = original.split('').map(char =>
+            Math.random() > 0.7 ? String.fromCharCode(33 + Math.floor(Math.random() * 94)) : char
+        ).join('');
+    
+        element.textContent = glitched;
+    
+        setTimeout(() => {
+            element.textContent = original;
+        }, 600);
+    }
+
+    function createZipPopup() {
+        const popup = document.createElement("div");
+        popup.className = "zip-popup";
+        popup.style.top = `${Math.random() * (window.innerHeight - 150)}px`;
+        popup.style.left = `${Math.random() * (window.innerWidth - 200)}px`;
+    
+        // Close button
+        const close = document.createElement("span");
+        close.textContent = "×";
+        close.className = "zip-popup-close";
+        close.onclick = () => popup.remove();
+    
+        const header = document.createElement("div");
+        header.className = "zip-popup-header";
+        header.textContent = "Extracting...";
+    
+        const message = document.createElement("div");
+        message.textContent = "Unzipping layer.zip. Please wait...";
+    
+        popup.appendChild(close);
+        popup.appendChild(header);
+        popup.appendChild(message);
+        document.body.appendChild(popup);
     }
 
     function handleApply() {
