@@ -65,7 +65,7 @@ const PowerupsDialog = ({ onClose, powers, teams, onPowerSelect, onTeamSelect, u
           <button
             className="execute-button"
             onClick={usePower}
-            disabled={!selectedPower || !selectedTeam}
+            disabled={!selectedPower}
           >
             Use Power
           </button>

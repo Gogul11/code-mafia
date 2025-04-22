@@ -11,6 +11,8 @@ import client from './src/config/redisdb.js';
 import router from "./src/routes/routes.js";
 import { getLeader } from "./src/controllers/leader.controller.js";
 import auth from "./src/routes/auth.route.js";
+import jwt from "jsonwebtoken";
+import { getCoinsByTeamId, updateCoins } from './src/utils/coin.js';
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -53,43 +55,69 @@ io.on("connection", (socket) => {
         console.log(`User disconnected: ${socket.id}`);
     });
 
-    
-    socket.on("power-up attack", async ({ powerUp, targetUserID, from }) => {
-        console.log(`Power-up "${powerUp}" sent from ${from} to ${targetUserID}`);
 
+    socket.on("power-up attack", async ({ powerUp, targetUserID, from, token }) => {
+        console.log(`Power-up "${powerUp}" sent from ${from} to ${targetUserID}`);
+        
+        const decoded = jwt.verify(token, process.env.SECRET_KEY);
+        const team_id = decoded.team_id;
+    
+        const avlblCoins = await getCoinsByTeamId(team_id);
+        if (avlblCoins === null) {
+            console.error("Error fetching coins for team:", team_id);
+            return;
+        }
+        if (avlblCoins < 5) {
+            socket.emit("coins-error", { message: "Not enough coins" });
+            return;
+        }
+    
         if (users.has(targetUserID)) {
             const targetUser = users.get(targetUserID);
             const targetUsername = targetUser.username;
-            
-      
+    
+            const shieldKey = `powerup:${targetUsername}:shield`;
+    
+            // Check if shield is active
+            const hasShield = await client.exists(shieldKey);
+            if (hasShield && powerUp !== "shield") {
+                socket.emit("blocked-by-shield", { message: `${targetUsername} has an active shield!` });
+                return;
+            }
+    
             const key = `powerup:${targetUsername}:${powerUp}`;
-            const expiryTime = 300;
-
+            const expiryTime = powerUp === "shield" ? 300 : 60;
+    
             await client.set(key, JSON.stringify({ from, powerUp }), {
                 EX: expiryTime
             });
-
-            io.to(targetUserID).emit("receive power-up", { powerUp, from });
+    
+            if (powerUp !== "shield") {
+                io.to(targetUserID).emit("receive power-up", { powerUp, from });
+            }
+    
+            await updateCoins(team_id, avlblCoins - 5);
         }
     });
+    
     socket.on("get-active-powerups", async () => {
         const username = socket.username;
 
         try {
-          
+
             const keys = await client.keys(`powerup:${username}:*`);
 
             const activePowerups = [];
             for (const key of keys) {
                 const data = await client.get(key);
                 if (data) {
-                   
+
                     const ttl = await client.ttl(key);
                     const powerupData = JSON.parse(data);
-                    
-                 
-                    powerupData.remainingTime = ttl > 0 ? ttl : 60; 
-                    
+
+
+                    powerupData.remainingTime = ttl > 0 ? ttl : 60;
+
                     activePowerups.push(powerupData);
                 }
             }
