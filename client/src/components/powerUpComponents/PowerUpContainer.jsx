@@ -92,14 +92,55 @@ function PowerUpContainer() {
                 }, duration);
             }
         }
+
         else if (effect === "glitch") {
-            setPopup(true);
-            
+            const glitchDuration = duration; // usually 60s
+            const glitchInterval = 300;
+            let glitchEndTime = Date.now() + glitchDuration;
+        
+            document.body.classList.add("glitching");
+        
+            const glitchPopups = setInterval(() => {
+                if (Date.now() > glitchEndTime) {
+                    clearInterval(glitchPopups);
+                    cleanupGlitch();
+                    return;
+                }
+        
+                const popup = document.createElement("div");
+                popup.className = "glitch-popup";
+                popup.textContent = "!!GL!TCH!!";
+        
+                popup.style.top = `${Math.random() * 90}vh`;
+                popup.style.left = `${Math.random() * 90}vw`;
+                popup.style.fontSize = `${12 + Math.random() * 20}px`;
+        
+                document.body.appendChild(popup);
+        
+                setTimeout(() => {
+                    popup.remove();
+                }, 4000); // remove individual popup after 4s
+            }, glitchInterval);
+        
+            setTimeout(() => {
+                clearInterval(glitchPopups);
+                cleanupGlitch();
+            }, glitchDuration);
         }
+        
         else if (effect === "blind") {
             document.body.classList.add("foggy");
             setTimeout(() => { document.body.classList.remove("foggy") }, duration);
         }
+
+        else if (effect == "wall-breaker") {
+            
+        }
+    }
+
+    function cleanupGlitch() {
+        document.body.classList.remove("glitching");
+        document.querySelectorAll(".glitch-popup").forEach(el => el.remove());
     }
 
     function handleApply() {
