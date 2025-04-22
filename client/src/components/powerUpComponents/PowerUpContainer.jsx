@@ -17,6 +17,7 @@ function PowerUpContainer() {
     ]);
     const [teams, setTeams] = useState([]);
     const [username, setUsername] = useState("");
+    const [socketUser, setSocketUser] = useState("");
     const [clickedPower, setClickedPower] = useState("");
     const [clickedTeam, setClickedTeam] = useState(null);
 
@@ -64,7 +65,7 @@ function PowerUpContainer() {
         }
     }
 
-    async function getCoins(){
+    async function getCoins() {
         axios.get(`${process.env.REACT_APP_SERVER_BASEAPI}/game/getcoins`, {
             headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
         }).then(response => {
@@ -117,18 +118,32 @@ function PowerUpContainer() {
     }
 
     function handleApply() {
-        if (!clickedPower || !clickedTeam) {
-            alert("Please select a power and a team.");
+        if (clickedPower!=="shield" && (!clickedPower || !clickedTeam)) {
+            alert("Please select a power and team.");
             return;
         }
 
-        socket.emit("power-up attack", {
-            powerUp: clickedPower,
-            targetUserID: clickedTeam.userID,
-            from: username
-        });
+        if (clickedPower!=="shield") {
+            socket.emit("power-up attack", {
+                powerUp: clickedPower,
+                targetUserID: clickedTeam.userID,
+                from: username,
+                token: localStorage.getItem("token")
+            });
+            alert(`You used ${clickedPower} on ${clickedTeam.username}`);
+        } else {
+            console.log(socketUser);
+            console.log(username);
+            socket.emit("power-up attack", {
+                powerUp: clickedPower,
+                from: username,
+                targetUserID: socketUser.userID,
+                token: localStorage.getItem("token")
+            });
+            alert(`You used ${clickedPower}`);
+        }
 
-        alert(`You used ${clickedPower} on ${clickedTeam.username}`);
+        
         setClickedPower("");
         setClickedTeam(null);
         getCoins();
@@ -159,21 +174,14 @@ function PowerUpContainer() {
 
 
     useEffect(() => {
-        async function getPowerUps() {
-            try {
-                const response = await axios.get(process.env.REACT_APP_SERVER_BASEAPI + "/game/getpowers");
-                console.log("data", response.data.data);
-                if (response.data) setPowers(response.data.data);
-            } catch (error) {
-                console.error(error);
-            }
-        }
-
         initSocketConnection();
 
         socket.on("users", (users) => {
             users.forEach((user) => {
                 user.isCurrentUser = user.userID === socket.id;
+                if (user.isCurrentUser) {
+                    setSocketUser(user);
+                }
             });
             setTeams(users);
         });
@@ -182,6 +190,15 @@ function PowerUpContainer() {
             executePowerUp(powerUp);
             alert(`You were attacked with ${powerUp} by ${from}!`);
         });
+
+        socket.on("coins-error", ({ message }) => {
+            alert(message);
+        });
+
+        socket.on("blocked-by-shield", ({ message }) => {
+            alert(message);
+        });
+        
 
         socket.on("apply-active-powerups", (activePowerups) => {
             console.log("Active powerups:", activePowerups);
