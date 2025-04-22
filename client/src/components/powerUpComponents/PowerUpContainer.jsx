@@ -267,7 +267,9 @@ function PowerUpContainer() {
 
         socket.on("receive power-up", ({ powerUp, from }) => {
             executePowerUp(powerUp);
-            alert(`You were attacked with ${powerUp} by ${from}!`);
+            if (powerUp!=="shield") {
+                alert(`You were attacked with ${powerUp} by ${from}!`);
+            }
         });
 
         socket.on("coins-error", ({ message }) => {
