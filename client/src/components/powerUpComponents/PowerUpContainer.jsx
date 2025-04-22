@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import socket from "../../socket.js";
 
@@ -13,6 +13,7 @@ function PowerUpContainer() {
         { id: 7, name: "System Overload", description: "", effect: "glitch", icon: "/assets/systemoverload.png" },
         { id: 8, name: "Innocency", description: "", effect: "innocency", icon: "/assets/innocency.png" },
         { id: 9, name: "Zero Kelvin", description: "", effect: "freeze", icon: "/assets/snowflake.svg" },
+        { id: 10, name: "Shield", description: "", effect: "shield", icon: "/assets/shield.svg" },
     ]);
     const [teams, setTeams] = useState([]);
     const [username, setUsername] = useState("");
@@ -27,6 +28,7 @@ function PowerUpContainer() {
     const [popup, setPopup] = useState(false);
     const [popupCount, setPopupCount] = useState(0)
     const popupRef = useRef(null);
+    const [coins, setCoins] = useState(0);
 
     async function initSocketConnection() {
         const token = localStorage.getItem('token');
@@ -62,18 +64,30 @@ function PowerUpContainer() {
         }
     }
 
+    async function getCoins(){
+        axios.get(`${process.env.REACT_APP_SERVER_BASEAPI}/game/getcoins`, {
+            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+        }).then(response => {
+            if (response.data && response.data.coins !== undefined) {
+                setCoins(response.data.coins);
+            }
+        }).catch(err => {
+            console.error("Failed to fetch coins:", err);
+        });
+    }
+
     function executePowerUp(effect, remainingTime = 60) {
-     
+
         const duration = remainingTime * 1000;
-        
+
         if (effect === "windmill") {
             setIsRotating(true);
-            
-            
+
+
             if (windmillTimerRef.current) {
                 clearTimeout(windmillTimerRef.current);
             }
-           
+
             windmillTimerRef.current = setTimeout(() => {
                 setIsRotating(false);
             }, duration);
@@ -85,16 +99,16 @@ function PowerUpContainer() {
         else if (effect === "freeze") {
             if (overlayRef.current) {
                 overlayRef.current.classList.add("overlay");
-                setTimeout(() => { 
+                setTimeout(() => {
                     if (overlayRef.current) {
-                        overlayRef.current.classList.remove("overlay") 
+                        overlayRef.current.classList.remove("overlay")
                     }
                 }, duration);
             }
         }
         else if (effect === "glitch") {
             setPopup(true);
-            
+
         }
         else if (effect === "blind") {
             document.body.classList.add("foggy");
@@ -117,16 +131,17 @@ function PowerUpContainer() {
         alert(`You used ${clickedPower} on ${clickedTeam.username}`);
         setClickedPower("");
         setClickedTeam(null);
+        getCoins();
     }
 
-   
+
     const windmillTimerRef = useRef(null);
     const effectTimersRef = useRef([]);
 
     useEffect(() => {
         if (isRotating) {
             const rotate = () => {
-                angleRef.current += 1; 
+                angleRef.current += 1;
                 document.body.style.transform = `rotate(${angleRef.current}deg)`;
                 document.body.style.transformOrigin = "50% 50%";
                 requestRef.current = requestAnimationFrame(rotate);
@@ -175,15 +190,15 @@ function PowerUpContainer() {
             });
         });
 
-  
+
         socket.emit("get-active-powerups");
 
         return () => {
             socket.off("users");
             socket.off("receive power-up");
             socket.off("apply-active-powerups");
-            
-            
+
+
             if (windmillTimerRef.current) {
                 clearTimeout(windmillTimerRef.current);
             }
@@ -198,6 +213,8 @@ function PowerUpContainer() {
         clickedTeam,
         popup,
         popupCount,
+        coins,
+        getCoins,
         setClickedPower,
         setClickedTeam,
         handlePopupClose,
