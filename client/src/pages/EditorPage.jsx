@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import CodeEditor from '../components/codeEditorComponents/CodeEditor.jsx';
 import CodeDescriptionPane from '../components/codeEditorComponents/CodeDescriptionPane.jsx';
-import Output from '../components/codeEditorComponents/Output.jsx';
 import BottomPanel from '../components/codeEditorComponents/BottomPanel.jsx';
 import Navbar from '../components/Navbar.jsx';
 import '../styles/editorPage.css'

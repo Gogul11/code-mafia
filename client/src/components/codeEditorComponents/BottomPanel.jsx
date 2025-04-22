@@ -43,7 +43,6 @@ const BottomPanel = ({ currentQuestion, totalQuestions, xp, isPowerupsDialogOpen
           <div className="question-number">
             Question {currentQuestion} of {totalQuestions}
           </div>
-          <div className="question-title">Sample Question Title</div>
           <div className="xp">XP: {xp}</div>
         </div>
       </div>

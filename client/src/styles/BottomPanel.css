@@ -68,7 +68,23 @@
   max-height: 200px;
   overflow-y: auto;
   width: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
+
+.playlist-problems ul {
+  list-style-type: disc;
+  padding: 0;
+  margin: 0;
+}
+
+.playlist-problems li {
+  margin-bottom: 2vh;
+  cursor: pointer;    /* show pointer cursor */
+}
+
 
 /* Adjust playlist width for smaller screens */
 @media (max-width: 480px) {
@@ -80,16 +96,14 @@
 }
 
 .question-info {
+  display: flex;
+  flex-direction: column;
   text-align: left;
+  gap: 2vh;
 }
 
 .question-number {
   font-size: 14px;
-}
-
-.question-title {
-  font-size: 16px;
-  margin: 5px 0;
 }
 
 .xp {
