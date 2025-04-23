@@ -125,3 +125,62 @@ code {
   filter: blur(2px);
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
 }
+
+/* Glitch container effect */
+body.glitching {
+  animation: glitchBackground 0.3s infinite alternate;
+  filter: hue-rotate(20deg) contrast(1.5);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Screen flicker effect (white flash) */
+body.glitching::after {
+  content: "";
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: white;
+  opacity: 0.05;
+  animation: flicker 0.15s infinite;
+  pointer-events: none;
+  z-index: 9998;
+}
+
+/* Flicker animation */
+@keyframes flicker {
+  0%   { opacity: 0.02; }
+  50%  { opacity: 0.12; }
+  100% { opacity: 0.04; }
+}
+
+/* Zip Bomb effect */
+.zip-popup {
+  position: fixed;
+  width: 200px;
+  padding: 10px;
+  background: white;
+  color: black;
+  border: 2px solid #000;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+  z-index: 9999;
+  font-family: monospace;
+  font-size: 14px;
+  user-select: none;
+  cursor: move;
+}
+
+.zip-popup-header {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.zip-popup-close {
+  position: absolute;
+  top: 2px;
+  right: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  color: red;
+}

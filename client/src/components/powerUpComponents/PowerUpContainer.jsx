@@ -107,14 +107,93 @@ function PowerUpContainer() {
                 }, duration);
             }
         }
-        else if (effect === "glitch") {
-            setPopup(true);
 
+        else if (effect === "glitch") {
+            const glitchEnd = Date.now() + duration;
+        
+            document.body.classList.add("glitching");
+        
+            const glitchInterval = setInterval(() => {
+                if (Date.now() > glitchEnd) {
+                    clearInterval(glitchInterval);
+                    document.body.classList.remove("glitching");
+                    return;
+                }
+                flickerText();
+            }, 300);
+        
+            setTimeout(() => {
+                clearInterval(glitchInterval);
+                document.body.classList.remove("glitching");
+            }, duration);
         }
+
         else if (effect === "blind") {
             document.body.classList.add("foggy");
             setTimeout(() => { document.body.classList.remove("foggy") }, duration);
         }
+
+        else if (effect === "zip-bomb") {
+            const bombEnd = Date.now() + duration;
+        
+            let zipInterval = setInterval(() => {
+                if (Date.now() > bombEnd) {
+                    clearInterval(zipInterval);
+                    return;
+                }
+        
+                createZipPopup();
+            }, 900);
+        
+            setTimeout(() => {
+                clearInterval(zipInterval);
+                document.querySelectorAll(".zip-popup").forEach(el => el.remove());
+            }, duration);
+        }
+        
+    }
+
+    function flickerText() {
+        const elements = document.querySelectorAll("p, span, h1, h2, h3, li, button");
+        const element = elements[Math.floor(Math.random() * elements.length)];
+    
+        if (!element || element.textContent.length < 4) return;
+    
+        const original = element.textContent;
+        const glitched = original.split('').map(char =>
+            Math.random() > 0.7 ? String.fromCharCode(33 + Math.floor(Math.random() * 94)) : char
+        ).join('');
+    
+        element.textContent = glitched;
+    
+        setTimeout(() => {
+            element.textContent = original;
+        }, 600);
+    }
+
+    function createZipPopup() {
+        const popup = document.createElement("div");
+        popup.className = "zip-popup";
+        popup.style.top = `${Math.random() * (window.innerHeight - 150)}px`;
+        popup.style.left = `${Math.random() * (window.innerWidth - 200)}px`;
+    
+        // Close button
+        const close = document.createElement("span");
+        close.textContent = "×";
+        close.className = "zip-popup-close";
+        close.onclick = () => popup.remove();
+    
+        const header = document.createElement("div");
+        header.className = "zip-popup-header";
+        header.textContent = "Extracting...";
+    
+        const message = document.createElement("div");
+        message.textContent = "Unzipping layer.zip. Please wait...";
+    
+        popup.appendChild(close);
+        popup.appendChild(header);
+        popup.appendChild(message);
+        document.body.appendChild(popup);
     }
 
     function handleApply() {
@@ -188,7 +267,9 @@ function PowerUpContainer() {
 
         socket.on("receive power-up", ({ powerUp, from }) => {
             executePowerUp(powerUp);
-            alert(`You were attacked with ${powerUp} by ${from}!`);
+            if (powerUp!=="shield") {
+                alert(`You were attacked with ${powerUp} by ${from}!`);
+            }
         });
 
         socket.on("coins-error", ({ message }) => {
