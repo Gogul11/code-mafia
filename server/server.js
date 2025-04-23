@@ -76,7 +76,7 @@ io.on("connection", (socket) => {
             const targetUser = users.get(targetUserID);
             const targetUsername = targetUser.username;
     
-            const shieldKey = `powerup:${targetUsername}:shield`;
+            const shieldKey = powerUp!=="wall-breaker" ? `powerup:${targetUsername}:shield`: "";
     
             // Check if shield is active
             const hasShield = await client.exists(shieldKey);
