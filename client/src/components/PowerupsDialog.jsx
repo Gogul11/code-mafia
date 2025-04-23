@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../styles/PowerupsDialog.css';
 
-const PowerupsDialog = ({ onClose, powers, teams, onPowerSelect, onTeamSelect, usePower, coins }) => {
+const PowerupsDialog = ({ onClose, powers, teams, onPowerSelect, onTeamSelect, onUsePower, coins }) => {
   const [selectedPower, setSelectedPower] = useState(null);
   const [selectedTeam, setSelectedTeam] = useState(null);
 
@@ -14,6 +14,13 @@ const PowerupsDialog = ({ onClose, powers, teams, onPowerSelect, onTeamSelect, u
     setSelectedTeam(team);
     onTeamSelect(team);
   };
+
+  const handleUsePower = () => {
+    onUsePower(); 
+    setSelectedPower(null); 
+    setSelectedTeam(null);
+  };
+  
 
   return (
     <div className="powerups-dialog-overlay">
@@ -64,7 +71,7 @@ const PowerupsDialog = ({ onClose, powers, teams, onPowerSelect, onTeamSelect, u
           <button className="close-button" onClick={onClose}>Close</button>
           <button
             className="execute-button"
-            onClick={usePower}
+            onClick={handleUsePower}
             disabled={!selectedPower}
           >
             Use Power

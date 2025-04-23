@@ -86,7 +86,7 @@ io.on("connection", (socket) => {
             else if (powerUp==="innocency") {
                 if (hasShield) {
                     client.del(shieldKey);
-                    await updateCoins(team_id , avlblCoins + 5);
+                    await updateCoins(team_id , avlblCoins + 8);
                 }
                 else {
                     socket.emit("blocked-by-shield", { message: `You has no active shield!` });
