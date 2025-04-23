@@ -71,16 +71,29 @@ io.on("connection", (socket) => {
             socket.emit("coins-error", { message: "Not enough coins" });
             return;
         }
-    
+        
         if (users.has(targetUserID)) {
             const targetUser = users.get(targetUserID);
             const targetUsername = targetUser.username;
     
-            const shieldKey = powerUp!=="wall-breaker" ? `powerup:${targetUsername}:shield`: "";
-    
+            const shieldKey =  `powerup:${targetUsername}:shield`;
+            
             // Check if shield is active
             const hasShield = await client.exists(shieldKey);
-            if (hasShield && powerUp !== "shield") {
+            if (hasShield && powerUp === "wall-breaker") {
+                client.del(shieldKey);
+            }
+            else if (powerUp==="innocency") {
+                if (hasShield) {
+                    client.del(shieldKey);
+                    await updateCoins(team_id , avlblCoins + 5);
+                }
+                else {
+                    socket.emit("blocked-by-shield", { message: `You has no active shield!` });
+                }
+                return;
+            }
+            else if (hasShield && powerUp !== "shield") {
                 socket.emit("blocked-by-shield", { message: `${targetUsername} has an active shield!` });
                 return;
             }
@@ -99,6 +112,66 @@ io.on("connection", (socket) => {
             await updateCoins(team_id, avlblCoins - 5);
         }
     });
+
+    socket.on("suicide-attack", async ({targetUserID, currentUserID, from, token}) => {
+        const powerUp = "suicide-bomber"
+        try {
+            const decoded = jwt.verify(token, process.env.SECRET_KEY);
+            const team_id = decoded.team_id;
+            console.log("This has entered inside suicide attack")
+        
+            const avlblCoins = await getCoinsByTeamId(team_id);
+            if (avlblCoins === null) {
+                console.error("Error fetching coins for team:", team_id);
+                return;
+            }
+            if (avlblCoins < 5) {
+                socket.emit("coins-error", { message: "Not enough coins" });
+                return;
+            }
+
+            if (users.has(targetUserID) && users.has(currentUserID)) {
+                console.log("This has entered inside")
+                const targetUser = users.get(targetUserID);
+                const currentUser = users.get(currentUserID)
+
+                const targetUsername = targetUser.username;
+                const currentUsername = currentUser.username
+        
+                const targetShieldKey =  `powerup:${targetUsername}:shield`;
+                const currentShieldKey =  `powerup:${currentUsername}:shield`;
+                
+                // Check if shield is active
+                const targetHasShield = await client.exists(targetShieldKey);
+                const currentHasShield = await client.exists(currentShieldKey);
+                console.log("The shields are: ", targetHasShield, currentHasShield)
+                if (targetHasShield && currentHasShield) {
+                    client.del(targetShieldKey);
+                    client.del(currentShieldKey);
+                    console.log("The shields are: ", targetHasShield, currentHasShield)
+
+                    io.to(targetUserID).emit("receive power-up", { powerUp, from });
+                    await updateCoins(team_id, avlblCoins - 10);
+                    return;
+                }
+                else if (targetHasShield && !currentHasShield) {
+                    socket.emit("blocked-by-shield", { message: `You don't have active shield!` });
+                    return;
+                }
+                else if (!targetHasShield && currentHasShield) {
+                    socket.emit("blocked-by-shield", { message: `${targetUsername} has no active shield!` });
+                    return;
+                }
+                else if (!targetHasShield && !currentHasShield) {
+                    socket.emit("blocked-by-shield", { message: `You both have no active shield!` });
+                    return;
+                }
+            }
+        }
+        catch (err) {
+            console.error("Error in suicide-attack:", err.message);
+        }
+    })
     
     socket.on("get-active-powerups", async () => {
         const username = socket.username;

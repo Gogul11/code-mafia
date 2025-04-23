@@ -24,7 +24,7 @@ const PowerupsDialog = ({ onClose, powers, teams, onPowerSelect, onTeamSelect, u
         </div>
 
         <h2>Powerups</h2>
-        <p>Select a power-up{(selectedPower && selectedPower.id!=10) ? ' and a target team' : ''}.</p>
+        <p>Select a power-up{(selectedPower && selectedPower.id!==10 && selectedPower.id!==8) ? ' and a target team' : ''}.</p>
 
         <div className="powerups-container">
           {/* Power-ups column */}
@@ -42,7 +42,7 @@ const PowerupsDialog = ({ onClose, powers, teams, onPowerSelect, onTeamSelect, u
           </div>
 
           {/* Teams column (only after selecting a power-up and not for shield) */}
-          {selectedPower && selectedPower.id !== 10 && (
+          {selectedPower && selectedPower.id !== 10 && selectedPower.id !== 8 && (
             <div className="teams-column">
               <h3>Choose who to attack</h3>
               {teams
