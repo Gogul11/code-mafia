@@ -254,7 +254,7 @@ const EditorPage = () => {
                             teams={teams}
                             onPowerSelect={setClickedPower}
                             onTeamSelect={setClickedTeam}
-                            usePower={handleApply}
+                            onUsePower={handleApply}
                             coins={coins} />
                     }
                 </div>

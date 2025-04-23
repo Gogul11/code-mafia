@@ -197,12 +197,21 @@ function PowerUpContainer() {
     }
 
     function handleApply() {
-        if (clickedPower!=="shield" && (!clickedPower || !clickedTeam)) {
+        if (clickedPower!=="shield" && clickedPower!=="innocency" && (!clickedPower || !clickedTeam)) {
             alert("Please select a power and team.");
             return;
         }
 
-        if (clickedPower!=="shield") {
+        if (clickedPower==="suicide-bomber") {
+            socket.emit("suicide-attack", {
+                targetUserID: clickedTeam.userID,
+                currentUserID: socketUser.userID,
+                from: username,
+                token: localStorage.getItem("token")
+            })
+            alert(`You used ${clickedPower} on ${clickedTeam.username}`);
+        }
+        else if (clickedPower!=="shield" && clickedPower!=="innocency") {
             socket.emit("power-up attack", {
                 powerUp: clickedPower,
                 targetUserID: clickedTeam.userID,
@@ -210,7 +219,8 @@ function PowerUpContainer() {
                 token: localStorage.getItem("token")
             });
             alert(`You used ${clickedPower} on ${clickedTeam.username}`);
-        } else {
+        } 
+        else {
             console.log(socketUser);
             console.log(username);
             socket.emit("power-up attack", {
@@ -267,7 +277,7 @@ function PowerUpContainer() {
 
         socket.on("receive power-up", ({ powerUp, from }) => {
             executePowerUp(powerUp);
-            if (powerUp!=="shield") {
+            if (powerUp!=="shield" && powerUp==="innocency") {
                 alert(`You were attacked with ${powerUp} by ${from}!`);
             }
         });

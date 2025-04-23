@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../styles/PowerupsDialog.css';
 
-const PowerupsDialog = ({ onClose, powers, teams, onPowerSelect, onTeamSelect, usePower, coins }) => {
+const PowerupsDialog = ({ onClose, powers, teams, onPowerSelect, onTeamSelect, onUsePower, coins }) => {
   const [selectedPower, setSelectedPower] = useState(null);
   const [selectedTeam, setSelectedTeam] = useState(null);
 
@@ -15,6 +15,13 @@ const PowerupsDialog = ({ onClose, powers, teams, onPowerSelect, onTeamSelect, u
     onTeamSelect(team);
   };
 
+  const handleUsePower = () => {
+    onUsePower(); 
+    setSelectedPower(null); 
+    setSelectedTeam(null);
+  };
+  
+
   return (
     <div className="powerups-dialog-overlay">
       <div className="powerups-dialog">
@@ -24,7 +31,7 @@ const PowerupsDialog = ({ onClose, powers, teams, onPowerSelect, onTeamSelect, u
         </div>
 
         <h2>Powerups</h2>
-        <p>Select a power-up{(selectedPower && selectedPower.id!=10) ? ' and a target team' : ''}.</p>
+        <p>Select a power-up{(selectedPower && selectedPower.id!==10 && selectedPower.id!==8) ? ' and a target team' : ''}.</p>
 
         <div className="powerups-container">
           {/* Power-ups column */}
@@ -42,7 +49,7 @@ const PowerupsDialog = ({ onClose, powers, teams, onPowerSelect, onTeamSelect, u
           </div>
 
           {/* Teams column (only after selecting a power-up and not for shield) */}
-          {selectedPower && selectedPower.id !== 10 && (
+          {selectedPower && selectedPower.id !== 10 && selectedPower.id !== 8 && (
             <div className="teams-column">
               <h3>Choose who to attack</h3>
               {teams
@@ -64,7 +71,7 @@ const PowerupsDialog = ({ onClose, powers, teams, onPowerSelect, onTeamSelect, u
           <button className="close-button" onClick={onClose}>Close</button>
           <button
             className="execute-button"
-            onClick={usePower}
+            onClick={handleUsePower}
             disabled={!selectedPower}
           >
             Use Power
