@@ -1,9 +1,9 @@
 import express from 'express';
 import getAndCacheChallenge from '../utils/challenges-cache.js';
 
-const problem = express.Router()
+const admin = express.Router()
 
-problem.post('/problems/refresh-cache', async (req, res) => {
+admin.post('/problems/refresh-cache', async (req, res) => {
     try {
         await getAndCacheChallenge();
         res.status(200).json({ message: 'Challenge cache refreshed successfully' });
@@ -14,4 +14,4 @@ problem.post('/problems/refresh-cache', async (req, res) => {
 });
 
 
-export default problem;
+export default admin;
