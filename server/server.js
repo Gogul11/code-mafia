@@ -20,12 +20,9 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
     cors: {
-        origin: [
-            "http://localhost:3000",
-            "https://code-mafia.vercel.app" // deployed frontend url
-        ],
+        origin: "*", // allowing all origin as some antivirus interver dynuddns.net. Change it if a domain is bought
         methods: ["GET", "POST"],
-        credentials: true
+        credentials: false
     }
 });
 
@@ -205,11 +202,8 @@ io.on("connection", (socket) => {
 
 
 app.use(cors({
-    origin: [
-        "http://localhost:3000",
-        "https://code-mafia.vercel.app"
-    ],
-    credentials: true
+    origin: "*", // allowing all origin as some antivirus interver dynuddns.net. Change it if a domain is bought
+    credentials: false
 }));
 
 app.use(express.json());
