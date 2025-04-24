@@ -56,19 +56,20 @@ const EditorPage = () => {
         setProblemTitle(`${currentQuestion}. ${question.title}`);
         setProblemDescription(question.description);
 
-       
+
         const testCasesArray = Object.entries(question.test_cases).map(([key, value]) => ({
             id: key,
             input: value.input,
             expected_output: value.expected_output
         }));
 
-        setTestCaseList(testCasesArray); 
+        setTestCaseList(testCasesArray);
     };
 
     const getXP = async () => {
         axios.get(`${process.env.REACT_APP_SERVER_BASEAPI}/editor/points`, {
-            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+            withCredentials: true
         }).then(response => {
             if (response.data && response.data.points !== undefined) {
                 setXp(response.data.points);
@@ -88,7 +89,7 @@ const EditorPage = () => {
         getXP();
         getCoins();
 
-       
+
         setTestCaseList(results.results.map(result => ({
             name: result.testCase,
             input: result.input,
@@ -104,7 +105,8 @@ const EditorPage = () => {
             if (token) {
                 try {
                     const response = await axios.get(`${process.env.REACT_APP_SERVER_BASEAPI}/auth/verify`, {
-                        headers: { Authorization: `Bearer ${token}` }
+                        headers: { Authorization: `Bearer ${token}` },
+                        withCredentials: true
                     });
                     if (!response.data.valid) {
                         window.location.href = "/login"
@@ -199,39 +201,39 @@ const EditorPage = () => {
                         <TestCases testCases={testCaseList} />
                     </div>
                     {windowWidth < 770 ? (
-                                <div
-                                    style={{
-                                        position: "fixed",
-                                        bottom: open ? "20px" : "20px", 
-                                        left: "10%",
-                                        transform: "translateX(-50%)",
-                                        zIndex: 1000,
-                                        display: "flex",
-                                        justifyContent: "center",
-                                        alignItems: "center",
-                                        width: "100%",
-                                        pointerEvents: "none", 
-                                    }}
-                                >
-                                    <div
-                                        style={{
-                                            backgroundColor: "#FFD400",
-                                            borderRadius: "50%",
-                                            padding: "8px",
-                                            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.2)",
-                                            pointerEvents: "auto",
-                                            cursor: "pointer",
-                                        }}
-                                        onClick={() => setOpen(!open)}
-                                    >
-                                        {open ? (
-                                            <BsArrowBarDown size={24} color="#030617" />
-                                        ) : (
-                                            <BsArrowBarUp size={24} color="#030617" />
-                                        )}
-                                    </div>
-                                </div>
-                            ) : null}
+                        <div
+                            style={{
+                                position: "fixed",
+                                bottom: open ? "20px" : "20px",
+                                left: "10%",
+                                transform: "translateX(-50%)",
+                                zIndex: 1000,
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                width: "100%",
+                                pointerEvents: "none",
+                            }}
+                        >
+                            <div
+                                style={{
+                                    backgroundColor: "#FFD400",
+                                    borderRadius: "50%",
+                                    padding: "8px",
+                                    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.2)",
+                                    pointerEvents: "auto",
+                                    cursor: "pointer",
+                                }}
+                                onClick={() => setOpen(!open)}
+                            >
+                                {open ? (
+                                    <BsArrowBarDown size={24} color="#030617" />
+                                ) : (
+                                    <BsArrowBarUp size={24} color="#030617" />
+                                )}
+                            </div>
+                        </div>
+                    ) : null}
 
                     {windowWidth >= 770 || open ? (
                         <BottomPanel
@@ -246,7 +248,7 @@ const EditorPage = () => {
                         />
                     ) : null}
 
-      
+
                     {powerupsDialogOpen &&
                         <PowerupsDialog
                             onClose={() => setPowerupsDialogOpen(false)}
