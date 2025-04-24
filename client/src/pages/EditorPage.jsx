@@ -53,7 +53,6 @@ const EditorPage = () => {
     const submitRef = useRef();
 
     const loadQuestion = async () => {
-        console.log("questions: ", questionSet);
         const question = questionSet[currentQuestion - 1];
         if (!question) return;
 
@@ -71,6 +70,36 @@ const EditorPage = () => {
         setTestCaseList(testCasesArray);
     };
 
+
+    const getSubmissionStatus = async () => {
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_SERVER_BASEAPI}/problem/status`, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+
+            const statusMap = response.data;
+
+            // Update the questionSet with status information
+            setQuestionSet(prevQuestions =>
+                prevQuestions.map(question => ({
+                    ...question,
+                    status: statusMap[question.id] || 'unattempted'
+                }))
+            );
+        } catch (error) {
+            console.error('Error fetching submission status:', error);
+            // If the request fails, set all questions to 'unattempted'
+            setQuestionSet(prevQuestions =>
+                prevQuestions.map(question => ({
+                    ...question,
+                    status: 'unattempted'
+                }))
+            );
+        }
+    };
+
     const getXP = async () => {
         axios.get(`${process.env.REACT_APP_SERVER_BASEAPI}/editor/points`, {
             headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
@@ -85,7 +114,6 @@ const EditorPage = () => {
 
 
     const onSubmissionComplete = (results) => {
-        console.log("results: ", results)
         if (results.error) {
             return;
         }
@@ -150,6 +178,7 @@ const EditorPage = () => {
             }
         }
         fetchQuestions();
+        getSubmissionStatus();
     }, []);
 
     useEffect(() => {
@@ -157,6 +186,7 @@ const EditorPage = () => {
             loadQuestion();
         }
     }, [currentQuestion, questionSet]);
+
 
     const gotoNextQuestion = () => {
         setCurrentQuestion(prev => Math.min(prev + 1, totalQuestions));
@@ -207,7 +237,7 @@ const EditorPage = () => {
                                     </div>
                                 </div>
                             </ Panel>
-                            <PanelResizeHandle className="panelresizer"/>
+                            <PanelResizeHandle className="panelresizer" />
                             <Panel defaultSize={50}>
                                 {/* Right Pane */}
                                 <div className="right-pane" style={{ height: '100%' }}>
@@ -270,6 +300,7 @@ const EditorPage = () => {
                             gotoPrevQuestion={gotoPrevQuestion}
                             powerupsDialogOpen={powerupsDialogOpen}
                             setPowerupsDialogOpen={setPowerupsDialogOpen}
+                            questions={questionSet}
                             submitRef={submitRef}
                         />
                     ) : null}

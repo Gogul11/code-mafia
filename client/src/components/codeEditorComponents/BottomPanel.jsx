@@ -1,7 +1,18 @@
-import React, { useState } from 'react';
-import '../../styles/BottomPanel.css'; // Import the CSS for styling
+import React, { useState, useEffect } from 'react';
+import '../../styles/BottomPanel.css';
 
-const BottomPanel = ({ currentQuestion, totalQuestions, xp, isPowerupsDialogOpen ,setPowerupsDialogOpen, setCurrentQuestion, gotoNextQuestion, gotoPrevQuestion, submitRef }) => {
+const BottomPanel = ({ 
+  currentQuestion, 
+  totalQuestions, 
+  xp, 
+  isPowerupsDialogOpen,
+  setPowerupsDialogOpen, 
+  setCurrentQuestion, 
+  gotoNextQuestion, 
+  gotoPrevQuestion, 
+  submitRef,
+  questions // Add questions prop that contains the question data with status
+}) => {
   const [isPlaylistExpanded, setPlaylistExpanded] = useState(false);
 
   const togglePlaylist = () => {
@@ -9,22 +20,34 @@ const BottomPanel = ({ currentQuestion, totalQuestions, xp, isPowerupsDialogOpen
   };
 
   const handleProblemClick = (index) => {
-    setCurrentQuestion(index); // Set the current question based on the clicked index
-    setPlaylistExpanded(false); // Collapse the playlist after a question is selected
+    setCurrentQuestion(index);
+    setPlaylistExpanded(false);
   };
 
   const handleSubmitCode = () => {
     submitRef.current?.handleRunCode("submitcode");
-  }
+  };
+
   const handleRunTestCode = () => {
     submitRef.current?.handleRunCode("runtestcase");
-  }
+  };
+
+  const getStatusColor = (status) => {
+    switch(status) {
+      case 'Accepted':
+        return 'status-accepted';
+      case 'Partial':
+        return 'status-partial';
+      case 'unattempted':
+        return 'status-unattempted';
+      default:
+        return '';
+    }
+  };
 
   return (
     <div className="bottom-panel">
-      {/* Combined Playlist Icon and Question Info */}
       <div className="playlist-and-question">
-        {/* Playlist Icon and Expanded Problems */}
         <div className="playlist-section">
           <div className="playlist-icon" onClick={togglePlaylist}>
             <span>≡</span>
@@ -32,12 +55,13 @@ const BottomPanel = ({ currentQuestion, totalQuestions, xp, isPowerupsDialogOpen
           {isPlaylistExpanded && (
             <div className="playlist-problems">
               <ul>
-                {Array.from({ length: totalQuestions }, (_, i) => (
+                {questions?.map((q, index) => (
                   <li
-                    key={i}
-                    onClick={() => handleProblemClick(i + 1)}
+                    key={q.id}
+                    onClick={() => handleProblemClick(index + 1)}
+                    className={getStatusColor(q.status)}
                   >
-                    Problem {i + 1}
+                    {index+1}.{q.title}
                   </li>
                 ))}
               </ul>
@@ -45,7 +69,6 @@ const BottomPanel = ({ currentQuestion, totalQuestions, xp, isPowerupsDialogOpen
           )}
         </div>
 
-        {/* Current Question and XP */}
         <div className="question-info">
           <div className="question-number">
             Question {currentQuestion} of {totalQuestions}
@@ -54,7 +77,6 @@ const BottomPanel = ({ currentQuestion, totalQuestions, xp, isPowerupsDialogOpen
         </div>
       </div>
 
-      {/* Navigation Buttons */}
       <div className="navigation-buttons">
         <button className="nav-button prev-button" onClick={gotoPrevQuestion}>Prev</button>
         <button className="nav-button run-button" onClick={handleRunTestCode}>RunCode</button>
@@ -62,19 +84,10 @@ const BottomPanel = ({ currentQuestion, totalQuestions, xp, isPowerupsDialogOpen
         <button className="nav-button next-button" onClick={gotoNextQuestion}>Next</button>
       </div>
 
-      {/* Active Player Icons */}
-      {/*<div className="active-players">
-         {players.map((player, index) => (
-          <div key={index} className="player-icon">
-            {player.icon}
-          </div>
-        ))}
-      </div> */}
-
-      {/* Powerups */}
-      <div className="powerups-section"></div>
+      <div className="powerups-section">
         <button className="nav-button powerups-button" onClick={() => setPowerupsDialogOpen(true)}>Powerups</button>
       </div>
+    </div>
   );
 };
 

@@ -43,7 +43,7 @@ const login = async (req, res) => {
         team_name: team.name 
       }, 
       SECRET_KEY, 
-      { expiresIn: '1h' }
+      { expiresIn: '6h' }
     );
 
     res.json({ token });

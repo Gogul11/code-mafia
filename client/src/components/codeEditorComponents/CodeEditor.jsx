@@ -83,8 +83,7 @@ const CodeEditor = ({ questionId, onSubmissionComplete, submitRef }) => {
             source_code: code
           },
           {
-            headers: { Authorization: `Bearer ${token}` },
-            withCredentials: true
+            headers: { Authorization: `Bearer ${token}` }
           }
         );
       } else if (action === "submitcode") {
@@ -96,8 +95,7 @@ const CodeEditor = ({ questionId, onSubmissionComplete, submitRef }) => {
             source_code: code
           },
           {
-            headers: { Authorization: `Bearer ${token}` },
-            withCredentials: true
+            headers: { Authorization: `Bearer ${token}` }
           }
         );
       }

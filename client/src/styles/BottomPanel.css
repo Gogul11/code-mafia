@@ -67,11 +67,15 @@
   padding: 10px;
   max-height: 200px;
   overflow-y: auto;
-  width: 200px;
+  width: 30vw;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+}
+
+.playlist-problems::-webkit-scrollbar {
+  display: none;
 }
 
 .playlist-problems ul {
@@ -85,6 +89,47 @@
   cursor: pointer;    /* show pointer cursor */
 }
 
+/* Add these styles to your existing CSS */
+.playlist-problems ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.playlist-problems li {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.playlist-problems li:hover {
+  background-color: #202942;
+}
+
+.status-accepted {
+  color: #4CAF50; /* Green for accepted */
+  font-weight: bold;
+}
+
+.status-partial {
+  color: #FF9800; /* Orange for partial */
+  font-weight: bold;
+}
+
+.status-unattempted {
+  color: #FFD400; /* Red for rejected */
+}
+
+.playlist-problems li.status-accepted {
+  border-left: 4px solid #4CAF50;
+}
+
+.playlist-problems li.status-partial {
+  border-left: 4px solid #FF9800;
+}
+
+.playlist-problems li.status-unattempted {
+  border-left: 4px solid #ffd400;
+}
 
 /* Adjust playlist width for smaller screens */
 @media (max-width: 480px) {
