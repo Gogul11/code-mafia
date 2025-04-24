@@ -26,14 +26,12 @@ const HomePage = ({ isLoggedIn }) => {
     }
   };
 
-
   const handleLogout = () => {
     // Remove token from localStorage
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
     // Redirect to login page or refresh
-    window.location.href = '/';
+    window.location.href = "/";
   };
-
 
   const [elementCount, setElementCount] = useState(0); // Track the number of elements
 
@@ -43,7 +41,11 @@ const HomePage = ({ isLoggedIn }) => {
     if (!container || elementCount >= 15) return; // Limit to 10 elements
 
     const element = document.createElement("img");
-    const assets = ["/assets/currency.svg", "/assets/ansh.png", "/assets/shield.svg"]; // Paths relative to public folder
+    const assets = [
+      "/assets/currency.svg",
+      "/assets/ansh.png",
+      "/assets/shield.svg",
+    ]; // Paths relative to public folder
     const randomAsset = assets[Math.floor(Math.random() * assets.length)];
 
     element.src = randomAsset; // Use the path directly
@@ -77,13 +79,57 @@ const HomePage = ({ isLoggedIn }) => {
           <button className="login-button" onClick={handleLoginClick}>
             Login
           </button>
-          <div className="pixel-art-character"></div> {/* Pixel art character. the square at the bottom right */}
+          <div className="pixel-art-character"></div>{" "}
+          {/* Pixel art character. the square at the bottom right */}
           <div className="scanlines"></div> {/* CRT scanline effect */}
           <div className="falling-elements"></div>
         </div>
       ) : (
         <div className="logged-in-container">
-         <Navbar/>
+          <Navbar />
+          <p className="rules">RULES</p>
+          <ul className="rules-content">
+            <li>
+              This competition is completely online and conducted on ACM CEG's
+              website.
+            </li>
+            <li>Teams can consist of either one or two participants.</li>
+            <li>
+              If a team has two members, both participants must be in the same
+              physical location and use a single system under one login. Each
+              team will be provided with one login ID only.
+            </li>
+            <li>
+              Cheating is strictly prohibited. This includes using external
+              websites, generative AI tools (such as ChatGPT, Gemini, etc.), or
+              any unauthorized resources. Violations will lead to immediate
+              disqualification.
+            </li>
+            <li>
+              Multiple logins across devices are not allowed. Any attempt to
+              access the platform from more than one device will result in
+              termination of participation.
+            </li>
+          </ul>
+          <p className="rules">
+            <img className="coin" src="/assets/currency.svg" alt="coin" />
+            CURRENCY
+          </p>
+          <ul className="rules-content">
+            <li>
+              Currency serves as the backbone of the event and can be used to
+              purchase sabotages and shields
+            </li>
+            <li>
+              Each team will start with 20 coins (units of currency). Upon
+              successfully solving a question, the team will earn an additional 5
+              coins.
+            </li>
+            <li>
+              There are no rewards for hoarding currency. Teams are encouraged
+              to spend their coins strategically—go wild!
+            </li>
+          </ul>
         </div>
       )}
     </div>
