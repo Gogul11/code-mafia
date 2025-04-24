@@ -15,6 +15,7 @@ const EditorPage = () => {
 
     const [testCaseList, setTestCaseList] = useState([]);
     const [problemTitle, setProblemTitle] = useState("");
+    const [problemDifficulty, setProblemDifficulty] = useState("");
     const [problemDescription, setProblemDescription] = useState("");
 
     const [questionSet, setQuestionSet] = useState([]);
@@ -48,12 +49,15 @@ const EditorPage = () => {
         overlayRef
     } = PowerUpContainer();
 
+    const submitRef = useRef();
+
     const loadQuestion = async () => {
         console.log("questions: ", questionSet);
         const question = questionSet[currentQuestion - 1];
         if (!question) return;
 
         setProblemTitle(`${currentQuestion}. ${question.title}`);
+        setProblemDifficulty(question.difficulty);
         setProblemDescription(question.description);
 
        
@@ -185,12 +189,17 @@ const EditorPage = () => {
 
                 <div>
                     <div className='desc'>
-                        <CodeDescriptionPane problemTitle={problemTitle} problemDescription={problemDescription} />
+                        <CodeDescriptionPane
+                            problemTitle={problemTitle}
+                            problemDescription={problemDescription}
+                            problemDifficulty={problemDifficulty} 
+                        />
                     </div>
                     <div className='editor'>
                         <CodeEditor
                             questionId={questionSet[currentQuestion - 1].id}
                             onSubmissionComplete={(results) => onSubmissionComplete(results)}
+                            submitRef={submitRef}
                         />
                     </div>
                 </div>
@@ -243,6 +252,7 @@ const EditorPage = () => {
                             gotoPrevQuestion={gotoPrevQuestion}
                             powerupsDialogOpen={powerupsDialogOpen}
                             setPowerupsDialogOpen={setPowerupsDialogOpen}
+                            submitRef={submitRef}
                         />
                     ) : null}
 

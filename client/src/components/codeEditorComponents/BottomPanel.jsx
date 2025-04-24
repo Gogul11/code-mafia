@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../../styles/BottomPanel.css'; // Import the CSS for styling
 
-const BottomPanel = ({ currentQuestion, totalQuestions, xp, isPowerupsDialogOpen ,setPowerupsDialogOpen, setCurrentQuestion, gotoNextQuestion, gotoPrevQuestion }) => {
+const BottomPanel = ({ currentQuestion, totalQuestions, xp, isPowerupsDialogOpen ,setPowerupsDialogOpen, setCurrentQuestion, gotoNextQuestion, gotoPrevQuestion, submitRef }) => {
   const [isPlaylistExpanded, setPlaylistExpanded] = useState(false);
 
   const togglePlaylist = () => {
@@ -12,6 +12,10 @@ const BottomPanel = ({ currentQuestion, totalQuestions, xp, isPowerupsDialogOpen
     setCurrentQuestion(index); // Set the current question based on the clicked index
     setPlaylistExpanded(false); // Collapse the playlist after a question is selected
   };
+
+  const handleSubmitCode = () => {
+    submitRef.current?.handleRunCode("submitcode");
+  }
 
   return (
     <div className="bottom-panel">
@@ -50,7 +54,7 @@ const BottomPanel = ({ currentQuestion, totalQuestions, xp, isPowerupsDialogOpen
       {/* Navigation Buttons */}
       <div className="navigation-buttons">
         <button className="nav-button prev-button" onClick={gotoPrevQuestion}>Prev</button>
-        <button className="nav-button complete-button">Complete</button>
+        <button className="nav-button complete-button" onClick={handleSubmitCode}>Submit</button>
         <button className="nav-button next-button" onClick={gotoNextQuestion}>Next</button>
       </div>
 

@@ -1,4 +1,4 @@
-import express from 'express'
+import express from 'express';
 import { getProblem } from '../controllers/problems.controller.js';
 
 const problem = express.Router()

@@ -1,15 +1,12 @@
 import express from 'express';
-import { runBatchCode, runCode, getPoints } from '../controllers/editor.controller.js';
+import { submitCodeForQuestion, runBatchCode, getPoints } from '../controllers/editor.controller.js';
 
 
 const EditorRouter = express.Router();
 
-EditorRouter.post("/run", (req, res, next) => {
-    res.setHeader("X-Deprecation-Warning", "The '/run' route is deprecated and will be removed in future versions.");
-    runCode(req, res, next);
-});
+EditorRouter.post("/runtestcases", runBatchCode);
 
-EditorRouter.post("/batch", runBatchCode);
+EditorRouter.post("/submitquestion", submitCodeForQuestion);
 
 EditorRouter.get("/points", getPoints)
 
