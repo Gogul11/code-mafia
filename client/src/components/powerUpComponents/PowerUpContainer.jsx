@@ -36,8 +36,7 @@ function PowerUpContainer() {
         if (token) {
             try {
                 const response = await axios.get(`${process.env.REACT_APP_SERVER_BASEAPI}/auth/verify`, {
-                    headers: { Authorization: `Bearer ${token}` },
-                    withCredentials: true
+                    headers: { Authorization: `Bearer ${token}` }
                 });
 
                 if (response.data && response.data.valid && response.data.team_name) {
@@ -68,8 +67,7 @@ function PowerUpContainer() {
 
     async function getCoins() {
         axios.get(`${process.env.REACT_APP_SERVER_BASEAPI}/game/getcoins`, {
-            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-            withCredentials: true
+            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
         }).then(response => {
             if (response.data && response.data.coins !== undefined) {
                 setCoins(response.data.coins);
@@ -112,9 +110,9 @@ function PowerUpContainer() {
 
         else if (effect === "glitch") {
             const glitchEnd = Date.now() + duration;
-
+        
             document.body.classList.add("glitching");
-
+        
             const glitchInterval = setInterval(() => {
                 if (Date.now() > glitchEnd) {
                     clearInterval(glitchInterval);
@@ -123,7 +121,7 @@ function PowerUpContainer() {
                 }
                 flickerText();
             }, 300);
-
+        
             setTimeout(() => {
                 clearInterval(glitchInterval);
                 document.body.classList.remove("glitching");
@@ -137,37 +135,37 @@ function PowerUpContainer() {
 
         else if (effect === "zip-bomb") {
             const bombEnd = Date.now() + duration;
-
+        
             let zipInterval = setInterval(() => {
                 if (Date.now() > bombEnd) {
                     clearInterval(zipInterval);
                     return;
                 }
-
+        
                 createZipPopup();
             }, 900);
-
+        
             setTimeout(() => {
                 clearInterval(zipInterval);
                 document.querySelectorAll(".zip-popup").forEach(el => el.remove());
             }, duration);
         }
-
+        
     }
 
     function flickerText() {
         const elements = document.querySelectorAll("p, span, h1, h2, h3, li, button");
         const element = elements[Math.floor(Math.random() * elements.length)];
-
+    
         if (!element || element.textContent.length < 4) return;
-
+    
         const original = element.textContent;
         const glitched = original.split('').map(char =>
             Math.random() > 0.7 ? String.fromCharCode(33 + Math.floor(Math.random() * 94)) : char
         ).join('');
-
+    
         element.textContent = glitched;
-
+    
         setTimeout(() => {
             element.textContent = original;
         }, 600);
@@ -178,20 +176,20 @@ function PowerUpContainer() {
         popup.className = "zip-popup";
         popup.style.top = `${Math.random() * (window.innerHeight - 150)}px`;
         popup.style.left = `${Math.random() * (window.innerWidth - 200)}px`;
-
+    
         // Close button
         const close = document.createElement("span");
         close.textContent = "×";
         close.className = "zip-popup-close";
         close.onclick = () => popup.remove();
-
+    
         const header = document.createElement("div");
         header.className = "zip-popup-header";
         header.textContent = "Extracting...";
-
+    
         const message = document.createElement("div");
         message.textContent = "Unzipping layer.zip. Please wait...";
-
+    
         popup.appendChild(close);
         popup.appendChild(header);
         popup.appendChild(message);
@@ -199,12 +197,12 @@ function PowerUpContainer() {
     }
 
     function handleApply() {
-        if (clickedPower !== "shield" && clickedPower !== "innocency" && (!clickedPower || !clickedTeam)) {
+        if (clickedPower!=="shield" && clickedPower!=="innocency" && (!clickedPower || !clickedTeam)) {
             alert("Please select a power and team.");
             return;
         }
 
-        if (clickedPower === "suicide-bomber") {
+        if (clickedPower==="suicide-bomber") {
             socket.emit("suicide-attack", {
                 targetUserID: clickedTeam.userID,
                 currentUserID: socketUser.userID,
@@ -213,7 +211,7 @@ function PowerUpContainer() {
             })
             alert(`You used ${clickedPower} on ${clickedTeam.username}`);
         }
-        else if (clickedPower !== "shield" && clickedPower !== "innocency") {
+        else if (clickedPower!=="shield" && clickedPower!=="innocency") {
             socket.emit("power-up attack", {
                 powerUp: clickedPower,
                 targetUserID: clickedTeam.userID,
@@ -221,7 +219,7 @@ function PowerUpContainer() {
                 token: localStorage.getItem("token")
             });
             alert(`You used ${clickedPower} on ${clickedTeam.username}`);
-        }
+        } 
         else {
             console.log(socketUser);
             console.log(username);
@@ -234,7 +232,7 @@ function PowerUpContainer() {
             alert(`You used ${clickedPower}`);
         }
 
-
+        
         setClickedPower("");
         setClickedTeam(null);
         getCoins();
@@ -279,7 +277,7 @@ function PowerUpContainer() {
 
         socket.on("receive power-up", ({ powerUp, from }) => {
             executePowerUp(powerUp);
-            if (powerUp !== "shield" && powerUp === "innocency") {
+            if (powerUp!=="shield" && powerUp==="innocency") {
                 alert(`You were attacked with ${powerUp} by ${from}!`);
             }
         });
@@ -291,7 +289,7 @@ function PowerUpContainer() {
         socket.on("blocked-by-shield", ({ message }) => {
             alert(message);
         });
-
+        
 
         socket.on("apply-active-powerups", (activePowerups) => {
             console.log("Active powerups:", activePowerups);
