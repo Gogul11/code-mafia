@@ -115,6 +115,44 @@
   align-items: center;
 }
 
+.content {
+  display: flex;
+  height: 60vh;
+  overflow: hidden;
+}
+
+.left-pane {
+  overflow-y: auto;
+  border-right: 1px solid #ccc;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  scrollbar-width: none; /* Firefox */
+}
+
+.left-pane::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
+}
+
+.right-pane {
+  flex-grow: 1;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.panelresizer {
+  width: 5px;
+  background-color: #FFD400;
+  cursor: col-resize;
+  transition: background-color 0.2s ease;
+}
+
+.panelresizer:hover {
+  background-color: #FF6B6B; 
+}
+
 /* Responsive Design */
 @media (min-width: 768px) {
   #editor-page-container {

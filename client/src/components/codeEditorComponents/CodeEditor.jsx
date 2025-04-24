@@ -192,15 +192,6 @@ const CodeEditor = ({ questionId, onSubmissionComplete, submitRef }) => {
           }}
         />
       </div>
-
-      <div className="run">
-        <button
-          onClick={handleRunCode}
-          disabled={isRunning}
-          className="run-button"
-          id='run-button'
-        >Run Test Cases</button>
-      </div>
     </div>
   );
 };

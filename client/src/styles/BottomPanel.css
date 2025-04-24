@@ -127,7 +127,7 @@
   border-radius: 5px;
 }
 
-.nav-button.complete-button {
+.nav-button.submit-button {
   background-color: #FFD400;
   color: #0f1525;
   display: flex;
@@ -136,7 +136,26 @@
   text-align: center;
 }
 
-.nav-button.complete-button::after {
+.nav-button.submit-button::after {
+  content: '▶';
+  font-size: 14px;
+}
+
+.nav-button.run-button {
+  background-color: #0ea5e9;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  text-align: center;
+  transition: background-color 0.2s ease;
+}
+
+.nav-button.run-button:hover {
+  background-color: #0284c7;
+}
+
+.nav-button.run-button::after {
   content: '▶';
   font-size: 14px;
 }
