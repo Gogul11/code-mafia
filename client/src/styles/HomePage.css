@@ -148,6 +148,14 @@ body {
     color: #FF6B6B;
 }
 
+.rules-title {
+    font-size: 2rem;
+    text-shadow: 2px 2px 0px #000;
+    margin: 0;
+    padding: 80px 0px 0px 0px;
+    color: #ffd400;
+}
+
 .rules-content {
     line-height: 1.7; /* Increase line spacing for better readability */
     text-align: justify; /* Ensure uniform width for lines */
@@ -164,9 +172,7 @@ body {
 .coin{
     width: 30px;
     height: 30px;
-    background-color: #ffd400;
-    border-radius: 50%;
-    margin-right: 10px;
+    margin-right: 25px;
 }
 
 .nav-sidebar {
