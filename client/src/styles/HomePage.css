@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 /* General Styles */
 body {
     margin: 0;
@@ -134,9 +134,45 @@ body {
 
 /* Logged-In Styles */
 .logged-in-container {
+    margin-top: 10vh;
     display: flex;
+    flex-direction: column;
     width: 100%;
     height: 100vh;
+}
+
+.rules{
+    margin-top: 6vh;
+    text-align: center;
+    font-size: x-large;
+    color: #FF6B6B;
+}
+
+.rules-title {
+    font-size: 2rem;
+    text-shadow: 2px 2px 0px #000;
+    margin: 0;
+    padding: 80px 0px 0px 0px;
+    color: #ffd400;
+}
+
+.rules-content {
+    line-height: 1.7; /* Increase line spacing for better readability */
+    text-align: justify; /* Ensure uniform width for lines */
+    padding: 20px 30px 20px 30px;
+    margin: 0px 50px 0px 50px;
+    font-family: "VT323", monospace;
+    font-size: large;
+    color: #f3e6a6;
+    background-color:#0b0f1a; /* Optional: Add a light background for better contrast */
+    border-radius: 15px; /* Optional: Add rounded corners */
+    box-shadow: 0 2px 4px rgb(0, 0, 0); /* Optional: Add a subtle shadow */
+}
+
+.coin{
+    width: 30px;
+    height: 30px;
+    margin-right: 25px;
 }
 
 .nav-sidebar {
