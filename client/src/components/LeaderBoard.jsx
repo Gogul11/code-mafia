@@ -10,7 +10,7 @@ const LeaderBoard = () => {
     useEffect(() => {
         const fetchLeaders = async () => {
             try {
-                const response = await axios.get(`${process.env.REACT_APP_SERVER_BASEAPI}/leader`);
+                const response = await axios.get(`${process.env.REACT_APP_SERVER_BASEAPI}/leader`, {withCredentials: true});
                 setAllLeaders(response.data.data);
             } catch (error) {
                 console.error("Error fetching leaderboard data:", error);

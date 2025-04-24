@@ -13,7 +13,7 @@ function LoginPage({ setIsLoggedIn }) {
       const response = await axios.post(`${process.env.REACT_APP_SERVER_BASEAPI}/auth/login`, {
         username,
         password
-      });
+      }, {withCredentials: true});
       localStorage.setItem('token', response.data.token);
       setIsLoggedIn(true);
       navigate('/');
