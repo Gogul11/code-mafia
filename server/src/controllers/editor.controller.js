@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Buffer } from 'buffer';
 import jwt from 'jsonwebtoken';
 import client from '../config/redisdb.js';
+import getAndCacheChallenge from "../utils/challenges-cache.js";
 
 export async function runCode(req, res, next) {
     try {
@@ -148,18 +149,31 @@ function validateRequest(question_id) {
     return question_id && typeof question_id === "number";
 }
 
-async function fetchChallenge(question_id) {
-    const { data, error } = await supabase
-        .from('challenges')
-        .select('*')
-        .eq('id', question_id)
-        .single();
+/**
+ * Fetches a challenge from cache. Falls back to DB if cache is not present.
+ * @param {string} question_id 
+ * @param {'user' | 'judge0'} type 
+ * @returns {Promise<Object>} Challenge data
+ */
+export async function fetchChallenge(question_id, type = 'user') {
+    const cacheKey = `challenges-${type}`;
 
-    if (error) {
-        throw error;
+    let cachedData = await client.get(cacheKey);
+
+    // If cache doesn't exist, fetch and cache both user and judge0 challenges
+    if (!cachedData) {
+        await getAndCacheChallenge();
+        cachedData = await client.get(cacheKey);
     }
 
-    return data;
+    const parsed = JSON.parse(cachedData);
+    const challenge = parsed.find(ch => ch.id === question_id);
+
+    if (!challenge) {
+        throw new Error(`Challenge with id ${question_id} not found in ${type} cache`);
+    }
+
+    return challenge;
 }
 
 function extractTestCases(challenge) {

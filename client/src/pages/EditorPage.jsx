@@ -15,6 +15,7 @@ const EditorPage = () => {
 
     const [testCaseList, setTestCaseList] = useState([]);
     const [problemTitle, setProblemTitle] = useState("");
+    const [problemDifficulty, setProblemDifficulty] = useState("");
     const [problemDescription, setProblemDescription] = useState("");
 
     const [questionSet, setQuestionSet] = useState([]);
@@ -54,6 +55,7 @@ const EditorPage = () => {
         if (!question) return;
 
         setProblemTitle(`${currentQuestion}. ${question.title}`);
+        setProblemDifficulty(question.difficulty);
         setProblemDescription(question.description);
 
 
@@ -187,7 +189,11 @@ const EditorPage = () => {
 
                 <div>
                     <div className='desc'>
-                        <CodeDescriptionPane problemTitle={problemTitle} problemDescription={problemDescription} />
+                        <CodeDescriptionPane
+                            problemTitle={problemTitle}
+                            problemDescription={problemDescription}
+                            problemDifficulty={problemDifficulty} 
+                        />
                     </div>
                     <div className='editor'>
                         <CodeEditor

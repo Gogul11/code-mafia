@@ -39,3 +39,9 @@
     border-radius: 5px;
     overflow-x: auto;
 }
+
+#problem-difficulty {
+    display: inline;
+    color: #FF6B6B;
+    font-size: 1rem;
+}
