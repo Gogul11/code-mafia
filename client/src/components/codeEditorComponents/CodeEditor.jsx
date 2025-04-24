@@ -199,7 +199,7 @@ const CodeEditor = ({ questionId, onSubmissionComplete, submitRef }) => {
           disabled={isRunning}
           className="run-button"
           id='run-button'
-        >Run Code</button>
+        >Run Test Cases</button>
       </div>
     </div>
   );
