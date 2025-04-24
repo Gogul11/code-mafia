@@ -81,8 +81,9 @@ const CodeEditor = ({ questionId, onSubmissionComplete }) => {
           source_code: code
         },
         {
-          headers: { Authorization: `Bearer ${token}` },
-          withCredentials: true
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
         }
       );
 

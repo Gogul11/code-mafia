@@ -22,13 +22,9 @@ function App() {
       const token = localStorage.getItem('token');
       if (token) {
         try {
-          const response = await axios.get(
-            `${process.env.REACT_APP_SERVER_BASEAPI}/auth/verify`,
-            {
-              headers: { Authorization: `Bearer ${token}` },
-              withCredentials: true
-            }
-          );          
+          const response = await axios.get(`${process.env.REACT_APP_SERVER_BASEAPI}/auth/verify`, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
           if (response.data.valid) {
             setIsLoggedIn(true);
           }
