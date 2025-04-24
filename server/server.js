@@ -22,7 +22,7 @@ const io = new Server(server, {
     cors: {
         origin: "*", // allowing all origin as some antivirus interver dynuddns.net. Change it if a domain is bought
         methods: ["GET", "POST"],
-        credentials: true
+        credentials: false
     }
 });
 
@@ -203,7 +203,7 @@ io.on("connection", (socket) => {
 
 app.use(cors({
     origin: "*", // allowing all origin as some antivirus interver dynuddns.net. Change it if a domain is bought
-    credentials: true
+    credentials: false
 }));
 
 app.use(express.json());
