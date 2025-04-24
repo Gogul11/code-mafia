@@ -16,6 +16,9 @@ const BottomPanel = ({ currentQuestion, totalQuestions, xp, isPowerupsDialogOpen
   const handleSubmitCode = () => {
     submitRef.current?.handleRunCode("submitcode");
   }
+  const handleRunTestCode = () => {
+    submitRef.current?.handleRunCode("runtestcase");
+  }
 
   return (
     <div className="bottom-panel">
@@ -54,7 +57,8 @@ const BottomPanel = ({ currentQuestion, totalQuestions, xp, isPowerupsDialogOpen
       {/* Navigation Buttons */}
       <div className="navigation-buttons">
         <button className="nav-button prev-button" onClick={gotoPrevQuestion}>Prev</button>
-        <button className="nav-button complete-button" onClick={handleSubmitCode}>Submit</button>
+        <button className="nav-button run-button" onClick={handleRunTestCode}>RunCode</button>
+        <button className="nav-button submit-button" onClick={handleSubmitCode}>Submit</button>
         <button className="nav-button next-button" onClick={gotoNextQuestion}>Next</button>
       </div>
 

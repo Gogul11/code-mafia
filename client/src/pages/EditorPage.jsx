@@ -10,6 +10,7 @@ import PowerupsDialog from '../components/PowerupsDialog.jsx';
 import axios from "axios";
 import PowerUpContainer from '../components/powerUpComponents/PowerUpContainer.jsx';
 import TestCases from '../components/codeEditorComponents/TestCases.jsx';
+import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 
 const EditorPage = () => {
 
@@ -60,14 +61,14 @@ const EditorPage = () => {
         setProblemDifficulty(question.difficulty);
         setProblemDescription(question.description);
 
-       
+
         const testCasesArray = Object.entries(question.test_cases).map(([key, value]) => ({
             id: key,
             input: value.input,
             expected_output: value.expected_output
         }));
 
-        setTestCaseList(testCasesArray); 
+        setTestCaseList(testCasesArray);
     };
 
     const getXP = async () => {
@@ -92,7 +93,7 @@ const EditorPage = () => {
         getXP();
         getCoins();
 
-       
+
         setTestCaseList(results.results.map(result => ({
             name: result.testCase,
             input: result.input,
@@ -188,59 +189,76 @@ const EditorPage = () => {
                 </div>
 
                 <div>
-                    <div className='desc'>
-                        <CodeDescriptionPane
-                            problemTitle={problemTitle}
-                            problemDescription={problemDescription}
-                            problemDifficulty={problemDifficulty} 
-                        />
-                    </div>
-                    <div className='editor'>
-                        <CodeEditor
-                            questionId={questionSet[currentQuestion - 1].id}
-                            onSubmissionComplete={(results) => onSubmissionComplete(results)}
-                            submitRef={submitRef}
-                        />
-                    </div>
-                </div>
-                <div>
-                    <div id='test-case-choose'>
-                        <TestCases testCases={testCaseList} />
-                    </div>
-                    {windowWidth < 770 ? (
-                                <div
-                                    style={{
-                                        position: "fixed",
-                                        bottom: open ? "20px" : "20px", 
-                                        left: "10%",
-                                        transform: "translateX(-50%)",
-                                        zIndex: 1000,
-                                        display: "flex",
-                                        justifyContent: "center",
-                                        alignItems: "center",
-                                        width: "100%",
-                                        pointerEvents: "none", 
-                                    }}
-                                >
-                                    <div
-                                        style={{
-                                            backgroundColor: "#FFD400",
-                                            borderRadius: "50%",
-                                            padding: "8px",
-                                            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.2)",
-                                            pointerEvents: "auto",
-                                            cursor: "pointer",
-                                        }}
-                                        onClick={() => setOpen(!open)}
-                                    >
-                                        {open ? (
-                                            <BsArrowBarDown size={24} color="#030617" />
-                                        ) : (
-                                            <BsArrowBarUp size={24} color="#030617" />
-                                        )}
+                    <div className="content" style={{ height: '100vh' }}>
+                        <PanelGroup autoSaveId="codePanelLayout" direction='horizontal'>
+                            <Panel defaultSize={50}>
+                                {/* Left Pane */}
+                                <div className="left-pane" style={{ paddingRight: '10px', height: '100%' }}>
+                                    <div className="desc">
+                                        <CodeDescriptionPane
+                                            problemTitle={problemTitle}
+                                            problemDescription={problemDescription}
+                                            problemDifficulty={problemDifficulty}
+                                        />
+                                    </div>
+
+                                    <div id="test-case-choose">
+                                        <TestCases testCases={testCaseList} />
                                     </div>
                                 </div>
-                            ) : null}
+                            </ Panel>
+                            <PanelResizeHandle className="panelresizer"/>
+                            <Panel defaultSize={50}>
+                                {/* Right Pane */}
+                                <div className="right-pane" style={{ height: '100%' }}>
+                                    <div className="editor">
+                                        <CodeEditor
+                                            questionId={questionSet[currentQuestion - 1].id}
+                                            onSubmissionComplete={(results) => onSubmissionComplete(results)}
+                                            submitRef={submitRef}
+                                        />
+                                    </div>
+                                </div>
+                            </Panel>
+                        </PanelGroup>
+                    </div>
+
+                </div>
+                <div>
+                    {windowWidth < 770 ? (
+                        <div
+                            style={{
+                                position: "fixed",
+                                bottom: open ? "20px" : "20px",
+                                left: "10%",
+                                transform: "translateX(-50%)",
+                                zIndex: 1000,
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                width: "100%",
+                                pointerEvents: "none",
+                            }}
+                        >
+                            <div
+                                style={{
+                                    backgroundColor: "#FFD400",
+                                    borderRadius: "50%",
+                                    padding: "8px",
+                                    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.2)",
+                                    pointerEvents: "auto",
+                                    cursor: "pointer",
+                                }}
+                                onClick={() => setOpen(!open)}
+                            >
+                                {open ? (
+                                    <BsArrowBarDown size={24} color="#030617" />
+                                ) : (
+                                    <BsArrowBarUp size={24} color="#030617" />
+                                )}
+                            </div>
+                        </div>
+                    ) : null}
 
                     {windowWidth >= 770 || open ? (
                         <BottomPanel
@@ -256,7 +274,7 @@ const EditorPage = () => {
                         />
                     ) : null}
 
-      
+
                     {powerupsDialogOpen &&
                         <PowerupsDialog
                             onClose={() => setPowerupsDialogOpen(false)}
