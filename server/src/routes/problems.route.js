@@ -1,8 +1,9 @@
 import express from 'express';
-import { getProblem } from '../controllers/problems.controller.js';
+import { getProblem, getChallengesSolvedStatus } from '../controllers/problems.controller.js';
 
-const problem = express.Router()
+const problem = express.Router();
 
-problem.get('/', getProblem)
+problem.get('/', getProblem);
+problem.get('/status', getChallengesSolvedStatus);
 
 export default problem;

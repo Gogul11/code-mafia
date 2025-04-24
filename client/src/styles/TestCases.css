@@ -89,3 +89,55 @@ pre {
     color: #DC3545;
     background: rgba(220, 53, 69, 0.2);
 }
+
+/* Status icons */
+.status-icon {
+    margin-left: 8px;
+    font-weight: bold;
+  }
+  
+  .status-icon.accepted {
+    color: #4CAF50;
+  }
+  
+  .status-icon.wrong {
+    color: #F44336;
+  }
+  
+  /* Test case button status colors */
+  .test-case-btn.accepted {
+    background-color: rgba(76, 175, 80, 0.1);
+    border-left: 3px solid #4CAF50;
+  }
+  
+  .test-case-btn.wrong-answer {
+    background-color: rgba(244, 67, 54, 0.1);
+    border-left: 3px solid #F44336;
+  }
+  
+  /* Status text colors */
+  .status.accepted {
+    color: #4CAF50;
+    font-weight: bold;
+  }
+  
+  .status.wrong-answer {
+    color: #F44336;
+    font-weight: bold;
+  }
+  
+  /* Active test case styling */
+  .test-case-btn.active {
+    font-weight: bold;
+    background-color: #f0f0f0;
+  }
+  
+  .test-case-btn.active.accepted {
+    background-color: rgba(76, 175, 80, 0.2);
+  }
+  
+  .test-case-btn.active.wrong-answer {
+    background-color: rgba(244, 67, 54, 0.2);
+  }
+
+  
