@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, forwardRef, useImperativeHandle } from "react";
 import axios from 'axios';
 import Editor from "@monaco-editor/react";
-import '../../styles/editor.css'
+import '../../styles/editor.css';
 import { BsClipboard2Fill, BsClipboard2CheckFill, BsArrowClockwise } from "react-icons/bs";
 
 // Language configurations with Judge0 IDs and boilerplate code
@@ -38,7 +38,7 @@ const LANGUAGE_CONFIG = {
   }
 };
 
-const CodeEditor = ({ questionId, onSubmissionComplete }) => {
+const CodeEditor = ({ questionId, onSubmissionComplete, submitRef }) => {
   // Load last used language or default to Python
   const savedLang = localStorage.getItem("lastSelectedLang") || "python";
   const [lang, setLang] = useState(savedLang);
@@ -69,22 +69,38 @@ const CodeEditor = ({ questionId, onSubmissionComplete }) => {
     }
   };
 
-  const handleRunCode = async () => {
+  const handleRunCode = async (action = "runtestcase") => {
     setIsRunning(true);
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.post(
-        `${process.env.REACT_APP_SERVER_BASEAPI}/editor/batch`,
-        {
-          question_id: questionId,
-          language_id: LANGUAGE_CONFIG[lang].id,
-          source_code: code
-        },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-          withCredentials: true
-        }
-      );
+      let response;
+      if (action === "runtestcase") {
+        response = await axios.post(
+          `${process.env.REACT_APP_SERVER_BASEAPI}/editor/runtestcases`,
+          {
+            question_id: questionId,
+            language_id: LANGUAGE_CONFIG[lang].id,
+            source_code: code
+          },
+          {
+            headers: { Authorization: `Bearer ${token}` },
+            withCredentials: true
+          }
+        );
+      } else if (action === "submitcode") {
+        response = await axios.post(
+          `${process.env.REACT_APP_SERVER_BASEAPI}/editor/submitquestion`,
+          {
+            question_id: questionId,
+            language_id: LANGUAGE_CONFIG[lang].id,
+            source_code: code
+          },
+          {
+            headers: { Authorization: `Bearer ${token}` },
+            withCredentials: true
+          }
+        );
+      }
 
       onSubmissionComplete(response.data);
     } catch (error) {
@@ -96,6 +112,10 @@ const CodeEditor = ({ questionId, onSubmissionComplete }) => {
       setIsRunning(false);
     }
   };
+
+  useImperativeHandle(submitRef, () => ({
+    handleRunCode
+  }));
 
   const handleLanguageChange = (newLang) => {
     const response = window.confirm("Changing language will reset your code. Continue?");

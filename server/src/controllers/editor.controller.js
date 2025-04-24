@@ -6,44 +6,6 @@ import jwt from 'jsonwebtoken';
 import client from '../config/redisdb.js';
 import getAndCacheChallenge from "../utils/challenges-cache.js";
 
-export async function runCode(req, res, next) {
-    try {
-        const header = {
-            "Content-Type": "application/json",
-            "X-Auth-Token": process.env.X_AUTH_TOKEN,
-        };
-        const body = {
-            "source_code": req.body.source_code || "",
-            "language_id": req.body.language_id || 71,
-            "stdin": req.body.stdin || "",
-            "expected_output": req.body.expected_output || "",
-        };
-        const response = await axios.post(process.env.JUDGE_ZERO_API + "/submissions/", body, { header });
-        const submission_token = response.data.token;
-
-        try {
-
-            let response;
-            do {
-                response = await axios.get(process.env.JUDGE_ZERO_API + "/submissions/" + submission_token);
-            } while (response.data.status.id <= 2);
-            res.status(200).json({
-                "stdout": response.data.stdout,
-                "stderr": response.data.stderr,
-                "description": response.data.status.description,
-                "compile_output": response.data.compile_output,
-            });
-
-        } catch (error) {
-            console.log(error);
-            next(error);
-        }
-    } catch (e) {
-        console.log(e);
-        next(e);
-    }
-}
-
 export async function runBatchCode(req, res, next) {
     try {
         const { question_id, language_id, source_code } = req.body;
@@ -67,7 +29,59 @@ export async function runBatchCode(req, res, next) {
             return res.status(400).json({ error: "Invalid question_id" });
         }
 
-        const challenge = await fetchChallenge(question_id);
+        const challenge = await fetchChallenge(question_id, "user");
+        if (!challenge) {
+            return res.status(404).json({ error: "Challenge not found" });
+        }
+
+        const testCases = extractTestCases(challenge);
+        const submissions = encodeSubmissions(testCases, language_id, source_code);
+
+        const submissionTokens = await submitToJudge0(submissions);
+        const finalResponse = await pollJudge0(submissionTokens);
+
+        const results = decodeResults(finalResponse, testCases);
+        const passed = results.filter(r => r.isCorrect).length;
+
+
+        return res.status(200).json({
+            challengeId: challenge.id,
+            title: challenge.title,
+            results,
+            passed,
+            total: testCases.length
+        });
+
+    } catch (error) {
+        console.error("Error in runBatchCode:", error);
+        next(error);
+    }
+}
+
+export async function submitCodeForQuestion(req, res, next) {
+    try {
+        const { question_id, language_id, source_code } = req.body;
+        const token = req.headers.authorization?.split(" ")[1];
+
+        // Verify and decode the token using the JWT secret from environment variables
+        let team_id;
+
+        try {
+            const decoded = jwt.verify(token, process.env.SECRET_KEY);
+            team_id = decoded.team_id;
+        } catch (err) {
+            return res.status(400).json({ error: err.message });
+        }
+
+        if (!team_id) {
+            return res.status(400).json({ error: "Team_id not found in token" });
+        }
+
+        if (!validateRequest(question_id)) {
+            return res.status(400).json({ error: "Invalid question_id" });
+        }
+
+        const challenge = await fetchChallenge(question_id, "judge0");
         if (!challenge) {
             return res.status(404).json({ error: "Challenge not found" });
         }
@@ -101,7 +115,7 @@ export async function runBatchCode(req, res, next) {
         });
 
     } catch (error) {
-        console.error("Error in runBatchCode:", error);
+        console.error("Error in submit code:", error);
         next(error);
     }
 }
@@ -155,7 +169,7 @@ function validateRequest(question_id) {
  * @param {'user' | 'judge0'} type 
  * @returns {Promise<Object>} Challenge data
  */
-export async function fetchChallenge(question_id, type = 'user') {
+export async function fetchChallenge(question_id, type) {
     const cacheKey = `challenges-${type}`;
 
     let cachedData = await client.get(cacheKey);
@@ -179,6 +193,7 @@ export async function fetchChallenge(question_id, type = 'user') {
 function extractTestCases(challenge) {
     return Object.entries(challenge.test_cases).map(([name, tc]) => ({
         name,
+        type: tc.type?.toString() ?? "",
         input: tc.input?.toString() ?? "",
         expected_output: tc.expected_output?.toString() ?? ""
     }));
@@ -239,19 +254,22 @@ function decodeResults(response, testCases) {
         const testCase = testCases[index];
         const decodedOutput = sub.stdout ? Buffer.from(sub.stdout, 'base64').toString('utf-8') : null;
         const decodedExpectedOutput = Buffer.from(testCase.expected_output, 'utf-8').toString('utf-8');
+        const isHidden = testCase.type === 'hidden';
+        console.log(testCase);
         const isCorrect = sub.status.id === 3 && decodedOutput.trim() === decodedExpectedOutput.trim();
 
         return {
             testCase: testCase.name,
             status: sub.status.description,
-            input: testCase.input,
-            output: decodedOutput,
-            expectedOutput: decodedExpectedOutput,
+            input: isHidden ? 'hidden' : testCase.input,
+            output: isHidden ? 'hidden' : decodedOutput,
+            expectedOutput: isHidden ? 'hidden' : decodedExpectedOutput,
             isCorrect,
             runtime: sub.time ? `${sub.time}s` : 'N/A'
         };
     });
 }
+
 
 async function storeSubmission({ team_id, question_id, challenge, source_code, passed, total }) {
     let status;

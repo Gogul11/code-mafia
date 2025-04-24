@@ -49,6 +49,8 @@ const EditorPage = () => {
         overlayRef
     } = PowerUpContainer();
 
+    const submitRef = useRef();
+
     const loadQuestion = async () => {
         console.log("questions: ", questionSet);
         const question = questionSet[currentQuestion - 1];
@@ -199,6 +201,7 @@ const EditorPage = () => {
                         <CodeEditor
                             questionId={questionSet[currentQuestion - 1].id}
                             onSubmissionComplete={(results) => onSubmissionComplete(results)}
+                            submitRef={submitRef}
                         />
                     </div>
                 </div>
@@ -251,6 +254,7 @@ const EditorPage = () => {
                             gotoPrevQuestion={gotoPrevQuestion}
                             powerupsDialogOpen={powerupsDialogOpen}
                             setPowerupsDialogOpen={setPowerupsDialogOpen}
+                            submitRef={submitRef}
                         />
                     ) : null}
 
