@@ -41,7 +41,7 @@ export const getChallengesSolvedStatus = async (req, res) => {
 
     const { data: submissions, error } = await supabase
       .from('submissions')
-      .select('challenge_id, status')
+      .select('challenge_id, status, code')
       .eq('team_id', team_id)
       .order('submitted_at', { ascending: false });
 
@@ -53,7 +53,10 @@ export const getChallengesSolvedStatus = async (req, res) => {
     const statusMap = {};
     submissions.forEach(sub => {
       if (!statusMap[sub.challenge_id]) {
-        statusMap[sub.challenge_id] = sub.status;
+        statusMap[sub.challenge_id] = {
+          status: sub.status,
+          code: sub.code
+        };
       }
     });
 

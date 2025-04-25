@@ -38,12 +38,27 @@ const LANGUAGE_CONFIG = {
   }
 };
 
-const CodeEditor = ({ questionId, onSubmissionComplete, submitRef }) => {
+if (!sessionStorage.getItem('hasRefreshedOnce')) {
+  const lang = localStorage.getItem("lastSelectedLang") || "python";
+  Object.keys(localStorage).forEach(key => {
+    if (key.startsWith('userCode_')) {
+      localStorage.removeItem(key);
+    }
+  });
+  sessionStorage.setItem('hasRefreshedOnce', 'true');
+}
+
+const CodeEditor = ({ questionId, onSubmissionComplete, submitRef, codeFromDB }) => {
   // Load last used language or default to Python
   const savedLang = localStorage.getItem("lastSelectedLang") || "python";
   const [lang, setLang] = useState(savedLang);
   const [code, setCode] = useState(() => {
-    return localStorage.getItem(`userCode_${questionId}_${savedLang}`) || LANGUAGE_CONFIG[savedLang].boilerplate;
+    const storedCode = localStorage.getItem(`userCode_${questionId}_${savedLang}`);
+    if (codeFromDB && !storedCode) {
+      localStorage.setItem(`userCode_${questionId}_${savedLang}`, codeFromDB);
+      return codeFromDB;
+    }
+    return storedCode !== null ? storedCode : LANGUAGE_CONFIG[savedLang].boilerplate;
   });
 
   const [isRunning, setIsRunning] = useState(false);
@@ -53,6 +68,18 @@ const CodeEditor = ({ questionId, onSubmissionComplete, submitRef }) => {
   useEffect(() => {
     localStorage.setItem("lastSelectedLang", lang);
   }, [lang]);
+
+  useEffect(() => {
+    const key = `userCode_${questionId}_${lang}`;
+    const storedCode = localStorage.getItem(key);
+  
+    if (codeFromDB && !storedCode) {
+      localStorage.setItem(key, codeFromDB);
+      setCode(codeFromDB);
+    } else {
+      setCode(storedCode !== null ? storedCode : LANGUAGE_CONFIG[lang].boilerplate);
+    }
+  }, [questionId, lang, codeFromDB]);
 
   const handleCopy = () => {
     navigator.clipboard.writeText(code)
@@ -128,69 +155,77 @@ const CodeEditor = ({ questionId, onSubmissionComplete, submitRef }) => {
   };
 
   return (
-    <div>
-      <div id='top-div'>
+    <>
+      {isRunning && (
+        <div className="fullscreen-loader">
+          Running Code...
+        </div>
+      )}
 
-        {/* Language Selection */}
-        <select id="lang" value={lang} onChange={(e) => handleLanguageChange(e.target.value)}>
-          <option value=''>Select Language</option>
-          {Object.keys(LANGUAGE_CONFIG).map((key) => (
-            <option key={key} value={key}>{LANGUAGE_CONFIG[key].name}</option>
-          ))}
-        </select>
+      <div>
+        <div id='top-div'>
 
-        {/* Theme Selection */}
-        <select id='lang' value={theme} onChange={(e) => setTheme(e.target.value)}>
-          <option value=''>Select Theme</option>
-          <option value='light'>Light Theme</option>
-          <option value='vs-dark'>VS Code Dark Theme</option>
-          <option value='hc-black'>Dark Theme</option>
-        </select>
+          {/* Language Selection */}
+          <select id="lang" value={lang} onChange={(e) => handleLanguageChange(e.target.value)}>
+            <option value=''>Select Language</option>
+            {Object.keys(LANGUAGE_CONFIG).map((key) => (
+              <option key={key} value={key}>{LANGUAGE_CONFIG[key].name}</option>
+            ))}
+          </select>
 
-        {/* Copy and Reset Buttons */}
-        <div className="but">
-          {copied ? <BsClipboard2CheckFill className="copy" size={30} color="green" /> :
-            <BsClipboard2Fill className="copy" onClick={handleCopy} size={30} />}
+          {/* Theme Selection */}
+          <select id='lang' value={theme} onChange={(e) => setTheme(e.target.value)}>
+            <option value=''>Select Theme</option>
+            <option value='light'>Light Theme</option>
+            <option value='vs-dark'>VS Code Dark Theme</option>
+            <option value='hc-black'>Dark Theme</option>
+          </select>
 
-          <BsArrowClockwise className='reset' size={30} onClick={handleReset} />
+          {/* Copy and Reset Buttons */}
+          <div className="but">
+            {copied ? <BsClipboard2CheckFill className="copy" size={30} color="green" /> :
+              <BsClipboard2Fill className="copy" onClick={handleCopy} size={30} />}
+
+            <BsArrowClockwise className='reset' size={30} onClick={handleReset} />
+          </div>
+
         </div>
 
-      </div>
+        {copied && <p id='success'>Code Copied to Clipboard</p>}
 
-      {copied && <p id='success'>Code Copied to Clipboard</p>}
-
-      {/* Code Editor */}
-      <div id='editor'>
-        <Editor
-          value={code}
-          onChange={(value) => {
-            setCode(value);
-            localStorage.setItem(`userCode_${questionId}_${lang}`, value);
-          }}
-          language={LANGUAGE_CONFIG[lang].monacoLang}
-          className="editor-container"
-          height="95%"
-          width="95%"
-          options={{
-            minimap: { enabled: false },
-            fontSize: 16,
-            padding: { top: 10, bottom: 10 },
-            lineNumbers: "on",
-            wordWrap: "on",
-            scrollBeyondLastLine: false,
-            readOnly: false,
-            contextmenu: false,
-          }}
-          theme={theme}
-          onMount={(editor) => {
-            editor.onDidPaste(() => {
-              console.log("Paste action blocked");
-              editor.trigger('keyboard', 'undo', null); // Revert the paste
-            });
-          }}
-        />
+        {/* Code Editor */}
+        <div id='editor'>
+          <Editor
+            value={code}
+            onChange={(value) => {
+              setCode(value);
+              localStorage.setItem(`userCode_${questionId}_${lang}`, value);
+            }}
+            language={LANGUAGE_CONFIG[lang].monacoLang}
+            className="editor-container"
+            height="95%"
+            width="95%"
+            options={{
+              minimap: { enabled: false },
+              fontSize: 16,
+              padding: { top: 10, bottom: 10 },
+              lineNumbers: "on",
+              wordWrap: "on",
+              scrollBeyondLastLine: false,
+              readOnly: false,
+              contextmenu: false,
+            }}
+            theme={theme}
+            onMount={(editor) => {
+              editor.onDidPaste(() => {
+                console.log("Paste action blocked");
+                editor.trigger('keyboard', 'undo', null); // Revert the paste
+              });
+            }}
+          />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
