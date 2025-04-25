@@ -78,23 +78,25 @@ const EditorPage = () => {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 }
             });
-
+    
             const statusMap = response.data;
-
-            // Update the questionSet with status information
+    
+            // Update the questionSet with status and code information
             setQuestionSet(prevQuestions =>
                 prevQuestions.map(question => ({
                     ...question,
-                    status: statusMap[question.id] || 'unattempted'
+                    status: statusMap[question.id]?.status || 'unattempted',
+                    code: statusMap[question.id]?.code || ''
                 }))
             );
         } catch (error) {
             console.error('Error fetching submission status:', error);
-            // If the request fails, set all questions to 'unattempted'
+            // If the request fails, set all questions to 'unattempted' and code to ''
             setQuestionSet(prevQuestions =>
                 prevQuestions.map(question => ({
                     ...question,
-                    status: 'unattempted'
+                    status: 'unattempted',
+                    code: ''
                 }))
             );
         }
@@ -246,6 +248,7 @@ const EditorPage = () => {
                                             questionId={questionSet[currentQuestion - 1].id}
                                             onSubmissionComplete={(results) => onSubmissionComplete(results)}
                                             submitRef={submitRef}
+                                            codeFromDB={questionSet[currentQuestion - 1].code}
                                         />
                                     </div>
                                 </div>

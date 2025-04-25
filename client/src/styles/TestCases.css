@@ -41,13 +41,13 @@
 }
 
 h3 {
-    color: #FFD400; /* Primary heading color */
+    color: #FFD400;
     margin-bottom: 5px;
 }
 
 pre {
     font-family: monospace;
-    font-size: 20px; /* Adjusted for readability */
+    font-size: 20px;
     background: #1e1e1e;
     padding: 8px;
     border-radius: 5px;
@@ -55,7 +55,6 @@ pre {
     word-wrap: break-word;
 }
 
-/* Prefilled text (default placeholders) - Yellow */
 .test-case-input.prefilled,
 .test-case-output.prefilled,
 .test-case-result.prefilled {
@@ -107,12 +106,10 @@ pre {
   /* Test case button status colors */
   .test-case-btn.accepted {
     background-color: rgba(76, 175, 80, 0.1);
-    border-left: 3px solid #4CAF50;
   }
   
   .test-case-btn.wrong-answer {
     background-color: rgba(244, 67, 54, 0.1);
-    border-left: 3px solid #F44336;
   }
   
   /* Status text colors */
@@ -127,17 +124,17 @@ pre {
   }
   
   /* Active test case styling */
-  .test-case-btn.active {
-    font-weight: bold;
-    background-color: #f0f0f0;
-  }
   
   .test-case-btn.active.accepted {
     background-color: rgba(76, 175, 80, 0.2);
+    color: #4CAF50;
+    border: 3px solid #4CAF50;
   }
   
   .test-case-btn.active.wrong-answer {
     background-color: rgba(244, 67, 54, 0.2);
+    color:  #F44336;
+    border: 3px solid #F44336;
   }
 
   
