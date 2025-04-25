@@ -162,14 +162,14 @@ body {
     padding: 20px 30px 20px 30px;
     margin: 0px 50px 0px 50px;
     font-family: "VT323", monospace;
-    font-size: large;
+    font-size: x-large;
     color: #f3e6a6;
     background-color:#0b0f1a; /* Optional: Add a light background for better contrast */
     border-radius: 15px; /* Optional: Add rounded corners */
     box-shadow: 0 2px 4px rgb(0, 0, 0); /* Optional: Add a subtle shadow */
 }
 
-.coin{
+.powerup-icon{
     width: 30px;
     height: 30px;
     margin-right: 25px;
