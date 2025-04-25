@@ -79,17 +79,6 @@ body {
     box-shadow: 2px 2px 0px #000;
 }
 
-/* Pixel Art Character */
-.pixel-art-character {
-    width: 50px;
-    height: 50px;
-    background-color: #FF6B6B;
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    border: 2px solid #000;
-}
-
 /* CRT Scanline Effect */
 .scanlines {
     position: absolute;

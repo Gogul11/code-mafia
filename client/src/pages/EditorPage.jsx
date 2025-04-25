@@ -11,6 +11,7 @@ import axios from "axios";
 import PowerUpContainer from '../components/powerUpComponents/PowerUpContainer.jsx';
 import TestCases from '../components/codeEditorComponents/TestCases.jsx';
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
+import PopupMessage from '../components/PopupMessage.jsx';
 
 const EditorPage = () => {
 
@@ -25,8 +26,6 @@ const EditorPage = () => {
     const [totalQuestions, setTotalQuestions] = useState(10);
     const [xp, setXp] = useState(0);
 
-    const [powerupsDialogOpen, setPowerupsDialogOpen] = useState(false);
-
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -34,19 +33,16 @@ const EditorPage = () => {
     const {
         powers,
         teams,
-        username,
-        inputValue,
-        clickedPower,
-        clickedTeam,
-        popup,
-        popupCount,
         coins,
+        powerupPopupOpen,
+        powerupsDialogOpen,
+        message,
         getCoins,
         setClickedPower,
         setClickedTeam,
-        handlePopupClose,
         handleApply,
-        popupRef,
+        setPowerupPopupOpen,
+        setPowerupsDialogOpen,
         overlayRef
     } = PowerUpContainer();
 
@@ -78,9 +74,9 @@ const EditorPage = () => {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 }
             });
-    
+
             const statusMap = response.data;
-    
+
             // Update the questionSet with status and code information
             setQuestionSet(prevQuestions =>
                 prevQuestions.map(question => ({
@@ -318,6 +314,12 @@ const EditorPage = () => {
                             onTeamSelect={setClickedTeam}
                             onUsePower={handleApply}
                             coins={coins} />
+                    }
+                    {powerupPopupOpen &&
+                        <PopupMessage
+                            onClose={() => setPowerupPopupOpen(false)}
+                            message={message}
+                        />
                     }
                 </div>
 
