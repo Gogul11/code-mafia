@@ -19,7 +19,7 @@ jobs:
           
       - name: Deploy to Droplet
         run: |
-          ssh -o StrictHostKeyChecking=no root@${{ secrets.DROPLET_IP }} \
+          ssh -o StrictHostKeyChecking=no rst@${{ secrets.DROPLET_IP }} \
             "cd code-mafia && \
             git pull origin main && \
             docker-compose down && \
