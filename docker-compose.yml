@@ -1,5 +1,6 @@
-x-logging:
-  &default-logging
+version: "3.8"
+
+x-logging: &default-logging
   logging:
     driver: json-file
     options:
@@ -10,9 +11,17 @@ services:
     image: judge0/judge0:1.13.1
     volumes:
       - ./judge0.conf:/judge0.conf:ro
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro  # Required for cgroups
     ports:
       - "2358:2358"
     privileged: true
+    environment:
+      - JUDGE0_WORKERS_MAX_CONCURRENT=8  # 2x vCPUs
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: "2G"
     <<: *default-logging
     restart: always
 
@@ -21,7 +30,19 @@ services:
     command: ["./scripts/workers"]
     volumes:
       - ./judge0.conf:/judge0.conf:ro
+      - /box:/box:rw  # Required for isolation
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
     privileged: true
+    tmpfs:  # Critical for cgroups v1 compatibility
+      - /run
+      - /run/lock
+    environment:
+      - JUDGE0_ALLOWED_MEMORY=512000  # 512MB per submission
+    deploy:
+      resources:
+        limits:
+          cpus: "4.0"
+          memory: "4G"
     <<: *default-logging
     restart: always
 
@@ -29,7 +50,19 @@ services:
     image: postgres:16.2
     env_file: judge0.conf
     volumes:
-      - data:/var/lib/postgresql/data/
+      - pg_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: judge0
+      POSTGRES_USER: judge0
+    deploy:
+      resources:
+        limits:
+          cpus: "1.5"
+          memory: "3G"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: "5s"
     <<: *default-logging
     restart: always
 
@@ -39,22 +72,34 @@ services:
       - "6379:6379"
     command: [
       "bash", "-c",
-      'docker-entrypoint.sh --appendonly no --requirepass "$$REDIS_PASSWORD"'
+      'docker-entrypoint.sh --appendonly no --requirepass "$$REDIS_PASSWORD" --maxmemory 1gb --maxmemory-policy allkeys-lru'
     ]
     env_file: judge0.conf
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: "1G"
     <<: *default-logging
     restart: always
 
   backend:
     build:
-      context: ./server  # path to your backend folder
+      context: ./server
     ports:
       - "8080:8080"
     env_file: ./server/.env
     depends_on:
       - redis
+      - db
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: "1G"
     <<: *default-logging
     restart: always
 
 volumes:
+  pg_data:
   data:
