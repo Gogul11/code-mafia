@@ -114,35 +114,32 @@ const HomePage = ({ isLoggedIn }) => {
           <p className="rules-title">GAME MECHANICS</p>
           <p className="rules">
             <img
-              className="coin"
+              className="powerup-icon"
               style={{scale: '1.3'}}
               src="/assets/currency.svg"
-              alt="coin"
+              alt="powerup-icon"
             />
             CURRENCY
           </p>
           <ul className="rules-content">
             <li>
-              Currency serves as the backbone of the event and can be used to
-              purchase sabotages and shields
+            All teams begin with 50 coins and earn more coins as they solve questions. 
             </li>
             <li>
-              Each team will start with 20 coins (units of currency). Upon
-              successfully solving a question, the team will earn an additional
-              5 coins.
+            Coins can be spent on sabotages or shields, which cost 5 coins each.
             </li>
             <li>
               There are no rewards for hoarding currency. Teams are encouraged
-              to spend their coins strategically—go wild!
+              to spend their powerup-icons strategically—go wild!
             </li>
           </ul>
           <p className="rules">
-            <img className="coin" src="/assets/shield.svg" alt="shield" />
+            <img className="powerup-icon" src="/assets/shield.svg" alt="shield" />
             SHIELD
           </p>
           <ul className="rules-content">
-            <li>Each team starts with 3 shields to block sabotages.</li>
-            <li>Shields can be replenished using coins.</li>
+            <li>Shields block sabotages and cost 5 coins each.</li>
+            <li>They can be replenished by buying more.</li>
             <li>
               Smart usage decides whether you play aggressive or defensive.
             </li>
@@ -150,7 +147,7 @@ const HomePage = ({ isLoggedIn }) => {
           <p className="rules-title">SABOTAGES & POWER-UPS</p>
           <p className="rules">
             <img
-              className="coin"
+              className="powerup-icon"
               src="/assets/systemoverload.png"
               alt="overload"
             />
@@ -160,23 +157,20 @@ const HomePage = ({ isLoggedIn }) => {
             <li>‘Glitches’ the on-screen display.</li>
           </ul>
           <p className="rules">
-            <img className="coin" src="/assets/innocency.png" alt="innoceny" />
+            <img className="powerup-icon" src="/assets/innocency.png" alt="innoceny" />
             INNOCENCY
           </p>
           <ul className="rules-content">
             <li>Innocency is high-risk high-reward powerup</li>
             <li>
-              Users willingly drop their own shields in return for increased
-              rate of coin accumulation for a duration of time.
+            Players can sacrifice their own shields in return for a higher number of coins.
             </li>
             <li>
-              A few coins away from a big sabotage? Issue this, get the money
-              for your sabotage as a result, issue that in turn and use the
-              opportunity to get a lead
+            A few coins away from a big sabotage? Trade in shields and get money for your sabotage.
             </li>
           </ul>
           <p className="rules">
-            <img className="coin" src="/assets/snowflake.svg" alt="snowflake" />
+            <img className="powerup-icon" src="/assets/snowflake.svg" alt="snowflake" />
             ZERO KELVIN
           </p>
           <ul className="rules-content">
@@ -186,56 +180,53 @@ const HomePage = ({ isLoggedIn }) => {
             </li>
           </ul>
           <p className="rules">
-            <img className="coin" src="/assets/windmill.png" alt="windmill" />
+            <img className="powerup-icon" src="/assets/windmill.png" alt="windmill" />
             WINDMILL
           </p>
           <ul className="rules-content">
             <li>
-              Low-Risk Low-Reward. Sabotaged team’s computer rotates their
-              displays anywhere from 1-5 times over the course of 3 minutes in a
-              cyclical direction
+              Low-Risk Low-Reward. Sabotaged team’s computer display rotates continuously for 3 minutes.
             </li>
           </ul>
           <p className="rules">
-            <img className="coin" src="/assets/smokescreen.png" style={{scale: '1.5'}} alt="smokescreen" />
+            <img className="powerup-icon" src="/assets/smokescreen.png" style={{scale: '1.5'}} alt="smokescreen" />
             SMOKE SCREEN
           </p>
           <ul className="rules-content">
             <li>
-            Darken the text color or reduce their visibility to the point of near unusability
+            Reduces the visibility of everything on screen to the point of near unusability
             </li>
           </ul>
           <p className="rules">
-            <img className="coin" src="/assets/wallbreaker.png" style={{scale: '2'}} alt="wallbreaker" />
+            <img className="powerup-icon" src="/assets/wallbreaker.png" style={{scale: '2'}} alt="wallbreaker" />
             WALL BREAKER
           </p>
           <ul className="rules-content">
             <li>
-            Takes down the shields of the targeted team. Just to screw with them, of course.
+            Takes down the shield of the targeted team, if one is active. Just to screw with them, of course.
             </li>
           </ul>
           <p className="rules">
-            <img className="coin" style={{scale: '2'}} src="/assets/suicidebomber.png" alt="bomb" />
+            <img className="powerup-icon" style={{scale: '2'}} src="/assets/suicidebomber.png" alt="bomb" />
             SUICIDE BOMBER
           </p>
           <ul className="rules-content">
-            <li>Takes down both your shield and a chosen teams' shield.</li> 
-            <li>Users of this get a decent sum of coins to use to compensate.</li>
-            <li>High Risk High Reward</li>
+            <li>Takes down both your shield and a chosen team’s shield.</li>
+            <li>Fails if one of the parties does not have a shield.</li>
           </ul>
           <p className="rules">
-            <img className="coin" src="/assets/zipbomb.png" style={{scale: '1.5'}} alt="zip" />
+            <img className="powerup-icon" src="/assets/zipbomb.png" style={{scale: '1.5'}} alt="zip" />
             ZIP BOMB
           </p>
           <ul className="rules-content">
-            <li>Opens random dialog boxes across the webapp screen that require the team to kill their flow and remove them</li>
+            <li>Opens random dialog boxes across the webapp screen that require the team to kill their flow to remove them</li>
           </ul>
           <p className="rules">
-            <img className="coin" src="/assets/swap.svg" alt="swap" />
+            <img className="powerup-icon" src="/assets/swap.svg" alt="swap" />
             SITUS INVERSUS
           </p>
           <ul className="rules-content">
-            <li>Flips the screen horizontally once. Or rotated around</li>
+            <li>Flips the screen vertically. Or rotated around.</li>
           </ul>
         </div>
       )}
