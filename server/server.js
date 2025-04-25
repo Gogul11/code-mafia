@@ -157,10 +157,12 @@ io.on("connection", (socket) => {
                 }
                 else if (!targetHasShield && currentHasShield) {
                     socket.emit("blocked-by-shield", { message: `${targetUsername} has no active shield!` });
+                    io.to(targetUserID).emit("blocked-by-shield", { message: `${targetUsername}'s suicide bomber attack failed—no shield, no damage` });
                     return;
                 }
                 else if (!targetHasShield && !currentHasShield) {
                     socket.emit("blocked-by-shield", { message: `You both have no active shield!` });
+                    io.to(targetUserID).emit("blocked-by-shield", { message: `${targetUsername}'s suicide bomber attack failed—no shield, no damage` });
                     return;
                 }
             }
