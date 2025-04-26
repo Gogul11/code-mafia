@@ -1,6 +1,5 @@
 import "dotenv/config";
 import supabase from "../config/db.js";
-import jwt from "jsonwebtoken";
 
 export const getPowers = async(req,res) => {
     const { data, error } = await supabase.from("power_ups").select("*");
@@ -15,21 +14,7 @@ export const getPowers = async(req,res) => {
 
 export const getCoins = async (req, res) => {
   try {
-    const authHeader = req.headers.authorization;
-
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return res.status(401).json({ error: "Missing or invalid Authorization header" });
-    }
-
-    const token = authHeader.split(" ")[1];
-
-    const decoded = jwt.verify(token, process.env.SECRET_KEY);
-    const teamID = decoded.team_id;
-
-    if (!teamID) {
-      return res.status(401).json({ error: "Invalid token payload" });
-    }
-
+    const teamID = req.user.team_id;
     const { data, error } = await supabase
       .from("teams")
       .select("coins")

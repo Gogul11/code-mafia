@@ -2,28 +2,12 @@ import "dotenv/config";
 import supabase from "../config/db.js";
 import axios from 'axios';
 import { Buffer } from 'buffer';
-import jwt from 'jsonwebtoken';
 import client from '../config/redisdb.js';
 import getAndCacheChallenge from "../utils/challenges-cache.js";
 
 export async function runBatchCode(req, res, next) {
     try {
         const { question_id, language_id, source_code } = req.body;
-        const token = req.headers.authorization?.split(" ")[1];
-
-        // Verify and decode the token using the JWT secret from environment variables
-        let team_id;
-
-        try {
-            const decoded = jwt.verify(token, process.env.SECRET_KEY);
-            team_id = decoded.team_id;
-        } catch (err) {
-            return res.status(400).json({ error: err.message });
-        }
-
-        if (!team_id) {
-            return res.status(400).json({ error: "Team_id not found in token" });
-        }
 
         if (!validateRequest(question_id)) {
             return res.status(400).json({ error: "Invalid question_id" });
@@ -61,21 +45,8 @@ export async function runBatchCode(req, res, next) {
 export async function submitCodeForQuestion(req, res, next) {
     try {
         const { question_id, language_id, source_code } = req.body;
-        const token = req.headers.authorization?.split(" ")[1];
 
-        // Verify and decode the token using the JWT secret from environment variables
-        let team_id;
-
-        try {
-            const decoded = jwt.verify(token, process.env.SECRET_KEY);
-            team_id = decoded.team_id;
-        } catch (err) {
-            return res.status(400).json({ error: err.message });
-        }
-
-        if (!team_id) {
-            return res.status(400).json({ error: "Team_id not found in token" });
-        }
+        const team_id = req.user.team_id;
 
         if (!validateRequest(question_id)) {
             return res.status(400).json({ error: "Invalid question_id" });
@@ -122,24 +93,7 @@ export async function submitCodeForQuestion(req, res, next) {
 
 export async function getPoints(req, res, next) {
     try {
-        const token = req.headers.authorization?.split(" ")[1];
-
-        if (!token) {
-            return res.status(401).json({ error: "Authorization token is required" });
-        }
-
-        let team_id;
-        try {
-            const decoded = jwt.verify(token, process.env.SECRET_KEY);
-            team_id = decoded.team_id;
-        } catch (err) {
-            return res.status(400).json({ error: "Invalid token" });
-        }
-
-        if (!team_id) {
-            return res.status(400).json({ error: "Team_id not found in token" });
-        }
-
+        const team_id = req.user.team_id;
         const { data: team, error } = await supabase
             .from("teams")
             .select("points")
@@ -281,6 +235,17 @@ async function storeSubmission({ team_id, question_id, challenge, source_code, p
         status = "Accepted";
     }
 
+    let coins;
+    if (challenge.points === 10) {
+        coins = 5;
+    } else if (challenge.points === 20) {
+        coins = 7;
+    } else if (challenge.points === 30) {
+        coins = 10;
+    } else {
+        coins = 0;
+    }
+
     const points_awarded = Math.round((passed / total) * challenge.points);
 
     const { data: existing, error: fetchError } = await supabase
@@ -320,7 +285,7 @@ async function storeSubmission({ team_id, question_id, challenge, source_code, p
 
         // Award 5 coins if fully passed
         if (passed === total) {
-            updatedFields.coins = teamData.coins + 5;
+            updatedFields.coins = teamData.coins + coins;
         }
 
         // Update team points and maybe coins

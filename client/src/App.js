@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage.jsx';
 import EditorPage from './pages/EditorPage.jsx';
 import Temp from './pages/Temp.jsx';
@@ -8,6 +8,8 @@ import axios from 'axios';
 
 import socket from './socket.js';
 import LeaderBoard from './components/LeaderBoard.jsx';
+import AdminRoute from './routes/AdminRoute.jsx'
+import SignupPage from './pages/SignupPage.jsx'
 
 socket.onAny((event, ...args) => {
   console.log(event, args);
@@ -37,13 +39,21 @@ function App() {
 
   return (
     <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<HomePage isLoggedIn={isLoggedIn} />} />
-      <Route path='/login' element={<LoginPage setIsLoggedIn={setIsLoggedIn} />} />
-      <Route path='/editor' element={<EditorPage />} />
-      <Route path='/temp' element={<Temp />} />
-      <Route path='/leader' element={<LeaderBoard/>}/>
-    </Routes> 
+      <Routes>
+        <Route path="/" element={<HomePage isLoggedIn={isLoggedIn} />} />
+        <Route path='/login' element={<LoginPage setIsLoggedIn={setIsLoggedIn} />} />
+        <Route path='/editor' element={<EditorPage />} />
+        <Route path='/temp' element={<Temp />} />
+        <Route path='/leader' element={<LeaderBoard />} />
+        <Route 
+          path="/admin/signup" 
+          element={
+            <AdminRoute>
+              <SignupPage />
+            </AdminRoute>
+          } 
+        />
+      </Routes>
     </BrowserRouter>
   );
 }
