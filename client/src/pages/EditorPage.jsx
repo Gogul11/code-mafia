@@ -13,6 +13,7 @@ import TestCases from '../components/codeEditorComponents/TestCases.jsx';
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import PopupMessage from '../components/PopupMessage.jsx';
 import { getTeams } from '../components/Store/store.js';
+import PowerUpTimer from '../components/powerUpComponents/PowerUpTimer.jsx';
 
 const EditorPage = () => {
 
@@ -38,6 +39,7 @@ const EditorPage = () => {
         powerupPopupOpen,
         powerupsDialogOpen,
         message,
+        activePowerUps,
         getCoins,
         setClickedPower,
         setClickedTeam,
@@ -305,6 +307,7 @@ const EditorPage = () => {
                         />
                     ) : null}
 
+                    <PowerUpTimer activePowerUps={activePowerUps} powersList={powers} />
 
                     {powerupsDialogOpen &&
                         <PowerupsDialog
