@@ -37,12 +37,13 @@ const login = async (req, res) => {
     }
 
     const token = jwt.sign(
-      { 
-        username, 
-        team_id: user.team_id, 
-        team_name: team.name 
-      }, 
-      SECRET_KEY, 
+      {
+        username,
+        team_id: user.team_id,
+        team_name: team.name,
+        role: user.role
+      },
+      SECRET_KEY,
       { expiresIn: '6h' }
     );
 
@@ -61,13 +62,57 @@ const verify = (req, res) => {
 
   try {
     const decoded = jwt.verify(token, SECRET_KEY);
-    res.json({ valid: true, username: decoded.username, team_name: decoded.team_name });
+    res.json({ valid: true, username: decoded.username, team_name: decoded.team_name, role: decoded.role });
   } catch (err) {
     res.status(401).json({ valid: false, message: 'Invalid token' });
   }
 };
 
-export {
-  login,
-  verify
+const signup = async (req, res) => {
+  const { username, password, confirmPassword, team_id } = req.body;
+
+  if (!username || !password || !confirmPassword || !team_id) {
+      return res.status(400).json({ message: 'All fields are required' });
+  }
+
+  if (password !== confirmPassword) {
+      return res.status(400).json({ message: 'Passwords do not match' });
+  }
+
+  try {
+      // ✅ Check if username already exists
+      const { data: existingUser, error: fetchError } = await supabase
+          .from('users')
+          .select('id')
+          .eq('username', username)
+          .single();
+
+      if (existingUser) {
+          return res.status(400).json({ message: 'Username already exists' });
+      }
+
+      const hashedPassword = bcrypt.hashSync(password, 10);
+
+      const { data, error } = await supabase
+          .from('users')
+          .insert([
+              {
+                  username,
+                  password: hashedPassword,
+                  team_id,
+                  role: 'user'
+              }
+          ]);
+
+      if (error) {
+          return res.status(500).json({ message: 'Signup failed', error });
+      }
+      console.log(username, password, team_id, role)
+      res.status(201).json({ message: 'User created successfully' });
+
+  } catch (err) {
+      res.status(500).json({ message: 'Internal server error', err });
+  }
 };
+
+export { login, verify, signup };

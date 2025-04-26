@@ -1,5 +1,7 @@
 import express from 'express';
 import getAndCacheChallenge from '../utils/challenges-cache.js';
+import { signup } from '../controllers/auth.controller.js';
+import adminVerify from '../middleware/adminVerify.js'
 
 const admin = express.Router()
 
@@ -13,5 +15,6 @@ admin.post('/problems/refresh-cache', async (req, res) => {
     }
 });
 
+admin.post('/signup', adminVerify, signup);
 
 export default admin;
