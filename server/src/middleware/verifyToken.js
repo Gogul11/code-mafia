@@ -1,4 +1,6 @@
 import  jwt from 'jsonwebtoken';
+import client from '../config/redisdb.js';
+
 const SECRET_KEY = process.env.SECRET_KEY;
 
 // Common middleware to verify token
@@ -19,6 +21,7 @@ const verifyToken = async (req, res, next) => {
     req.user = decoded;
     next();
   } catch (err) {
+    console.error(err);
     return res.status(403).json({ message: 'Invalid or expired token' });
   }
 }

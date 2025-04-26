@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FaHome, FaCode, FaTrophy, FaSignOutAlt, FaBars, FaTimes } from 'react-icons/fa';
 import '../styles/Navbar.css';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Navbar = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
