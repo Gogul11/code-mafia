@@ -24,7 +24,7 @@ const Navbar = () => {
     <>
       <nav className="navbar">
         <div className="navbar-left" onClick={() => handleNavigation('/')}>
-          <img src="images/cm_logo.png" alt="Logo" className="logo" />
+          <img src="assets/cm-logo-2.png" alt="Logo" className="logo" />
           <span className="navbar-title">CodeMafia</span>
         </div>
 

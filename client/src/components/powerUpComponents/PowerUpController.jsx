@@ -3,7 +3,7 @@ import axios from "axios";
 import socket from "../../socket.js";
 import { setTeams } from "../Store/store.js";
 
-function PowerUpContainer() {
+function PowerUpController() {
     const [powers, setPowers] = useState([
         { id: 1, name: "Situs Inversus", description: "", effect: "flip", icon: "/assets/swap.svg" },
         { id: 2, name: "Smoke Screen", description: "", effect: "blind", icon: "/assets/smokescreen.png" },
@@ -303,6 +303,12 @@ function PowerUpContainer() {
             }
         });
 
+        socket.on("apply-active-powerups", (activePowerups) => {
+            activePowerups.forEach(powerup => {
+                executePowerUp(powerup.powerUp, powerup.remainingTime);
+            });
+        });
+
         socket.on("coins-error", ({ message }) => {
             setMessage(
                 <>
@@ -320,14 +326,6 @@ function PowerUpContainer() {
             );
             setPowerupPopupOpen(true);
         });
-
-
-        socket.on("apply-active-powerups", (activePowerups) => {
-            activePowerups.forEach(powerup => {
-                executePowerUp(powerup.powerUp, powerup.remainingTime);
-            });
-        });
-
 
         socket.emit("get-active-powerups");
 
@@ -365,4 +363,4 @@ function PowerUpContainer() {
     };
 }
 
-export default PowerUpContainer;
+export default PowerUpController;

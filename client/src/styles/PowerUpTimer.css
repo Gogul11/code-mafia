@@ -1,0 +1,29 @@
+/* Power-up timer container */
+.powerup-timer {
+    position: fixed;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    width: 200px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+/* Each power-up item */
+.powerup-item {
+    display: flex;
+    justify-content: space-between;
+    margin: 5px 0;
+    padding: 5px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Optional: Add some hover effect */
+.powerup-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}

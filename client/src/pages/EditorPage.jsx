@@ -6,9 +6,9 @@ import Navbar from '../components/Navbar.jsx';
 import '../styles/editorPage.css'
 import { BsArrowBarUp } from "react-icons/bs";
 import { BsArrowBarDown } from "react-icons/bs";
-import PowerupsDialog from '../components/PowerupsDialog.jsx';
+import PowerupsDialog from '../components/powerUpComponents/PowerupsDialog.jsx';
 import axios from "axios";
-import PowerUpContainer from '../components/powerUpComponents/PowerUpContainer.jsx';
+import PowerUpController from '../components/powerUpComponents/PowerUpController.jsx';
 import TestCases from '../components/codeEditorComponents/TestCases.jsx';
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import PopupMessage from '../components/PopupMessage.jsx';
@@ -45,7 +45,7 @@ const EditorPage = () => {
         setPowerupPopupOpen,
         setPowerupsDialogOpen,
         overlayRef
-    } = PowerUpContainer();
+    } = PowerUpController();
 
     const submitRef = useRef();
 
