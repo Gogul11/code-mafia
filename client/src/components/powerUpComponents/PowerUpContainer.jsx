@@ -45,7 +45,6 @@ function PowerUpContainer() {
 
                 if (response.data && response.data.valid && response.data.team_name) {
                     setUsername(response.data.team_name);
-                    console.log("Username from server:", response.data.team_name);
                     socket.auth = { username: response.data.team_name };
                     socket.connect();
                 }
@@ -69,7 +68,13 @@ function PowerUpContainer() {
         }
     }
 
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+    
+
     async function getCoins() {
+        sleep(2000); // wait 2 secs for coins to be updated on DB
         axios.get(`${process.env.REACT_APP_SERVER_BASEAPI}/game/getcoins`, {
             headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
         }).then(response => {
@@ -223,8 +228,6 @@ function PowerUpContainer() {
             setPowerupPopupOpen(true);
         }
         else {
-            console.log(socketUser);
-            console.log(username);
             socket.emit("power-up attack", {
                 powerUp: clickedPower,
                 from: username,
@@ -236,10 +239,16 @@ function PowerUpContainer() {
                 <>
                     You used {clickedPower}
                     <br />
-                    -5
-                    <img src="/assets/currency.svg" />
+                    -5 <img src="/assets/currency.svg" alt="currency" />
+                    {clickedPower === "innocency" && (
+                        <>
+                            <br />
+                            +8 <img src="/assets/currency.svg" alt="currency" />
+                        </>
+                    )}
                 </>
             );
+
             setPowerupPopupOpen(true);
         }
 
@@ -270,11 +279,9 @@ function PowerUpContainer() {
 
 
     useEffect(() => {
-        console.log("mounted");
         initSocketConnection();
 
         socket.on("users", (users) => {
-            console.log("received users");
             users.forEach((user) => {
                 user.isCurrentUser = user.userID === socket.id;
                 if (user.isCurrentUser) {
@@ -286,10 +293,10 @@ function PowerUpContainer() {
 
         socket.on("receive power-up", ({ powerUp, from }) => {
             executePowerUp(powerUp);
-            if (powerUp !== "shield" && powerUp === "innocency") {
+            if (powerUp !== "shield" && powerUp !== "innocency") {
                 setMessage(
                     <>
-                        You were attacked with ${powerUp} by ${from}!
+                        You were attacked with {powerUp} by {from}!
                     </>
                 );
                 setPowerupPopupOpen(true);
@@ -316,7 +323,6 @@ function PowerUpContainer() {
 
 
         socket.on("apply-active-powerups", (activePowerups) => {
-            console.log("Active powerups:", activePowerups);
             activePowerups.forEach(powerup => {
                 executePowerUp(powerup.powerUp, powerup.remainingTime);
             });
@@ -326,7 +332,6 @@ function PowerUpContainer() {
         socket.emit("get-active-powerups");
 
         return () => {
-            console.log("unmounted")
             socket.off("users");
             socket.off("receive power-up");
             socket.off("apply-active-powerups");
