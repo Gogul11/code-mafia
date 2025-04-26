@@ -28,7 +28,7 @@ function SignupPage() {
 
     try {
       const token = localStorage.getItem('token');
-      await axios.post(`${process.env.REACT_APP_SERVER_BASEAPI}/auth/signup`, {
+      const response = await axios.post(`${process.env.REACT_APP_SERVER_BASEAPI}/auth/signup`, {
         username,
         password,
         confirmPassword,
@@ -36,19 +36,20 @@ function SignupPage() {
       }, {
         headers: { Authorization: `Bearer ${token}` }
       });
-
-      alert('User successfully signed up');
-
+    
+      alert(response.data?.message || 'Signup successful');
+    
       setForm({
         username: '',
         password: '',
         confirmPassword: '',
         team_name: ''
       });
-
+    
     } catch (err) {
       alert('Signup failed: ' + (err.response?.data?.message || err.message));
     }
+    
   };
 
   return (

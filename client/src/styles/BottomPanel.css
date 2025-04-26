@@ -208,13 +208,6 @@
   background-color: #FF8B8B;
 }
 
-/* Active Players */
-.active-players {
-  display: flex;
-  gap: 10px;
-  margin-left: 25%;
-}
-
 @media (max-width: 768px) {
   .active-players {
     margin-left: 0;
@@ -222,27 +215,19 @@
   }
 }
 
-/* .player-icon {
-  width: 30px;
-  height: 30px;
-  background-color: #FFD400;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 14px;
-} */
-
-.powerups-button{
+.powerups-button {
   background-color: transparent;
   color: #FFD400;
   font-size: 24px;
   transition: transform 0.2s;
+  position: relative;
+  animation: fireGlowSlow 2s infinite alternate; /* slow glowing by default */
 }
+
 .powerups-button:hover {
   transform: scale(1.1);
   background-color: transparent;
-  animation: flicker 0.15s infinite alternate;
+  animation: flicker 0.15s infinite alternate, fireGlow 0.3s infinite alternate; /* intense on hover */
 }
 
 .powerups-button::before {
@@ -254,14 +239,12 @@
   bottom: -5px;
   background: radial-gradient(circle, rgba(255, 165, 0, 0.8), rgba(255, 0, 0, 0.6), rgba(255, 0, 0, 0));
   filter: blur(8px);
-  opacity: 0;
-  transition: opacity 0.2s;
   z-index: -1;
+  animation: fireGlowSlow 2s infinite alternate; /* slow background glow too */
 }
 
 .powerups-button:hover::before {
-  opacity: 1;
-  animation: fireGlow 0.3s infinite alternate;
+  animation: fireGlow 0.3s infinite alternate; /* intense background on hover */
 }
 
 /* Flickering Fire Effect */
@@ -270,7 +253,13 @@
   100% { text-shadow: 0 0 10px #FFD400, 0 0 15px #FF4500; }
 }
 
-/* Glowing Fire Effect */
+/* Slow Glowing Fire Effect */
+@keyframes fireGlowSlow {
+  0% { box-shadow: 0 0 5px #FFA500, 0 0 10px #FF4500, 0 0 15px #FF0000; }
+  100% { box-shadow: 0 0 8px #FFD700, 0 0 12px #FF4500, 0 0 18px #FF0000; }
+}
+
+/* Intense Glowing Fire Effect */
 @keyframes fireGlow {
   0% { box-shadow: 0 0 10px #FFA500, 0 0 20px #FF4500, 0 0 30px #FF0000; }
   100% { box-shadow: 0 0 15px #FFD700, 0 0 25px #FF4500, 0 0 35px #FF0000; }

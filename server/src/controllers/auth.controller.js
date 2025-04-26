@@ -55,13 +55,8 @@ const login = async (req, res) => {
 };
 
 const verify = (req, res) => {
-  const token = req.headers.authorization?.split(' ')[1];
-  if (!token) {
-    return res.status(401).json({ message: 'Token missing' });
-  }
-
   try {
-    const decoded = jwt.verify(token, SECRET_KEY);
+    const decoded = req.user;
     res.json({ valid: true, username: decoded.username, team_name: decoded.team_name, role: decoded.role });
   } catch (err) {
     res.status(401).json({ valid: false, message: 'Invalid token' });
@@ -116,7 +111,7 @@ const signup = async (req, res) => {
       // Create team if not exists
       const { data: newTeam, error: createTeamError } = await supabase
         .from('teams')
-        .insert([{ name: team_name, coins: 20 }])
+        .insert([{ name: team_name }])
         .select()
         .single();
 
@@ -162,6 +157,5 @@ const signup = async (req, res) => {
     res.status(500).json({ message: 'Internal server error', err });
   }
 };
-
 
 export { login, verify, signup };
