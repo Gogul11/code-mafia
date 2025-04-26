@@ -1,9 +1,11 @@
 import supabase from "../config/db.js";
 import client from "../config/redisdb.js";
+import { promises as fs } from 'fs';
+import path from "path";import { fileURLToPath } from 'url';
 
-/**
- * Fetches all challenges from Supabase and caches them for both 'user' and 'judge0'.
- */
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 async function getAndCacheChallenge() {
     const { data, error } = await supabase
         .from('challenges')
@@ -14,12 +16,44 @@ async function getAndCacheChallenge() {
         throw error;
     }
 
-    // Cache for both 'user' and 'judge0' types
+    // Helper function to read file and format it (replace newlines with \n)
+    async function readFileContent(fileName) {
+        const filePath = path.resolve(__dirname, '../../large_test_cases', fileName);
+        const content = await fs.readFile(filePath, 'utf8');
+        return content.replace(/\r?\n/g, '\n'); // Replace newlines with \n
+    }
+
+    // Before caching, replace file-based test cases
+    const processedData = await Promise.all(data.map(async (challenge) => {
+        const newTestCases = {};
+
+        for (const [key, testCase] of Object.entries(challenge.test_cases)) {
+            const updatedTestCase = { ...testCase };
+
+            if (testCase.input_file) {
+                updatedTestCase.input = await readFileContent(testCase.input_file);
+                delete updatedTestCase.input_file;
+            }
+
+            if (testCase.expected_output_file) {
+                updatedTestCase.expected_output = await readFileContent(testCase.expected_output_file);
+                delete updatedTestCase.expected_output_file;
+            }
+
+            newTestCases[key] = updatedTestCase;
+        }
+
+        return {
+            ...challenge,
+            test_cases: newTestCases
+        };
+    }));
+
+    // Cache for user (filtered)
     const userCacheKey = 'challenges-user';
     const judge0CacheKey = 'challenges-judge0';
 
-    // Cache data preparation for both cases
-    const userCacheData = data.map(challenge => {
+    const userCacheData = processedData.map(challenge => {
         const filteredTestCases = Object.fromEntries(
             Object.entries(challenge.test_cases).filter(
                 ([, value]) => value.type !== 'hidden'
@@ -31,16 +65,15 @@ async function getAndCacheChallenge() {
         };
     });
 
-    // Cache the full list for judge0 (no filtering)
-    const judge0CacheData = data;
+    const judge0CacheData = processedData;
+    console.log(judge0CacheData[5].test_cases.test_case_7);
 
-    // Set both caches simultaneously
     await Promise.all([
         client.set(userCacheKey, JSON.stringify(userCacheData), {
-            EX: 60 * 60 * 3.5 // Cache for 3.5 hours
+            EX: 60 * 60 * 3.5
         }),
         client.set(judge0CacheKey, JSON.stringify(judge0CacheData), {
-            EX: 60 * 60 * 3.5 // Cache for 3.5 hours
+            EX: 60 * 60 * 3.5
         })
     ]);
 
