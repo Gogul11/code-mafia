@@ -7,6 +7,8 @@
   justify-content: center;
   align-items: center;
   opacity: 0.8;
+  overflow: auto;
+  scroll-behavior: smooth;
 }
 
 .editor-container {
@@ -23,7 +25,8 @@
   padding: 10px;
 }
 
-#lang, #run-button{
+#lang,
+#run-button {
   width: 150px;
   height: 40px;
   border-radius: 5px;
@@ -44,13 +47,14 @@
   color: #FFD400;
 }
 
-#run-button{
+#run-button {
   background-color: #FFD400;
   color: #0f1525;
   text-align: center;
 
 }
-.run{
+
+.run {
   width: 100%;
   display: flex;
   justify-content: center;
@@ -58,14 +62,20 @@
   align-items: center;
 }
 
-#run-button:hover, .copy:hover, .reset:hover {
+#run-button:hover,
+.copy:hover,
+.reset:hover {
   opacity: 1;
 }
-.copy, .reset{
+
+.copy,
+.reset {
   cursor: pointer;
 }
+
 /* Success Messages */
-#success, #reset {
+#success,
+#reset {
   position: absolute;
   color: white;
   top: 50px;
@@ -81,7 +91,7 @@
   border-radius: 10px;
 }
 
-.but{
+.but {
   display: flex;
   flex-direction: row;
   gap: 30px;
@@ -114,6 +124,7 @@
   #editor {
     height: 65vh;
   }
+
   #top-div {
     gap: 10px;
   }
@@ -123,11 +134,16 @@
   #editor {
     height: 70vh;
   }
+
   #top-div {
     /* flex-direction: column; */
     align-items: center;
   }
-  #lang, #run-button, #copy-button, #reset-button {
+
+  #lang,
+  #run-button,
+  #copy-button,
+  #reset-button {
     max-width: 100%;
   }
 }

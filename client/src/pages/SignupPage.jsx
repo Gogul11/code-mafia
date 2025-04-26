@@ -15,7 +15,7 @@ function SignupPage() {
 
   const handleSignup = async () => {
     const { username, password, confirmPassword, team_name } = form;
-    
+
     if (!username || !password || !confirmPassword || !team_name) {
       alert('All fields are required');
       return;
@@ -52,33 +52,33 @@ function SignupPage() {
   };
 
   return (
-    <div>
+    <div className="login-container">
       <h1>Admin Signup</h1>
-      <input 
-        name="username" 
-        placeholder="Username" 
-        value={form.username} 
-        onChange={handleChange} 
+      <input
+        name="username"
+        placeholder="Username"
+        value={form.username}
+        onChange={handleChange}
       />
-      <input 
-        name="password" 
-        type="password" 
-        placeholder="Password" 
-        value={form.password} 
-        onChange={handleChange} 
+      <input
+        name="password"
+        type="password"
+        placeholder="Password"
+        value={form.password}
+        onChange={handleChange}
       />
-      <input 
-        name="confirmPassword" 
-        type="password" 
-        placeholder="Re-enter Password" 
-        value={form.confirmPassword} 
-        onChange={handleChange} 
+      <input
+        name="confirmPassword"
+        type="password"
+        placeholder="Re-enter Password"
+        value={form.confirmPassword}
+        onChange={handleChange}
       />
-      <input 
-        name="team_name" 
-        placeholder="Team Name" 
-        value={form.team_name} 
-        onChange={handleChange} 
+      <input
+        name="team_name"
+        placeholder="Team Name"
+        value={form.team_name}
+        onChange={handleChange}
       />
       <button onClick={handleSignup}>Signup</button>
     </div>

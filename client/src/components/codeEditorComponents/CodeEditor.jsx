@@ -72,7 +72,7 @@ const CodeEditor = ({ questionId, onSubmissionComplete, submitRef, codeFromDB })
   useEffect(() => {
     const key = `userCode_${questionId}_${lang}`;
     const storedCode = localStorage.getItem(key);
-  
+
     if (codeFromDB && !storedCode) {
       localStorage.setItem(key, codeFromDB);
       setCode(codeFromDB);
@@ -154,6 +154,23 @@ const CodeEditor = ({ questionId, onSubmissionComplete, submitRef, codeFromDB })
     }
   };
 
+  const handleEditorWheel = (e) => {
+    const scrollable = e.currentTarget;
+    const { scrollTop, scrollHeight, clientHeight } = scrollable;
+
+    const atTop = scrollTop <= 0;
+    const atBottom = scrollTop + clientHeight >= scrollHeight - 1;
+
+    if ((atTop && e.deltaY < 0) || (atBottom && e.deltaY > 0)) {
+      // Let the default browser scroll happen naturally
+      // Don't preventDefault, just let wheel bubble up
+      e.stopPropagation();
+    }
+  };
+
+
+
+
   return (
     <>
       {isRunning && (
@@ -216,7 +233,11 @@ const CodeEditor = ({ questionId, onSubmissionComplete, submitRef, codeFromDB })
               contextmenu: false,
             }}
             theme={theme}
-            onMount={(editor) => {
+            onMount={(editor, monaco) => {
+              const domNode = editor.getDomNode();
+              if (domNode) {
+                domNode.addEventListener('wheel', handleEditorWheel, { passive: false });
+              }
               editor.onDidPaste(() => {
                 console.log("Paste action blocked");
                 editor.trigger('keyboard', 'undo', null); // Revert the paste
