@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import socket from "../../socket.js";
+import { setTeams } from "../Store/store.js";
 
 function PowerUpContainer() {
     const [powers, setPowers] = useState([
@@ -15,7 +16,6 @@ function PowerUpContainer() {
         { id: 9, name: "Zero Kelvin", description: "", effect: "freeze", icon: "/assets/snowflake.svg" },
         { id: 10, name: "Shield", description: "", effect: "shield", icon: "/assets/shield.svg" },
     ]);
-    const [teams, setTeams] = useState([]);
     const [username, setUsername] = useState("");
     const [socketUser, setSocketUser] = useState("");
     const [clickedPower, setClickedPower] = useState("");
@@ -81,19 +81,13 @@ function PowerUpContainer() {
         });
     }
 
-    function executePowerUp(effect, remainingTime = 60) {
+    function executePowerUp(effect, remainingTime = 180) {
 
         const duration = remainingTime * 1000;
 
         if (effect === "windmill") {
             setIsRotating(true);
-
-
-            if (windmillTimerRef.current) {
-                clearTimeout(windmillTimerRef.current);
-            }
-
-            windmillTimerRef.current = setTimeout(() => {
+            setTimeout(() => {
                 setIsRotating(false);
             }, duration);
         }
@@ -113,22 +107,26 @@ function PowerUpContainer() {
         }
 
         else if (effect === "glitch") {
-            const glitchEnd = Date.now() + duration;
+            const elements = document.querySelectorAll("p, h1, h2, h3, li, button");
+            const originalTexts = new Map();
 
-            document.body.classList.add("glitching");
+            elements.forEach((element) => {
+                const original = element.textContent;
+                if (!original || original.length < 4) return;
 
-            const glitchInterval = setInterval(() => {
-                if (Date.now() > glitchEnd) {
-                    clearInterval(glitchInterval);
-                    document.body.classList.remove("glitching");
-                    return;
-                }
-                flickerText();
-            }, 300);
+                originalTexts.set(element, original);
+
+                const glitched = original.split('').map(char =>
+                    Math.random() > 0.7 ? String.fromCharCode(33 + Math.floor(Math.random() * 94)) : char
+                ).join('');
+
+                element.textContent = glitched;
+            });
 
             setTimeout(() => {
-                clearInterval(glitchInterval);
-                document.body.classList.remove("glitching");
+                originalTexts.forEach((original, element) => {
+                    element.textContent = original;
+                });
             }, duration);
         }
 
@@ -155,24 +153,6 @@ function PowerUpContainer() {
             }, duration);
         }
 
-    }
-
-    function flickerText() {
-        const elements = document.querySelectorAll("p, span, h1, h2, h3, li, button");
-        const element = elements[Math.floor(Math.random() * elements.length)];
-
-        if (!element || element.textContent.length < 4) return;
-
-        const original = element.textContent;
-        const glitched = original.split('').map(char =>
-            Math.random() > 0.7 ? String.fromCharCode(33 + Math.floor(Math.random() * 94)) : char
-        ).join('');
-
-        element.textContent = glitched;
-
-        setTimeout(() => {
-            element.textContent = original;
-        }, 600);
     }
 
     function createZipPopup() {
@@ -213,13 +193,13 @@ function PowerUpContainer() {
                 from: username,
                 token: localStorage.getItem("token")
             })
-            setPowerupsDialogOpen(false); 
+            setPowerupsDialogOpen(false);
             setMessage(
                 <>
                     You used ${clickedPower} on ${clickedTeam.username}
                     <br />
                     -5
-                    <img src="/assets/currency.svg"/>
+                    <img src="/assets/currency.svg" />
                 </>
             );
             setPowerupPopupOpen(true);
@@ -231,13 +211,13 @@ function PowerUpContainer() {
                 from: username,
                 token: localStorage.getItem("token")
             });
-            setPowerupsDialogOpen(false); 
+            setPowerupsDialogOpen(false);
             setMessage(
                 <>
                     You used {clickedPower} on {clickedTeam.username}
                     <br />
                     -5
-                    <img src="/assets/currency.svg"/>
+                    <img src="/assets/currency.svg" />
                 </>
             );
             setPowerupPopupOpen(true);
@@ -251,13 +231,13 @@ function PowerUpContainer() {
                 targetUserID: socketUser.userID,
                 token: localStorage.getItem("token")
             });
-            setPowerupsDialogOpen(false); 
+            setPowerupsDialogOpen(false);
             setMessage(
                 <>
                     You used {clickedPower}
                     <br />
                     -5
-                    <img src="/assets/currency.svg"/>
+                    <img src="/assets/currency.svg" />
                 </>
             );
             setPowerupPopupOpen(true);
@@ -268,10 +248,6 @@ function PowerUpContainer() {
         setClickedTeam(null);
         getCoins();
     }
-
-
-    const windmillTimerRef = useRef(null);
-    const effectTimersRef = useRef([]);
 
     useEffect(() => {
         if (isRotating) {
@@ -294,9 +270,11 @@ function PowerUpContainer() {
 
 
     useEffect(() => {
+        console.log("mounted");
         initSocketConnection();
 
         socket.on("users", (users) => {
+            console.log("received users");
             users.forEach((user) => {
                 user.isCurrentUser = user.userID === socket.id;
                 if (user.isCurrentUser) {
@@ -309,16 +287,31 @@ function PowerUpContainer() {
         socket.on("receive power-up", ({ powerUp, from }) => {
             executePowerUp(powerUp);
             if (powerUp !== "shield" && powerUp === "innocency") {
-                alert(`You were attacked with ${powerUp} by ${from}!`);
+                setMessage(
+                    <>
+                        You were attacked with ${powerUp} by ${from}!
+                    </>
+                );
+                setPowerupPopupOpen(true);
             }
         });
 
         socket.on("coins-error", ({ message }) => {
-            alert(message);
+            setMessage(
+                <>
+                    {message}
+                </>
+            );
+            setPowerupPopupOpen(true);
         });
 
         socket.on("blocked-by-shield", ({ message }) => {
-            alert(message);
+            setMessage(
+                <>
+                    {message}
+                </>
+            );
+            setPowerupPopupOpen(true);
         });
 
 
@@ -333,20 +326,17 @@ function PowerUpContainer() {
         socket.emit("get-active-powerups");
 
         return () => {
+            console.log("unmounted")
             socket.off("users");
             socket.off("receive power-up");
             socket.off("apply-active-powerups");
-
-
-            if (windmillTimerRef.current) {
-                clearTimeout(windmillTimerRef.current);
-            }
+            socket.off("coins-error");
+            socket.off("blocked-by-shield");
         };
     }, []);
 
     return {
         powers,
-        teams,
         username,
         clickedPower,
         clickedTeam,

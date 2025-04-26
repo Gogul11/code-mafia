@@ -12,6 +12,7 @@ import PowerUpContainer from '../components/powerUpComponents/PowerUpContainer.j
 import TestCases from '../components/codeEditorComponents/TestCases.jsx';
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import PopupMessage from '../components/PopupMessage.jsx';
+import { getTeams } from '../components/Store/store.js';
 
 const EditorPage = () => {
 
@@ -19,6 +20,7 @@ const EditorPage = () => {
     const [problemTitle, setProblemTitle] = useState("");
     const [problemDifficulty, setProblemDifficulty] = useState("");
     const [problemDescription, setProblemDescription] = useState("");
+    const teams = getTeams();
 
     const [questionSet, setQuestionSet] = useState([]);
 
@@ -32,7 +34,6 @@ const EditorPage = () => {
 
     const {
         powers,
-        teams,
         coins,
         powerupPopupOpen,
         powerupsDialogOpen,
