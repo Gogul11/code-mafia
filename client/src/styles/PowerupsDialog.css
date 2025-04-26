@@ -59,7 +59,7 @@
 }
 
 /* Power-up Icon */
-.power-button img {
+.power-icon {
   width: 4vw;
   height: 4vw;
   margin-bottom: 2vh;
@@ -85,10 +85,45 @@
   transform: scale(1.1);
   filter: drop-shadow(0 0 10px #ffcc00);
 }
-.power-button.selected span {
-  color: #00ffea; /* bright cyan-blue for contrast */
+.power-button.selected .power-name {
+  color: #00ffea;
 }
 
+.power-button.selected .cost-badge{
+  background: #00ffea;
+}
+
+/* Icon container for relative positioning */
+.icon-container {
+  position: relative;
+  display: inline-block;
+}
+
+/* Cost badge */
+.cost-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #FFD400;
+  border-radius: 999px;
+  padding: 2px 5px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.cost-badge span {
+  color: black;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+/* Currency icon inside badge */
+.currency-icon {
+  width: 1rem;
+  height: 1rem;
+}
 
 /* Teams Column */
 .teams-column {

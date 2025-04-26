@@ -55,10 +55,10 @@ io.on("connection", (socket) => {
 
     socket.on("power-up attack", async ({ powerUp, targetUserID, from, token }) => {
         console.log(`Power-up "${powerUp}" sent from ${from} to ${targetUserID}`);
-        
+
         const decoded = jwt.verify(token, process.env.SECRET_KEY);
         const team_id = decoded.team_id;
-    
+
         const avlblCoins = await getCoinsByTeamId(team_id);
         if (avlblCoins === null) {
             console.error("Error fetching coins for team:", team_id);
@@ -68,55 +68,62 @@ io.on("connection", (socket) => {
             socket.emit("coins-error", { message: "Not enough coins" });
             return;
         }
-        
+
         if (users.has(targetUserID)) {
             const targetUser = users.get(targetUserID);
             const targetUsername = targetUser.username;
-    
-            const shieldKey =  `powerup:${targetUsername}:shield`;
-            
+
+            const shieldKey = `powerup:${targetUsername}:shield`;
+
             // Check if shield is active
             const hasShield = await client.exists(shieldKey);
             if (hasShield && powerUp === "wall-breaker") {
+                if (avlblCoins < 10) {
+                    socket.emit("coins-error", { message: "Not enough coins" });
+                    return;
+                }
                 client.del(shieldKey);
+                io.to(targetUserID).emit("shield-down", { message: `${from} took down your shield` });
             }
-            else if (powerUp==="innocency") {
+            else if (powerUp === "innocency") {
                 if (hasShield) {
                     client.del(shieldKey);
-                    await updateCoins(team_id , avlblCoins + 8);
+                    socket.emit("shield-down", { message: `You dropped your shield` });
+                    await updateCoins(team_id, avlblCoins + 8);
                 }
                 else {
-                    socket.emit("blocked-by-shield", { message: `You has no active shield!` });
+                    socket.emit("blocked-by-shield", { message: `You have no active shield!` });
                 }
                 return;
             }
             else if (hasShield && powerUp !== "shield") {
                 socket.emit("blocked-by-shield", { message: `${targetUsername} has an active shield!` });
                 return;
+            } else if (hasShield && powerUp === "shield") {
+                socket.emit("blocked-by-shield", { message: `Shield already active   ` });
+                return;
             }
-    
+
             const key = `powerup:${targetUsername}:${powerUp}`;
             const expiryTime = powerUp === "shield" ? 300 : 180;
-    
+
             await client.set(key, JSON.stringify({ from, powerUp }), {
                 EX: expiryTime
             });
-    
-            if (powerUp !== "shield") {
-                io.to(targetUserID).emit("receive power-up", { powerUp, from });
-            }
-    
+
+            io.to(targetUserID).emit("receive power-up", { powerUp, from });
+
+
             await updateCoins(team_id, avlblCoins - 5);
         }
     });
 
-    socket.on("suicide-attack", async ({targetUserID, currentUserID, from, token}) => {
+    socket.on("suicide-attack", async ({ targetUserID, currentUserID, from, token }) => {
         const powerUp = "suicide-bomber"
         try {
             const decoded = jwt.verify(token, process.env.SECRET_KEY);
             const team_id = decoded.team_id;
-            console.log("This has entered inside suicide attack")
-        
+
             const avlblCoins = await getCoinsByTeamId(team_id);
             if (avlblCoins === null) {
                 console.error("Error fetching coins for team:", team_id);
@@ -128,24 +135,23 @@ io.on("connection", (socket) => {
             }
 
             if (users.has(targetUserID) && users.has(currentUserID)) {
-                console.log("This has entered inside")
                 const targetUser = users.get(targetUserID);
                 const currentUser = users.get(currentUserID)
 
                 const targetUsername = targetUser.username;
                 const currentUsername = currentUser.username
-        
-                const targetShieldKey =  `powerup:${targetUsername}:shield`;
-                const currentShieldKey =  `powerup:${currentUsername}:shield`;
-                
+
+                const targetShieldKey = `powerup:${targetUsername}:shield`;
+                const currentShieldKey = `powerup:${currentUsername}:shield`;
+
                 // Check if shield is active
                 const targetHasShield = await client.exists(targetShieldKey);
                 const currentHasShield = await client.exists(currentShieldKey);
-                console.log("The shields are: ", targetHasShield, currentHasShield)
                 if (targetHasShield && currentHasShield) {
                     client.del(targetShieldKey);
                     client.del(currentShieldKey);
-                    console.log("The shields are: ", targetHasShield, currentHasShield)
+                    io.to(targetUserID).emit("shield-down", { message: `${targetUsername} has an active shield!` });
+                    socket.emit("shield-down", { message: `You dropped your shield` });
 
                     io.to(targetUserID).emit("receive power-up", { powerUp, from });
                     await updateCoins(team_id, avlblCoins - 10);
@@ -171,7 +177,7 @@ io.on("connection", (socket) => {
             console.error("Error in suicide-attack:", err.message);
         }
     })
-    
+
     socket.on("get-active-powerups", async () => {
         const username = socket.username;
 

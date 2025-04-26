@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../styles/PowerupsDialog.css';
+import '../../styles/PowerupsDialog.css';
 
 const PowerupsDialog = ({ onClose, powers, teams, onPowerSelect, onTeamSelect, onUsePower, coins }) => {
   const [selectedPower, setSelectedPower] = useState(null);
@@ -16,11 +16,11 @@ const PowerupsDialog = ({ onClose, powers, teams, onPowerSelect, onTeamSelect, o
   };
 
   const handleUsePower = () => {
-    onUsePower(); 
-    setSelectedPower(null); 
+    onUsePower();
+    setSelectedPower(null);
     setSelectedTeam(null);
   };
-  
+
 
   return (
     <div className="powerups-dialog-overlay">
@@ -31,7 +31,7 @@ const PowerupsDialog = ({ onClose, powers, teams, onPowerSelect, onTeamSelect, o
         </div>
 
         <h2>Powerups</h2>
-        <p>Select a power-up{(selectedPower && selectedPower.id!==10 && selectedPower.id!==8) ? ' and a target team' : ''}.</p>
+        <p>Select a power-up{(selectedPower && selectedPower.id !== 10 && selectedPower.id !== 8) ? ' and a target team' : ''}.</p>
 
         <div className="powerups-container">
           {/* Power-ups column */}
@@ -42,11 +42,18 @@ const PowerupsDialog = ({ onClose, powers, teams, onPowerSelect, onTeamSelect, o
                 className={`power-button ${selectedPower === power ? 'selected' : ''}`}
                 onClick={() => handlePowerClick(power)}
               >
-                <img src={power.icon} alt={power.name} className="power-icon" />
-                <span>{power.name}</span>
+                <div className="icon-container">
+                  <img src={power.icon} alt={power.name} className="power-icon" />
+                  <div className="cost-badge">
+                    <img src="/assets/currency.svg" alt="currency" className="currency-icon" />
+                    <span className='power-cost'>{power.cost}</span>
+                  </div>
+                </div>
+                <span className='power-name'>{power.name}</span>
               </button>
             ))}
           </div>
+
 
           {/* Teams column (only after selecting a power-up and not for shield) */}
           {selectedPower && selectedPower.id !== 10 && selectedPower.id !== 8 && (
@@ -78,7 +85,7 @@ const PowerupsDialog = ({ onClose, powers, teams, onPowerSelect, onTeamSelect, o
           </button>
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 
