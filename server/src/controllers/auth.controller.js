@@ -80,6 +80,7 @@ const signup = async (req, res) => {
   }
 
   try {
+    // Check if user already exists
     const { data: existingUser, error: fetchError } = await supabase
       .from('users')
       .select('id')
@@ -110,10 +111,9 @@ const signup = async (req, res) => {
     }
 
     if (team) {
-      // Team already exists
       teamId = team.id;
     } else {
-      // Team doesn't exist, create it
+      // Create team if not exists
       const { data: newTeam, error: createTeamError } = await supabase
         .from('teams')
         .insert([{ name: team_name, coins: 20 }])
@@ -130,7 +130,8 @@ const signup = async (req, res) => {
 
     const hashedPassword = bcrypt.hashSync(password, 12);
 
-    const { data, error } = await supabase
+    // Insert new user
+    const { data: insertedUser, error: insertError } = await supabase
       .from('users')
       .insert([
         {
@@ -139,14 +140,21 @@ const signup = async (req, res) => {
           team_id: teamId,
           role: 'user'
         }
-      ]);
+      ])
+      .select()
+      .single();
 
-    if (error) {
-      console.error('Insertion error:', error);
-      return res.status(500).json({ message: 'Signup failed', error });
+    if (insertError) {
+      console.error('Insertion error:', insertError);
+      return res.status(500).json({ message: 'Signup failed', error: insertError });
     }
 
-    console.log('User created:', { username, team_id: teamId, role: 'user' });
+    if (!insertedUser) {
+      console.error('User insertion failed: No user returned');
+      return res.status(500).json({ message: 'Signup failed: User not inserted' });
+    }
+
+    console.log('User created:', { username: insertedUser.username, team_id: insertedUser.team_id, role: insertedUser.role });
     res.status(201).json({ message: 'User created successfully' });
 
   } catch (err) {
@@ -154,5 +162,6 @@ const signup = async (req, res) => {
     res.status(500).json({ message: 'Internal server error', err });
   }
 };
+
 
 export { login, verify, signup };
