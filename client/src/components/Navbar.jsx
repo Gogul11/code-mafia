@@ -6,14 +6,34 @@ import { useNavigate } from 'react-router-dom';
 const Navbar = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
 
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    window.location.href = '/';
+
+  const handleLogout = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        window.location.href = '/';
+        return;
+      }
+
+      await axios.post(`${process.env.REACT_APP_SERVER_BASEAPI}/auth/logout`, {}, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      localStorage.removeItem('token');
+      window.location.href = '/';
+    } catch (error) {
+      console.error('Logout failed:', error);
+      localStorage.removeItem('token');
+      window.location.href = '/';
+    }
   };
+
   const navigate = useNavigate()
   const handleNavigation = (page) => {
     navigate(page)
-    setIsNavOpen(false); // Close menu on mobile after selecting
+    setIsNavOpen(false);
   };
 
   const toggleNav = () => {
@@ -76,7 +96,7 @@ const Navbar = () => {
             <span>Logout</span>
           </li>
         </ul>
-       
+
       </div>
     </>
   );

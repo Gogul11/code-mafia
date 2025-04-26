@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import supabase from '../config/db.js';
 import bcrypt from 'bcrypt';
+import client from '../config/redisdb.js';
 
 const SECRET_KEY = process.env.SECRET_KEY;
 
@@ -47,6 +48,8 @@ const login = async (req, res) => {
       { expiresIn: '6h' }
     );
 
+    await client.set(`token:${username}`, token, 'EX', 6 * 60 * 60); 
+
     res.json({ token });
   } catch (err) {
     console.error('Error during login:', err);
@@ -54,7 +57,7 @@ const login = async (req, res) => {
   }
 };
 
-const verify = (req, res) => {
+const verify = async (req, res) => {
   try {
     const decoded = req.user;
     res.json({ valid: true, username: decoded.username, team_name: decoded.team_name, role: decoded.role });
@@ -62,6 +65,15 @@ const verify = (req, res) => {
     res.status(401).json({ valid: false, message: 'Invalid token' });
   }
 };
+
+const logout = async (req, res) => {
+  const username = req.user.username;
+  
+  await redisClient.del(`token:${username}`);
+
+  res.json({ message: 'Logged out successfully' });
+}
+
 
 const signup = async (req, res) => {
   const { username, password, confirmPassword, team_name } = req.body;
@@ -158,4 +170,4 @@ const signup = async (req, res) => {
   }
 };
 
-export { login, verify, signup };
+export { login, verify, logout, signup };
