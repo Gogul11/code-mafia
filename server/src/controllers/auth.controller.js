@@ -69,49 +69,89 @@ const verify = (req, res) => {
 };
 
 const signup = async (req, res) => {
-  const { username, password, confirmPassword, team_id } = req.body;
+  const { username, password, confirmPassword, team_name } = req.body;
 
-  if (!username || !password || !confirmPassword || !team_id) {
-      return res.status(400).json({ message: 'All fields are required' });
+  if (!username || !password || !confirmPassword || !team_name) {
+    return res.status(400).json({ message: 'All fields are required' });
   }
 
   if (password !== confirmPassword) {
-      return res.status(400).json({ message: 'Passwords do not match' });
+    return res.status(400).json({ message: 'Passwords do not match' });
   }
 
   try {
-      // ✅ Check if username already exists
-      const { data: existingUser, error: fetchError } = await supabase
-          .from('users')
-          .select('id')
-          .eq('username', username)
-          .single();
+    const { data: existingUser, error: fetchError } = await supabase
+      .from('users')
+      .select('id')
+      .eq('username', username)
+      .single();
 
-      if (existingUser) {
-          return res.status(400).json({ message: 'Username already exists' });
+    if (existingUser) {
+      return res.status(400).json({ message: 'Username already exists' });
+    }
+
+    if (fetchError && fetchError.code !== 'PGRST116') {
+      console.error('Error fetching user:', fetchError);
+      return res.status(500).json({ message: 'Error fetching user' });
+    }
+
+    // Check if team exists
+    let { data: team, error: teamError } = await supabase
+      .from('teams')
+      .select('*')
+      .eq('name', team_name)
+      .single();
+
+    let teamId;
+
+    if (teamError && teamError.code !== 'PGRST116') {
+      console.error('Error fetching team:', teamError);
+      return res.status(500).json({ message: 'Error checking team' });
+    }
+
+    if (team) {
+      // Team already exists
+      teamId = team.id;
+    } else {
+      // Team doesn't exist, create it
+      const { data: newTeam, error: createTeamError } = await supabase
+        .from('teams')
+        .insert([{ name: team_name, coins: 20 }])
+        .select()
+        .single();
+
+      if (createTeamError) {
+        console.error('Error creating team:', createTeamError);
+        return res.status(500).json({ message: 'Team creation failed', error: createTeamError });
       }
 
-      const hashedPassword = bcrypt.hashSync(password, 10);
+      teamId = newTeam.id;
+    }
 
-      const { data, error } = await supabase
-          .from('users')
-          .insert([
-              {
-                  username,
-                  password: hashedPassword,
-                  team_id,
-                  role: 'user'
-              }
-          ]);
+    const hashedPassword = bcrypt.hashSync(password, 12);
 
-      if (error) {
-          return res.status(500).json({ message: 'Signup failed', error });
-      }
-      console.log(username, password, team_id, role)
-      res.status(201).json({ message: 'User created successfully' });
+    const { data, error } = await supabase
+      .from('users')
+      .insert([
+        {
+          username,
+          password: hashedPassword,
+          team_id: teamId,
+          role: 'user'
+        }
+      ]);
+
+    if (error) {
+      console.error('Insertion error:', error);
+      return res.status(500).json({ message: 'Signup failed', error });
+    }
+
+    console.log('User created:', { username, team_id: teamId, role: 'user' });
+    res.status(201).json({ message: 'User created successfully' });
 
   } catch (err) {
-      res.status(500).json({ message: 'Internal server error', err });
+    console.error('Signup error:', err);
+    res.status(500).json({ message: 'Internal server error', err });
   }
 };
 
