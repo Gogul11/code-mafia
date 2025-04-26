@@ -10,6 +10,7 @@ import socket from './socket.js';
 import LeaderBoard from './components/LeaderBoard.jsx';
 import AdminRoute from './routes/AdminRoute.jsx'
 import SignupPage from './pages/SignupPage.jsx'
+import AdminUtils from './pages/AdminUtils.jsx';
 
 socket.onAny((event, ...args) => {
   console.log(event, args);
@@ -45,13 +46,19 @@ function App() {
         <Route path='/editor' element={<EditorPage />} />
         <Route path='/temp' element={<Temp />} />
         <Route path='/leader' element={<LeaderBoard />} />
-        <Route 
-          path="/admin/signup" 
+        <Route
+          path="/admin/signup"
           element={
             <AdminRoute>
               <SignupPage />
             </AdminRoute>
-          } 
+          }
+        />
+        <Route path="/admin/utils" element={
+          <AdminRoute>
+            <AdminUtils />
+          </AdminRoute>
+          }
         />
       </Routes>
     </BrowserRouter>
