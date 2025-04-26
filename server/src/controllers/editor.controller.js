@@ -281,6 +281,17 @@ async function storeSubmission({ team_id, question_id, challenge, source_code, p
         status = "Accepted";
     }
 
+    let coins;
+    if (challenge.points === 10) {
+        coins = 5;
+    } else if (challenge.points === 20) {
+        coins = 7;
+    } else if (challenge.points === 30) {
+        coins = 10;
+    } else {
+        coins = 0;
+    }
+
     const points_awarded = Math.round((passed / total) * challenge.points);
 
     const { data: existing, error: fetchError } = await supabase
@@ -320,7 +331,7 @@ async function storeSubmission({ team_id, question_id, challenge, source_code, p
 
         // Award 5 coins if fully passed
         if (passed === total) {
-            updatedFields.coins = teamData.coins + 5;
+            updatedFields.coins = teamData.coins + coins;
         }
 
         // Update team points and maybe coins

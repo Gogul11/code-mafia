@@ -168,9 +168,6 @@ const CodeEditor = ({ questionId, onSubmissionComplete, submitRef, codeFromDB })
     }
   };
 
-
-
-
   return (
     <>
       {isRunning && (
