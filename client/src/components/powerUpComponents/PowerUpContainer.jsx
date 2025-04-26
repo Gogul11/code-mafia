@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import socket from "../../socket.js";
+import { setTeams } from "../Store/store.js";
 
 function PowerUpContainer() {
     const [powers, setPowers] = useState([
@@ -15,7 +16,6 @@ function PowerUpContainer() {
         { id: 9, name: "Zero Kelvin", description: "", effect: "freeze", icon: "/assets/snowflake.svg" },
         { id: 10, name: "Shield", description: "", effect: "shield", icon: "/assets/shield.svg" },
     ]);
-    const [teams, setTeams] = useState([]);
     const [username, setUsername] = useState("");
     const [socketUser, setSocketUser] = useState("");
     const [clickedPower, setClickedPower] = useState("");
@@ -31,6 +31,10 @@ function PowerUpContainer() {
     const popupRef = useRef(null);
     const [coins, setCoins] = useState(0);
 
+    const [powerupsDialogOpen, setPowerupsDialogOpen] = useState(false);
+    const [powerupPopupOpen, setPowerupPopupOpen] = useState(false);
+    const [message, setMessage] = useState("");
+
     async function initSocketConnection() {
         const token = localStorage.getItem('token');
         if (token) {
@@ -41,7 +45,6 @@ function PowerUpContainer() {
 
                 if (response.data && response.data.valid && response.data.team_name) {
                     setUsername(response.data.team_name);
-                    console.log("Username from server:", response.data.team_name);
                     socket.auth = { username: response.data.team_name };
                     socket.connect();
                 }
@@ -65,7 +68,13 @@ function PowerUpContainer() {
         }
     }
 
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+    
+
     async function getCoins() {
+        sleep(2000); // wait 2 secs for coins to be updated on DB
         axios.get(`${process.env.REACT_APP_SERVER_BASEAPI}/game/getcoins`, {
             headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
         }).then(response => {
@@ -77,19 +86,13 @@ function PowerUpContainer() {
         });
     }
 
-    function executePowerUp(effect, remainingTime = 60) {
+    function executePowerUp(effect, remainingTime = 180) {
 
         const duration = remainingTime * 1000;
 
         if (effect === "windmill") {
             setIsRotating(true);
-
-
-            if (windmillTimerRef.current) {
-                clearTimeout(windmillTimerRef.current);
-            }
-
-            windmillTimerRef.current = setTimeout(() => {
+            setTimeout(() => {
                 setIsRotating(false);
             }, duration);
         }
@@ -109,22 +112,26 @@ function PowerUpContainer() {
         }
 
         else if (effect === "glitch") {
-            const glitchEnd = Date.now() + duration;
-        
-            document.body.classList.add("glitching");
-        
-            const glitchInterval = setInterval(() => {
-                if (Date.now() > glitchEnd) {
-                    clearInterval(glitchInterval);
-                    document.body.classList.remove("glitching");
-                    return;
-                }
-                flickerText();
-            }, 300);
-        
+            const elements = document.querySelectorAll("p, h1, h2, h3, li, button");
+            const originalTexts = new Map();
+
+            elements.forEach((element) => {
+                const original = element.textContent;
+                if (!original || original.length < 4) return;
+
+                originalTexts.set(element, original);
+
+                const glitched = original.split('').map(char =>
+                    Math.random() > 0.7 ? String.fromCharCode(33 + Math.floor(Math.random() * 94)) : char
+                ).join('');
+
+                element.textContent = glitched;
+            });
+
             setTimeout(() => {
-                clearInterval(glitchInterval);
-                document.body.classList.remove("glitching");
+                originalTexts.forEach((original, element) => {
+                    element.textContent = original;
+                });
             }, duration);
         }
 
@@ -135,40 +142,22 @@ function PowerUpContainer() {
 
         else if (effect === "zip-bomb") {
             const bombEnd = Date.now() + duration;
-        
+
             let zipInterval = setInterval(() => {
                 if (Date.now() > bombEnd) {
                     clearInterval(zipInterval);
                     return;
                 }
-        
+
                 createZipPopup();
             }, 900);
-        
+
             setTimeout(() => {
                 clearInterval(zipInterval);
                 document.querySelectorAll(".zip-popup").forEach(el => el.remove());
             }, duration);
         }
-        
-    }
 
-    function flickerText() {
-        const elements = document.querySelectorAll("p, span, h1, h2, h3, li, button");
-        const element = elements[Math.floor(Math.random() * elements.length)];
-    
-        if (!element || element.textContent.length < 4) return;
-    
-        const original = element.textContent;
-        const glitched = original.split('').map(char =>
-            Math.random() > 0.7 ? String.fromCharCode(33 + Math.floor(Math.random() * 94)) : char
-        ).join('');
-    
-        element.textContent = glitched;
-    
-        setTimeout(() => {
-            element.textContent = original;
-        }, 600);
     }
 
     function createZipPopup() {
@@ -176,20 +165,20 @@ function PowerUpContainer() {
         popup.className = "zip-popup";
         popup.style.top = `${Math.random() * (window.innerHeight - 150)}px`;
         popup.style.left = `${Math.random() * (window.innerWidth - 200)}px`;
-    
+
         // Close button
         const close = document.createElement("span");
         close.textContent = "×";
         close.className = "zip-popup-close";
         close.onclick = () => popup.remove();
-    
+
         const header = document.createElement("div");
         header.className = "zip-popup-header";
         header.textContent = "Extracting...";
-    
+
         const message = document.createElement("div");
         message.textContent = "Unzipping layer.zip. Please wait...";
-    
+
         popup.appendChild(close);
         popup.appendChild(header);
         popup.appendChild(message);
@@ -197,50 +186,77 @@ function PowerUpContainer() {
     }
 
     function handleApply() {
-        if (clickedPower!=="shield" && clickedPower!=="innocency" && (!clickedPower || !clickedTeam)) {
+        if (clickedPower !== "shield" && clickedPower !== "innocency" && (!clickedPower || !clickedTeam)) {
             alert("Please select a power and team.");
             return;
         }
 
-        if (clickedPower==="suicide-bomber") {
+        if (clickedPower === "suicide-bomber") {
             socket.emit("suicide-attack", {
                 targetUserID: clickedTeam.userID,
                 currentUserID: socketUser.userID,
                 from: username,
                 token: localStorage.getItem("token")
             })
-            alert(`You used ${clickedPower} on ${clickedTeam.username}`);
+            setPowerupsDialogOpen(false);
+            setMessage(
+                <>
+                    You used ${clickedPower} on ${clickedTeam.username}
+                    <br />
+                    -5
+                    <img src="/assets/currency.svg" />
+                </>
+            );
+            setPowerupPopupOpen(true);
         }
-        else if (clickedPower!=="shield" && clickedPower!=="innocency") {
+        else if (clickedPower !== "shield" && clickedPower !== "innocency") {
             socket.emit("power-up attack", {
                 powerUp: clickedPower,
                 targetUserID: clickedTeam.userID,
                 from: username,
                 token: localStorage.getItem("token")
             });
-            alert(`You used ${clickedPower} on ${clickedTeam.username}`);
-        } 
+            setPowerupsDialogOpen(false);
+            setMessage(
+                <>
+                    You used {clickedPower} on {clickedTeam.username}
+                    <br />
+                    -5
+                    <img src="/assets/currency.svg" />
+                </>
+            );
+            setPowerupPopupOpen(true);
+        }
         else {
-            console.log(socketUser);
-            console.log(username);
             socket.emit("power-up attack", {
                 powerUp: clickedPower,
                 from: username,
                 targetUserID: socketUser.userID,
                 token: localStorage.getItem("token")
             });
-            alert(`You used ${clickedPower}`);
+            setPowerupsDialogOpen(false);
+            setMessage(
+                <>
+                    You used {clickedPower}
+                    <br />
+                    -5 <img src="/assets/currency.svg" alt="currency" />
+                    {clickedPower === "innocency" && (
+                        <>
+                            <br />
+                            +8 <img src="/assets/currency.svg" alt="currency" />
+                        </>
+                    )}
+                </>
+            );
+
+            setPowerupPopupOpen(true);
         }
 
-        
+
         setClickedPower("");
         setClickedTeam(null);
         getCoins();
     }
-
-
-    const windmillTimerRef = useRef(null);
-    const effectTimersRef = useRef([]);
 
     useEffect(() => {
         if (isRotating) {
@@ -277,22 +293,36 @@ function PowerUpContainer() {
 
         socket.on("receive power-up", ({ powerUp, from }) => {
             executePowerUp(powerUp);
-            if (powerUp!=="shield" && powerUp==="innocency") {
-                alert(`You were attacked with ${powerUp} by ${from}!`);
+            if (powerUp !== "shield" && powerUp !== "innocency") {
+                setMessage(
+                    <>
+                        You were attacked with {powerUp} by {from}!
+                    </>
+                );
+                setPowerupPopupOpen(true);
             }
         });
 
         socket.on("coins-error", ({ message }) => {
-            alert(message);
+            setMessage(
+                <>
+                    {message}
+                </>
+            );
+            setPowerupPopupOpen(true);
         });
 
         socket.on("blocked-by-shield", ({ message }) => {
-            alert(message);
+            setMessage(
+                <>
+                    {message}
+                </>
+            );
+            setPowerupPopupOpen(true);
         });
-        
+
 
         socket.on("apply-active-powerups", (activePowerups) => {
-            console.log("Active powerups:", activePowerups);
             activePowerups.forEach(powerup => {
                 executePowerUp(powerup.powerUp, powerup.remainingTime);
             });
@@ -305,29 +335,31 @@ function PowerUpContainer() {
             socket.off("users");
             socket.off("receive power-up");
             socket.off("apply-active-powerups");
-
-
-            if (windmillTimerRef.current) {
-                clearTimeout(windmillTimerRef.current);
-            }
+            socket.off("coins-error");
+            socket.off("blocked-by-shield");
         };
     }, []);
 
     return {
         powers,
-        teams,
         username,
         clickedPower,
         clickedTeam,
         popup,
         popupCount,
         coins,
+        powerupPopupOpen,
+        powerupsDialogOpen,
+        message,
         getCoins,
         setClickedPower,
         setClickedTeam,
         handlePopupClose,
         executePowerUp,
         handleApply,
+        setPowerupPopupOpen,
+        setPowerupsDialogOpen,
+        setMessage,
         popupRef,
         overlayRef
     };

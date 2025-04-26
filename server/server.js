@@ -40,7 +40,7 @@ io.use((socket, next) => {
 
 
 io.on("connection", (socket) => {
-    console.log(`User connected: ${socket.id}`);
+    console.log(`User connected: ${socket.username} - ${socket.id}`);
 
     users.set(socket.id, { userID: socket.id, username: socket.username });
 
@@ -49,7 +49,7 @@ io.on("connection", (socket) => {
     socket.on("disconnect", () => {
         users.delete(socket.id);
         io.emit("users", Array.from(users.values()));
-        console.log(`User disconnected: ${socket.id}`);
+        console.log(`User disconnected: ${socket.username} - ${socket.id}`);
     });
 
 
@@ -96,7 +96,7 @@ io.on("connection", (socket) => {
             }
     
             const key = `powerup:${targetUsername}:${powerUp}`;
-            const expiryTime = powerUp === "shield" ? 300 : 60;
+            const expiryTime = powerUp === "shield" ? 300 : 180;
     
             await client.set(key, JSON.stringify({ from, powerUp }), {
                 EX: expiryTime
@@ -188,7 +188,7 @@ io.on("connection", (socket) => {
                     const powerupData = JSON.parse(data);
 
 
-                    powerupData.remainingTime = ttl > 0 ? ttl : 60;
+                    powerupData.remainingTime = ttl > 0 ? ttl : 180;
 
                     activePowerups.push(powerupData);
                 }

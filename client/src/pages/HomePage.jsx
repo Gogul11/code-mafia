@@ -1,36 +1,28 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaHome, FaCode, FaTrophy, FaSignOutAlt } from "react-icons/fa";
+import { FaVolumeUp, FaVolumeMute } from "react-icons/fa";
 import "../styles/HomePage.css";
-import LeaderBoard from "../components/LeaderBoard";
 import Navbar from "../components/Navbar";
 
 const HomePage = ({ isLoggedIn }) => {
-  const [isNavOpen, setIsNavOpen] = useState(false);
-  const [currentPage, setCurrentPage] = useState("home"); // Track the current page
   const navigate = useNavigate();
 
-  const toggleNav = () => {
-    setIsNavOpen(!isNavOpen);
+  const [isMuted, setIsMuted] = useState(true);
+
+  const toggleMute = () => {
+    const audio = document.getElementById("bg-audio");
+    if (audio.paused) {
+      audio.play().catch(error => {
+        console.error("Audio play failed:", error);
+      });
+    } else {
+      audio.pause();
+    }
+    setIsMuted(audio.paused);
   };
 
   const handleLoginClick = () => {
     navigate("/login"); // Redirect to /login for the Login page
-  };
-
-  const handleNavigation = (page) => {
-    if (page === "editor") {
-      navigate("/editor"); // Redirect to /editor for the Code Editor
-    } else {
-      setCurrentPage(page); // Update the current page state for Homepage and Leaderboard
-    }
-  };
-
-  const handleLogout = () => {
-    // Remove token from localStorage
-    localStorage.removeItem("token");
-    // Redirect to login page or refresh
-    window.location.href = "/";
   };
 
   const [elementCount, setElementCount] = useState(0); // Track the number of elements
@@ -73,17 +65,39 @@ const HomePage = ({ isLoggedIn }) => {
   return (
     <div className="homepage">
       {!isLoggedIn ? (
-        <div className="landing-page">
-          <h1 className="retro-text">Welcome to CODEMAFIA</h1>
-          <p className="retro-subtext">Login to enter the realm</p>
-          <button className="login-button" onClick={handleLoginClick}>
-            Login
-          </button>
-          <div className="pixel-art-character"></div>{" "}
-          {/* Pixel art character. the square at the bottom right */}
-          <div className="scanlines"></div> {/* CRT scanline effect */}
-          <div className="falling-elements"></div>
-        </div>
+        <>
+          <audio loop id="bg-audio">
+            <source src="/audio/CodeMafiaTheme.wav" type="audio/wav" />
+          </audio>
+          <div className="landing-page">
+            <h1 className="retro-text">Welcome to CODEMAFIA</h1>
+            <p className="retro-subtext">Login to enter the realm</p>
+            <button className="login-button" onClick={handleLoginClick}>
+              Login
+            </button>
+            {/* Pixel art character. the square at the bottom right */}
+            <div className="scanlines"></div> {/* CRT scanline effect */}
+            <div className="falling-elements"></div>
+            <button
+              onClick={toggleMute} // Toggle mute/unmute when clicked
+              style={{
+                position: "fixed",
+                bottom: "20px",
+                left: "50%",
+                transform: "translateX(-50%)",
+                padding: "10px 20px",
+                backgroundColor: "#333",
+                color: "white",
+                border: "none",
+                borderRadius: "8px",
+                cursor: "pointer",
+                zIndex: 1000,
+              }}
+            >
+              {isMuted ? <FaVolumeMute size={24} /> : <FaVolumeUp size={24} />}
+            </button>
+          </div>
+        </>
       ) : (
         <div className="logged-in-container">
           <Navbar />
@@ -115,7 +129,7 @@ const HomePage = ({ isLoggedIn }) => {
           <p className="rules">
             <img
               className="powerup-icon"
-              style={{scale: '1.3'}}
+              style={{ scale: '1.3' }}
               src="/assets/currency.svg"
               alt="powerup-icon"
             />
@@ -123,10 +137,10 @@ const HomePage = ({ isLoggedIn }) => {
           </p>
           <ul className="rules-content">
             <li>
-            All teams begin with 50 coins and earn more coins as they solve questions. 
+              All teams begin with 50 coins and earn more coins as they solve questions.
             </li>
             <li>
-            Coins can be spent on sabotages or shields, which cost 5 coins each.
+              Coins can be spent on sabotages or shields, which cost 5 coins each.
             </li>
             <li>
               There are no rewards for hoarding currency. Teams are encouraged
@@ -163,10 +177,10 @@ const HomePage = ({ isLoggedIn }) => {
           <ul className="rules-content">
             <li>Innocency is high-risk high-reward powerup</li>
             <li>
-            Players can sacrifice their own shields in return for a higher number of coins.
+              Players can sacrifice their own shields in return for a higher number of coins.
             </li>
             <li>
-            A few coins away from a big sabotage? Trade in shields and get money for your sabotage.
+              A few coins away from a big sabotage? Trade in shields and get money for your sabotage.
             </li>
           </ul>
           <p className="rules">
@@ -189,25 +203,25 @@ const HomePage = ({ isLoggedIn }) => {
             </li>
           </ul>
           <p className="rules">
-            <img className="powerup-icon" src="/assets/smokescreen.png" style={{scale: '1.5'}} alt="smokescreen" />
+            <img className="powerup-icon" src="/assets/smokescreen.png" style={{ scale: '1.5' }} alt="smokescreen" />
             SMOKE SCREEN
           </p>
           <ul className="rules-content">
             <li>
-            Reduces the visibility of everything on screen to the point of near unusability
+              Reduces the visibility of everything on screen to the point of near unusability
             </li>
           </ul>
           <p className="rules">
-            <img className="powerup-icon" src="/assets/wallbreaker.png" style={{scale: '2'}} alt="wallbreaker" />
+            <img className="powerup-icon" src="/assets/wallbreaker.png" style={{ scale: '2' }} alt="wallbreaker" />
             WALL BREAKER
           </p>
           <ul className="rules-content">
             <li>
-            Takes down the shield of the targeted team, if one is active. Just to screw with them, of course.
+              Takes down the shield of the targeted team, if one is active. Just to screw with them, of course.
             </li>
           </ul>
           <p className="rules">
-            <img className="powerup-icon" style={{scale: '2'}} src="/assets/suicidebomber.png" alt="bomb" />
+            <img className="powerup-icon" style={{ scale: '2' }} src="/assets/suicidebomber.png" alt="bomb" />
             SUICIDE BOMBER
           </p>
           <ul className="rules-content">
@@ -215,7 +229,7 @@ const HomePage = ({ isLoggedIn }) => {
             <li>Fails if one of the parties does not have a shield.</li>
           </ul>
           <p className="rules">
-            <img className="powerup-icon" src="/assets/zipbomb.png" style={{scale: '1.5'}} alt="zip" />
+            <img className="powerup-icon" src="/assets/zipbomb.png" style={{ scale: '1.5' }} alt="zip" />
             ZIP BOMB
           </p>
           <ul className="rules-content">
