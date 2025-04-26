@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage.jsx';
 import EditorPage from './pages/EditorPage.jsx';
-import PowerUpContainer from './components/powerUpComponents/PowerUpContainer.jsx';
 import Temp from './pages/Temp.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import axios from 'axios';
@@ -45,7 +44,6 @@ function App() {
         <Route path='/login' element={<LoginPage setIsLoggedIn={setIsLoggedIn} />} />
         <Route path='/editor' element={<EditorPage />} />
         <Route path='/temp' element={<Temp />} />
-        <Route path='/power' element={<PowerUpContainer />} />
         <Route path='/leader' element={<LeaderBoard />} />
         <Route 
           path="/admin/signup" 

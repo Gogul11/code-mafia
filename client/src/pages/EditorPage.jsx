@@ -6,11 +6,14 @@ import Navbar from '../components/Navbar.jsx';
 import '../styles/editorPage.css'
 import { BsArrowBarUp } from "react-icons/bs";
 import { BsArrowBarDown } from "react-icons/bs";
-import PowerupsDialog from '../components/PowerupsDialog.jsx';
+import PowerupsDialog from '../components/powerUpComponents/PowerupsDialog.jsx';
 import axios from "axios";
-import PowerUpContainer from '../components/powerUpComponents/PowerUpContainer.jsx';
+import PowerUpController from '../components/powerUpComponents/PowerUpController.jsx';
 import TestCases from '../components/codeEditorComponents/TestCases.jsx';
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
+import PopupMessage from '../components/PopupMessage.jsx';
+import { getTeams } from '../components/Store/store.js';
+import PowerUpTimer from '../components/powerUpComponents/PowerUpTimer.jsx';
 
 const EditorPage = () => {
 
@@ -18,6 +21,7 @@ const EditorPage = () => {
     const [problemTitle, setProblemTitle] = useState("");
     const [problemDifficulty, setProblemDifficulty] = useState("");
     const [problemDescription, setProblemDescription] = useState("");
+    const teams = getTeams();
 
     const [questionSet, setQuestionSet] = useState([]);
 
@@ -25,30 +29,25 @@ const EditorPage = () => {
     const [totalQuestions, setTotalQuestions] = useState(10);
     const [xp, setXp] = useState(0);
 
-    const [powerupsDialogOpen, setPowerupsDialogOpen] = useState(false);
-
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
 
     const {
         powers,
-        teams,
-        username,
-        inputValue,
-        clickedPower,
-        clickedTeam,
-        popup,
-        popupCount,
         coins,
+        powerupPopupOpen,
+        powerupsDialogOpen,
+        message,
+        activePowerUps,
         getCoins,
         setClickedPower,
         setClickedTeam,
-        handlePopupClose,
         handleApply,
-        popupRef,
+        setPowerupPopupOpen,
+        setPowerupsDialogOpen,
         overlayRef
-    } = PowerUpContainer();
+    } = PowerUpController();
 
     const submitRef = useRef();
 
@@ -78,9 +77,9 @@ const EditorPage = () => {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 }
             });
-    
+
             const statusMap = response.data;
-    
+
             // Update the questionSet with status and code information
             setQuestionSet(prevQuestions =>
                 prevQuestions.map(question => ({
@@ -308,6 +307,7 @@ const EditorPage = () => {
                         />
                     ) : null}
 
+                    <PowerUpTimer activePowerUps={activePowerUps} powersList={powers} />
 
                     {powerupsDialogOpen &&
                         <PowerupsDialog
@@ -318,6 +318,12 @@ const EditorPage = () => {
                             onTeamSelect={setClickedTeam}
                             onUsePower={handleApply}
                             coins={coins} />
+                    }
+                    {powerupPopupOpen &&
+                        <PopupMessage
+                            onClose={() => setPowerupPopupOpen(false)}
+                            message={message}
+                        />
                     }
                 </div>
 
