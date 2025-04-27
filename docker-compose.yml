@@ -1,59 +1,4 @@
 services:
-  server:
-    image: judge0/judge0:1.13.1
-    volumes:
-      - ./judge0.conf:/judge0.conf:ro
-    ports:
-      - "2358:2358"
-    privileged: true
-    restart: always
-    deploy:
-      resources:
-        limits:
-          memory: 1g
-          cpus: "0.7"
-
-  workers:
-    image: judge0/judge0:1.13.1
-    command: ["./scripts/workers"]
-    volumes:
-      - ./judge0.conf:/judge0.conf:ro
-    privileged: true
-    restart: always
-    deploy:
-      resources:
-        limits:
-          memory: 2g
-          cpus: "0.7"
-
-  db:
-    image: postgres:16.2
-    env_file: judge0.conf
-    volumes:
-      - data:/var/lib/postgresql/data/
-    restart: always
-    deploy:
-      resources:
-        limits:
-          memory: 1g
-          cpus: "0.2"
-
-  redis:
-    image: redis:7.2.4
-    ports:
-      - "6379:6379"
-    command: [
-      "bash", "-c",
-      'docker-entrypoint.sh --appendonly no --requirepass "$$REDIS_PASSWORD"'
-    ]
-    env_file: judge0.conf
-    restart: always
-    deploy:
-      resources:
-        limits:
-          memory: 512m
-          cpus: "0.5"
-
   backend:
     build:
       context: ./server
@@ -66,7 +11,5 @@ services:
     deploy:
       resources:
         limits:
-          memory: 2g
-          cpus: "1.8"
-volumes:
-  data:
+          memory: 6g
+          cpus: "3.5"
