@@ -1,10 +1,13 @@
 import supabase from "../config/db.js";
-import client from "../config/redisdb.js";
 import { promises as fs } from 'fs';
-import path from "path";import { fileURLToPath } from 'url';
+import path from "path";
+import { fileURLToPath } from 'url';
+import NodeCache from 'node-cache';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+export const localCache = new NodeCache({ stdTTL: 60 * 60 * 3.5 });
 
 async function getAndCacheChallenge() {
     const { data, error } = await supabase
@@ -67,14 +70,8 @@ async function getAndCacheChallenge() {
 
     const judge0CacheData = processedData;
 
-    await Promise.all([
-        client.set(userCacheKey, JSON.stringify(userCacheData), {
-            EX: 60 * 60 * 3.5
-        }),
-        client.set(judge0CacheKey, JSON.stringify(judge0CacheData), {
-            EX: 60 * 60 * 3.5
-        })
-    ]);
+    localCache.set(userCacheKey, userCacheData);
+    localCache.set(judge0CacheKey, judge0CacheData);
 
     console.log('Cached challenges for both user and judge0');
 }

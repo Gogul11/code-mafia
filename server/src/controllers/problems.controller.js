@@ -1,14 +1,14 @@
-import client from '../config/redisdb.js';
+import localCache from '../utils/challenges-cache.js';
 import supabase from '../config/db.js';
 import getAndCacheChallenge from '../utils/challenges-cache.js';
 
 export const getProblem = async (req, res) => {
   try {
-    let cachedData = await client.get('challenges-user');
+    let cachedData = localCache.get('challenges-user');
 
     if (!cachedData) {
       await getAndCacheChallenge();
-      cachedData = await client.get('challenges-user');
+      cachedData = localCache.get('challenges-user');
     }
     return res.status(200).json({ qs: JSON.parse(cachedData) });
   } catch (err) {

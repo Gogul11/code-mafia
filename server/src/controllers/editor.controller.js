@@ -2,8 +2,8 @@ import "dotenv/config";
 import supabase from "../config/db.js";
 import axios from 'axios';
 import { Buffer } from 'buffer';
-import client from '../config/redisdb.js';
 import getAndCacheChallenge from "../utils/challenges-cache.js";
+import localCache from '../utils/challenges-cache.js';
 
 export async function runBatchCode(req, res, next) {
     try {
@@ -126,12 +126,13 @@ function validateRequest(question_id) {
 export async function fetchChallenge(question_id, type) {
     const cacheKey = `challenges-${type}`;
 
-    let cachedData = await client.get(cacheKey);
+    let cachedData = localCache.get('challenges-user');
 
     // If cache doesn't exist, fetch and cache both user and judge0 challenges
     if (!cachedData) {
         await getAndCacheChallenge();
-        cachedData = await client.get(cacheKey);
+        cachedData = localCache.get('challenges-user');
+
     }
 
     const parsed = JSON.parse(cachedData);
