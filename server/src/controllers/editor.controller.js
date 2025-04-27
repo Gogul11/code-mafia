@@ -3,7 +3,7 @@ import supabase from "../config/db.js";
 import axios from 'axios';
 import { Buffer } from 'buffer';
 import getAndCacheChallenge from "../utils/challenges-cache.js";
-import localCache from '../utils/challenges-cache.js';
+import { localCache } from '../utils/challenges-cache.js';
 
 export async function runBatchCode(req, res, next) {
     try {
@@ -126,12 +126,12 @@ function validateRequest(question_id) {
 export async function fetchChallenge(question_id, type) {
     const cacheKey = `challenges-${type}`;
 
-    let cachedData = localCache.get('challenges-user');
+    let cachedData = localCache.get(cacheKey);
 
     // If cache doesn't exist, fetch and cache both user and judge0 challenges
     if (!cachedData) {
         await getAndCacheChallenge();
-        cachedData = localCache.get('challenges-user');
+        cachedData = localCache.get(cacheKey);
 
     }
 

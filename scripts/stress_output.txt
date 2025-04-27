@@ -1,144 +1,144 @@
-[Teamgaints] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[chandrayan] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Webcoders] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[SAM] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[LAZY_CODERS] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[LogicLegends] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[GitPushMafia] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Vibelens] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[strike] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[YTCodeWarriors] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Recursives] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[ACEKINGS] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[TeamMayhem] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[TeamVarma] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Codestorm] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[MAK] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[VIRTUALWARRIORS] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[SurrealBloom] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[FizzyBrain] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[PEBKAC] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Ctrl_Alt_Del] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Codex] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[knight-men] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Teamcoders] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Cheekycoders] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[CodingGirls] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Celeste] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[TeamAfzal] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[CodeCuisine] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[404Innovaters] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[coderx] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[AdhithyaPranaveSK] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Return0] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Codeblocker] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Hacktivators] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[InnoRange] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Curiousfreak] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Acer] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Spark] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[TEAMALPHAAPEX] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Echo] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Priya] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[BitBenders] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Diya] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[DsaNoob] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Webvictor's] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Warrior] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Failure] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Cupcake] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[TeamBeta] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[PowerRangers] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Nanobot] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Iffah] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[CodeRaiders] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Mafia] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[CodeRed] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[RoyalChamp] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Kalix] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[SyntaxSlayer] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Innovators] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[BinaryBaddies] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Oneman] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Ctrl+Alt+Del] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Webseries] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[FortunaMinds] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[TeamAlpha] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Lohita] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Vic] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Therlaye] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Hufflepuffs] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Teamme] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Ucen-boys] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[RII] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[WE2] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Hackers] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Codepaglus] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Gtcoders] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
 [MissionMasters] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[HackRockers] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Code&Go] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Innovators2] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[TeamEspada] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[TWINSPARK] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[CodeBlooded] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[syntaxerror] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[CodieUnderaHooddie] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[CodingStardust] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[C0de_GaMblers] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Crackzz] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[zenithX] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[INNOVATORS3] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[CodeImposter] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Techmemos] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Theknights] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Bob] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[CodeVarta] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[TechTitans2] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[CodeRed] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[VIRTUALWARRIORS] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[404Innovaters] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[CodeCuisine] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[RedZap] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
 [BroCode] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[GIRLSSQUAD] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[harsheetcoderaran] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Vidamuyarchi] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Igris] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[CodeSlayers] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[coderizz] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Gayathri] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[CodersCoffee] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[TechTitans] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[CodeBusters] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Titans] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[ByteVenturers] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Dnacks] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Sparkers] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[AI_PATROL] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Paradoxers] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[CodeBlooded2] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[RedZap] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Nesters] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Mysticfalls] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Syntaxsaviors] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Teamvedhandh] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[QuantumCoders] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[ENIGMA] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[ProtocolGuild] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Juzcode] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Learner] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[BugBusters] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[oviya] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Pluto] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[LoneWolf] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[InnovativePair] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Uno] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Queuecrew] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Wonderland] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[PhantomTroupe] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[TECH-ATHLETES] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[CodeNinjas] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[LKcoders] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Troubleshooters_404] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
 [SyntaxSquad] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[LegionOfDoom] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[CodeVarta] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Kalix] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Ucen-boys] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Syntaxsaviors] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[INNOVATORS3] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[CodingStardust] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[oviya] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[CodeSlayers] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[TEAMALPHAAPEX] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[TeamBeta] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[RII] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[strike] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[ByteVenturers] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[DsaNoob] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Innovators2] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Crackzz] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Ctrl_Alt_Del] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Nesters] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[TECH-ATHLETES] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Teamme] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[CodingGirls] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Priya] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Webcoders] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[BinaryBaddies] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[AI_PATROL] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Doubleagent] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Innovators] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[QuantumCoders] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Paradoxers] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[PhantomTroupe] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[InnovativePair] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Mafia] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[HackRockers] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[InnoRange] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[CodeRaiders] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[ENIGMA] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Vidamuyarchi] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Hackers] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Lohita] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Return0] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[SyntaxSlayer] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Juzcode] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[TeamEspada] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[MAK] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[B1__B2-SET] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Webvictor's] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[ProtocolGuild] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[BugBusters] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Ctrl+Alt+Del] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[chandrayan] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[LoneWolf] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[CodersCoffee] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[BitBenders] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Codepaglus] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Gayathri] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Teamgaints] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Codestorm] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[FizzyBrain] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[coderx] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Failure] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[CodeBlooded] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[LegionOfDoom] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[TWINSPARK] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Diya] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Cheekycoders] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[C0de_GaMblers] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[RoyalChamp] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[CodieUnderaHooddie] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[CodeImposter] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[LAZY_CODERS] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[AdhithyaPranaveSK] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Mysticfalls] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[LogicLegends] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[TechTitans2] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Theknights] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[PEBKAC] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[ACEKINGS] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[AlgoDesigner] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
 [CODERS] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[B1__B2-SET] Error: 403 Client Error: Forbidden for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[Doubleagent] Error: 504 Server Error: Gateway Time-out for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
-[AlgoDesigner] Error: 504 Server Error: Gateway Time-out for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Gtcoders] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Acer] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[PowerRangers] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Warrior] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Teamcoders] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Nanobot] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Vic] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[CodeBlooded2] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Recursives] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[knight-men] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Hacktivators] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[SAM] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Iffah] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[TechTitans] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Cupcake] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[CodeBusters] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[zenithX] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[CodeNinjas] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Webseries] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Bob] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Techmemos] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[TeamVarma] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[WE2] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Sparkers] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Pluto] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Learner] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Igris] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Dnacks] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Code&Go] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Oneman] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[TeamAlpha] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[SurrealBloom] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Uno] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Celeste] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Hufflepuffs] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[GIRLSSQUAD] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Echo] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Therlaye] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Teamvedhandh] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Codex] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[TeamAfzal] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Troubleshooters_404] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Curiousfreak] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Queuecrew] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Codeblocker] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Spark] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[GitPushMafia] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[harsheetcoderaran] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Vibelens] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[syntaxerror] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[YTCodeWarriors] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[coderizz] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Titans] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[TeamMayhem] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[Wonderland] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[LKcoders] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion
+[FortunaMinds] Error: 500 Server Error: Internal Server Error for url: https://code-mafia.dynuddns.net/api/editor/submitquestion

@@ -1,4 +1,4 @@
-import localCache from '../utils/challenges-cache.js';
+import { localCache } from '../utils/challenges-cache.js';
 import supabase from '../config/db.js';
 import getAndCacheChallenge from '../utils/challenges-cache.js';
 
