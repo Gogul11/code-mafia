@@ -68,3 +68,5 @@ services:
         limits:
           memory: 2g
           cpus: "1.2"
+volumes:
+  data:
