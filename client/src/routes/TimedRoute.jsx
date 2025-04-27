@@ -13,7 +13,7 @@ const ProtectedRoute = ({ children }) => {
     const currentTimeInMinutes = currentHour * 60 + currentMinute;
 
     const startTime = 17 * 60; // 5:00 PM in minutes
-    const endTime = 20 * 60;   // 8:00 PM in minutes
+    const endTime = 24 * 60;   // 8:00 PM in minutes
     console.log(currentTimeInMinutes);
 
     if (currentTimeInMinutes >= startTime && currentTimeInMinutes <= endTime) {

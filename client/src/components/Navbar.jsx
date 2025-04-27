@@ -20,7 +20,7 @@ const Navbar = () => {
     const currentTimeInSeconds = currentTimeInMinutes * 60 + currentSecond;
 
     const startTime = 17 * 60 * 60; // 5:00 PM in seconds
-    const endTime = 20 * 60 * 60;   // 8:00 PM in seconds
+    const endTime = 24 * 60 * 60;   // 8:00 PM in seconds
 
     // If the current time is between 5 PM and 8 PM
     if (currentTimeInSeconds >= startTime && currentTimeInSeconds < endTime) {
