@@ -210,7 +210,6 @@ function decodeResults(response, testCases) {
         const decodedOutput = sub.stdout ? Buffer.from(sub.stdout, 'base64').toString('utf-8') : null;
         const decodedExpectedOutput = Buffer.from(testCase.expected_output, 'utf-8').toString('utf-8');
         const isHidden = testCase.type === 'hidden';
-        console.log(testCase);
         const isCorrect = sub.status.id === 3 && decodedOutput.trim() === decodedExpectedOutput.trim();
 
         return {
