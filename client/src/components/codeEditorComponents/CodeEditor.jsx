@@ -237,7 +237,7 @@ const CodeEditor = ({ questionId, onSubmissionComplete, submitRef, codeFromDB })
               }
               editor.onDidPaste(() => {
                 console.log("Paste action blocked");
-                // editor.trigger('keyboard', 'undo', null); // Revert the paste
+                editor.trigger('keyboard', 'undo', null); // Revert the paste
               });
             }}
           />

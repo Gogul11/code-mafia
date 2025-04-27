@@ -9,6 +9,7 @@ import axios from 'axios';
 import socket from './socket.js';
 import LeaderBoard from './components/LeaderBoard.jsx';
 import AdminRoute from './routes/AdminRoute.jsx'
+import ProtectedRoute from './routes/TimedRoute.jsx';
 import SignupPage from './pages/SignupPage.jsx'
 import AdminUtils from './pages/AdminUtils.jsx';
 
@@ -43,7 +44,11 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage isLoggedIn={isLoggedIn} />} />
         <Route path='/login' element={<LoginPage setIsLoggedIn={setIsLoggedIn} />} />
-        <Route path='/editor' element={<EditorPage />} />
+        <Route path="/editor" element={
+          <ProtectedRoute>
+            <EditorPage />
+          </ProtectedRoute>
+        } />
         <Route path='/temp' element={<Temp />} />
         <Route path='/leader' element={<LeaderBoard />} />
         <Route
