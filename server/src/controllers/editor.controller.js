@@ -135,7 +135,7 @@ export async function fetchChallenge(question_id, type) {
 
     }
 
-    const parsed = JSON.parse(cachedData);
+    const parsed = cachedData;
     const challenge = parsed.find(ch => ch.id === question_id);
 
     if (!challenge) {
