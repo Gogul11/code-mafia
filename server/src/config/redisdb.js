@@ -3,7 +3,7 @@ import { createClient } from 'redis';
 const client = createClient({
     password: process.env.REDIS_PASSWORD,
     socket: {
-        host: "redis",
+        host: process.env.REDIS_ADDRESS,
         port: 6379
     }
 });
