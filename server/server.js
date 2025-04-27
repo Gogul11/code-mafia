@@ -54,7 +54,7 @@ io.on("connection", (socket) => {
 
 
     socket.on("power-up attack", async ({ powerUp, targetUserID, from, token }) => {
-        let deductCoins = powerUp === "wall-breaker" ? 10 : 5;
+        let deductCoins = powerUp === "wall-breaker" || powerUp === "freeze" ? (powerUp === "wall-breaker" ? 10 : 15) : 5;
         console.log(`Power-up "${powerUp}" sent from ${from} to ${targetUserID}`);
 
         const decoded = jwt.verify(token, process.env.SECRET_KEY);

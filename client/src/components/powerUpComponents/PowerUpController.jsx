@@ -13,7 +13,7 @@ function PowerUpController() {
         { id: 6, name: "WindMill", description: "", effect: "windmill", icon: "/assets/windmill.png", cost: 5 },
         { id: 7, name: "System Overload", description: "", effect: "glitch", icon: "/assets/systemoverload.png", cost: 5 },
         { id: 8, name: "Innocency", description: "", effect: "innocency", icon: "/assets/innocency.png", cost: 5 },
-        { id: 9, name: "Zero Kelvin", description: "", effect: "freeze", icon: "/assets/snowflake.svg", cost: 5 },
+        { id: 9, name: "Zero Kelvin", description: "", effect: "freeze", icon: "/assets/snowflake.svg", cost: 15 },
         { id: 10, name: "Shield", description: "", effect: "shield", icon: "/assets/shield.svg", cost: 5 },
     ]);
     const [username, setUsername] = useState("");
