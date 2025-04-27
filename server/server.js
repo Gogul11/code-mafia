@@ -54,6 +54,7 @@ io.on("connection", (socket) => {
 
 
     socket.on("power-up attack", async ({ powerUp, targetUserID, from, token }) => {
+        let deductCoins = powerUp === "wall-breaker" ? 10 : 5;
         console.log(`Power-up "${powerUp}" sent from ${from} to ${targetUserID}`);
 
         const decoded = jwt.verify(token, process.env.SECRET_KEY);
@@ -112,9 +113,7 @@ io.on("connection", (socket) => {
             });
 
             io.to(targetUserID).emit("receive power-up", { powerUp, from });
-
-
-            await updateCoins(team_id, avlblCoins - 5);
+            await updateCoins(team_id, avlblCoins - deductCoins);
         }
     });
 

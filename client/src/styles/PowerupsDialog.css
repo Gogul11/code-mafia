@@ -17,11 +17,19 @@
   background: rgba(20, 20, 20, 0.95);
   padding: 20px;
   width: 60vw;
+  max-height: 90vh;
+  /* Added */
+  overflow: hidden;
+  /* Added */
   border-radius: 10px;
   box-shadow: 0 0 20px #ff4500, 0 0 40px #ff0000;
   text-align: center;
   color: white;
   animation: popIn 0.3s ease-out;
+  display: flex;
+  /* Added */
+  flex-direction: column;
+  /* Added */
 }
 
 /* Heading */
@@ -85,11 +93,12 @@
   transform: scale(1.1);
   filter: drop-shadow(0 0 10px #ffcc00);
 }
+
 .power-button.selected .power-name {
   color: #00ffea;
 }
 
-.power-button.selected .cost-badge{
+.power-button.selected .cost-badge {
   background: #00ffea;
 }
 
@@ -126,11 +135,28 @@
 }
 
 /* Teams Column */
+/* Teams Column */
 .teams-column {
   width: 35%;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  overflow-y: auto;
+  /* Add scroll on vertical overflow */
+  max-height: 400px;
+  /* restricts how tall the team list can grow */
+  padding-right: 5px;
+  /* optional: avoid scrollbar overlap */
+  /* Hide scrollbar */
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+}
+
+.teams-column::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, Opera */
 }
 
 /* Team Selection Buttons */
@@ -205,6 +231,7 @@
   0% {
     box-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 30px #00ff00;
   }
+
   100% {
     box-shadow: 0 0 20px #00ff00, 0 0 40px #00ff00, 0 0 60px #00ff00;
   }
@@ -215,15 +242,19 @@
   0% {
     transform: translate(0, 0);
   }
+
   25% {
     transform: translate(-1px, 1px);
   }
+
   50% {
     transform: translate(1px, -1px);
   }
+
   75% {
     transform: translate(-1px, -1px);
   }
+
   100% {
     transform: translate(1px, 1px);
   }
@@ -235,6 +266,7 @@
     transform: scale(0.8);
     opacity: 0;
   }
+
   100% {
     transform: scale(1);
     opacity: 1;

@@ -10,8 +10,10 @@ export const getProblem = async (req, res) => {
       await getAndCacheChallenge();
       cachedData = localCache.get('challenges-user');
     }
-    
-    return res.status(200).json({ qs: cachedData });
+
+    const parsedData = typeof cachedData === 'string' ? JSON.parse(cachedData) : cachedData;
+
+    return res.status(200).json({ qs: parsedData });
   } catch (err) {
     console.error("Unexpected error:", err);
     return res.status(500).json({ err: "Server error" });
