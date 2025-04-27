@@ -66,7 +66,6 @@ async function getAndCacheChallenge() {
     });
 
     const judge0CacheData = processedData;
-    console.log(judge0CacheData[5].test_cases.test_case_7);
 
     await Promise.all([
         client.set(userCacheKey, JSON.stringify(userCacheData), {
